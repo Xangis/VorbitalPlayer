@@ -47,3 +47,34 @@ libwavpack-dev
 libmpg123-dev
 
 Just do the standard "qmake" and then "make" to build.
+
+### Changelog
+
+What's new in version 4.0 of Vorbital Player:
+
+1. Support for playing .mp3 files.
+2. Support for displaying album art.
+3. The program now remembers the volume setting, shuffle setting, and last window size when you exit, restoring them next time the program runs.
+4. Clicking the vorbitaplayer.com website link in the about box now tells you if there's a newer version of the software when you visit the site.
+5. Fixed a bug that could cause the program to crash on exit.
+6. Fixed a bug that could cause an item in the playlist to play twice in a row when double-clicked.
+7. Now available for Ubuntu Linux.
+
+What's new in version 3.1 of Vorbital:
+1. Support for Audio Interchange File Format (.aif and .aiff) files.
+2. Support for Apple SND (.snd) files.
+
+What's new in version 3 of Vorbital:
+1. Support for Wavpack (.wv) files.
+2. Support for Wave (.wav) files.
+3. User interface improvements.
+
+What's new in version 2 of Vorbital:
+1. Added "randomize" button.
+2. Fixed function of pause button so it behaves as a pause rather than stop.
+3. Added "load directory" button.
+4. Playlist now supports drag-and-drop.
+5. Volume control slider added.
+6. Added "clear playlist" button.
+7. Fixed a handful of bugs and oddities.
+8. Add file button now supports multiple selections.
