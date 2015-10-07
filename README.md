@@ -61,15 +61,18 @@ What's new in version 4.0 of Vorbital Player:
 7. Now available for Ubuntu Linux.
 
 What's new in version 3.1 of Vorbital:
+
 1. Support for Audio Interchange File Format (.aif and .aiff) files.
 2. Support for Apple SND (.snd) files.
 
 What's new in version 3 of Vorbital:
+
 1. Support for Wavpack (.wv) files.
 2. Support for Wave (.wav) files.
 3. User interface improvements.
 
 What's new in version 2 of Vorbital:
+
 1. Added "randomize" button.
 2. Fixed function of pause button so it behaves as a pause rather than stop.
 3. Added "load directory" button.
