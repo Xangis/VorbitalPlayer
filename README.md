@@ -2,7 +2,10 @@ VorbitalPlayer
 ==============
 
 A music player for Linux and Windows with MP3, OGG, and WAV support. It was
-originally released on http://zetacentauri.com and then vorbitalplayer.com.
+originally released on http://zetacentauri.com and then vorbitalplayer.com and
+via the Ubuntu Software Center.
+
+![Vorbital Player Screenshot](https://github.com/Xangis/VorbitalPlayer/blob/master/images/Vorbital4.png)
 
 The Vorbital Player was originally written using wxWidgets, but has been ported
 to Qt due to some multiplatform portability and consistency annoyances with
