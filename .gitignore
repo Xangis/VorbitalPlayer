@@ -23,3 +23,8 @@ Makefile
 *.sdf
 *.log
 *.tlog
+*pre1
+*.obj
+*.manifest
+*.lastbuildstate
+*.pdb
