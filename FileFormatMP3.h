@@ -9,6 +9,7 @@
 class FileFormatMP3: public AudioFileFormat
 {
 public:
+    ~FileFormatMP3();
     FileFormatMP3();
 	virtual bool CheckExtension(const QString& filename);
 	virtual bool Open(const QString& filename);
@@ -18,9 +19,9 @@ public:
 	virtual int GetSampleRate();
 	virtual int FillBuffer(unsigned char* buffer, int numBytes);
 	virtual const char* GetComment() { return NULL; }
-	static bool Init();
+    static bool Init();
 private:
-	static mpg123_handle* _mpg123;
+    mpg123_handle* _mpg123;
 	int _channels;
 	int _encoding;
 	long _sampleRate;

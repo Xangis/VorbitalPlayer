@@ -46,6 +46,11 @@ VorbitalDlg::~VorbitalDlg()
  */
 VorbitalDlg::VorbitalDlg( )
 {
+    // Remove the question mark from the top of the window.
+    Qt::WindowFlags flags = windowFlags();
+    flags = flags & (~Qt::WindowContextHelpButtonHint);
+    setWindowFlags(flags);
+
     _device = NULL;
     qDebug() << "VorbitalDlg Create.";
 	_done = false;
@@ -86,7 +91,7 @@ VorbitalDlg::VorbitalDlg( )
 	_txtComment = NULL;
 	_txtTime = NULL;
     _volumeSlider = NULL;
-    _timeElapsed = 0;
+    _msecElapsed = 0;
     qDebug() << "Setting VorbitalDlg play state to STOPPED.";
 	_playState = STOPPED;
 	_incrementNeeded = true;
@@ -309,12 +314,18 @@ void VorbitalDlg::CreateControls()
 
 	secondRowLayout->insertSpacing(10, 10);
 
+    QLabel* volume = new QLabel(this);
+    volume->setText("Vol:");
+    secondRowLayout->addWidget(volume);
+
     _volumeSlider = new QSlider(Qt::Horizontal, this);
     _volumeSlider->setMinimum(0);
     _volumeSlider->setMaximum(100);
     _volumeSlider->setValue(100);
     _volumeSlider->setMaximumSize(100, 24);
-    connect(_volumeSlider, SIGNAL(volumeChanged(int)), this, SLOT(OnVolume(int)));
+    // This doesn't give any errors, but doesn't seem to work.
+    //connect(this, SIGNAL(volumeChanged(int)), this, SLOT(OnVolume(int)), Qt::AutoConnection);
+    connect(_volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(OnVolume(int)), Qt::AutoConnection);
     secondRowLayout->addWidget(_volumeSlider);
 
 	secondRowLayout->insertSpacing(10, 10);
@@ -323,10 +334,14 @@ void VorbitalDlg::CreateControls()
     _txtTime->setText("0:00");
     secondRowLayout->addWidget(_txtTime);
 
+    QHBoxLayout* thirdRowLayout = new QHBoxLayout();
+    rootLayout->addLayout(thirdRowLayout);
+    rootLayout->setAlignment(thirdRowLayout, Qt::AlignHCenter);
+
 	QBitmap* bitmap = new QBitmap(120, 120);
 	_albumArt = new QLabel(this);
     _albumArt->setPixmap(*bitmap);
-	rootLayout->addWidget(_albumArt);
+    thirdRowLayout->addWidget(_albumArt);
 	_albumArt->setVisible(false);
 
 	_lstPlaylist = new QListWidget( this );
@@ -364,8 +379,9 @@ void VorbitalDlg::OnNumChannels(int data)
   }
 }
 
-void VorbitalDlg::OnTime(int seconds)
+void VorbitalDlg::OnTime(int milliseconds)
 {
+  int seconds = milliseconds / 1000;
   QString label;
   if( (seconds % 60) > 9 )
   {
@@ -375,6 +391,7 @@ void VorbitalDlg::OnTime(int seconds)
   {
       label = QString("%1:0%2").arg(seconds / 60).arg(seconds % 60);
   }
+  //qDebug() << "Time changed to " << label;
   _txtTime->setText(label);
 }
 
@@ -689,7 +706,7 @@ void VorbitalDlg::OnButtonPlayClick()
     else if( !_musicStream->IsPlaying() )
     {
     	_lastTimeUpdate = QDateTime::currentDateTime();
-        _timeElapsed = 0;
+        _msecElapsed = 0;
     }
 
     qDebug() << "Setting VorbitalDlg play state to PLAYING.";
@@ -774,6 +791,7 @@ void VorbitalDlg::LoadFile( QString& filename )
 
 void VorbitalDlg::OnVolume(int volume)
 {
+    qDebug() << "Volume changed to " << volume;
     if( _musicStream )
     {
         float actualVol = (float)volume / 100.0f;
@@ -833,9 +851,11 @@ void VorbitalDlg::LoadAlbumArt(const QString& filename)
 void VorbitalDlg::UpdateTime()
 {
     QDateTime currTime = QDateTime::currentDateTime();
-    _timeElapsed += _lastTimeUpdate.secsTo(currTime);
+    int mseconds = _lastTimeUpdate.msecsTo(currTime);
+    //qDebug() << "Milliseconds elapsed: " << mseconds << ", total: " << _msecElapsed;
+    _msecElapsed += mseconds;
     _lastTimeUpdate = currTime;
-    emit timeChanged(_timeElapsed);
+    emit timeChanged(_msecElapsed);
 }
 
 void VorbitalDlg::PausedUpdateTime()
@@ -846,9 +866,9 @@ void VorbitalDlg::PausedUpdateTime()
 
 void VorbitalDlg::ResetTime()
 {
-    _timeElapsed = 0;
+    _msecElapsed = 0;
     _lastTimeUpdate = QDateTime::currentDateTime();
-    emit timeChanged(_timeElapsed);
+    emit timeChanged(_msecElapsed);
 }
 
 void VorbitalDlg::UpdateNumChannels(int channels)

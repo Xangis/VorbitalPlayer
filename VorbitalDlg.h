@@ -59,7 +59,7 @@ public slots:
     void OnNumChannels(int value);
     void OnBitrate(int bitrate);
     void OnSampleRate(int rate);
-    void OnTime(int seconds);
+    void OnTime(int milliseconds);
     void OnButtonBrowseClick();
     void OnButtonBrowseFolderClick();
     void OnButtonPlayClick();
@@ -107,7 +107,7 @@ private:
 	bool _menuDoubleClicked;
 	bool _done;
     QDateTime _lastTimeUpdate;
-    int _timeElapsed;
+    int _msecElapsed;
     QIcon _icon;
     PlaylistThread* _playlistThread;
 signals:

@@ -7,6 +7,7 @@
 
 MusicStream::MusicStream(QDialog* parent)
 {
+	_audioFile = NULL;
 	_parent = parent;
 	//speex_bits_init(&_bits);
 	//_speexDecoderState = speex_lib_get_mode(SPEEX_GET_HIGH_MODE);
@@ -31,6 +32,12 @@ MusicStream::~MusicStream()
 
 bool MusicStream::Open(QString file)
 {
+    if( _audioFile != NULL )
+    {
+        qDebug() << "Deleting existing _audioFile.";
+        delete _audioFile;
+        _audioFile = NULL;
+    }
     qDebug() << "Loading file: " << file;
 
 	//else if( file.Contains(".spx"))

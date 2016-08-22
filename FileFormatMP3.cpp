@@ -2,10 +2,14 @@
 #include <stdio.h>
 #include <QDebug>
 
-mpg123_handle* FileFormatMP3::_mpg123;
-
 FileFormatMP3::FileFormatMP3()
 {
+    int merr;
+    _mpg123 = mpg123_new(0, &merr);
+    if( merr )
+    {
+        qDebug() << "mpg123_new error: " << merr;
+    }
     _channels = 0;
     _encoding = 0;
     _sampleRate = 0;
@@ -20,16 +24,6 @@ bool FileFormatMP3::CheckExtension(const QString& filename)
 
 bool FileFormatMP3::Open(const QString& filename)
 {
-	if( _mpg123 == NULL )
-	{
-		mpg123_init();
-		int merr;
-		_mpg123 = mpg123_new(0, &merr);
-		if( merr )
-		{
-			qDebug() << "mpg123_new error: " << merr;
-		}
-	}
 	_filePosition = 0;
 	const std::string fname = filename.toStdString();
 	int result = mpg123_open(_mpg123, fname.c_str());
@@ -80,14 +74,8 @@ int FileFormatMP3::GetSampleRate()
 
 bool FileFormatMP3::Init()
 {
-	int err = MPG123_OK;
-	err = mpg123_init();
-	if( err != MPG123_OK || (_mpg123 = mpg123_new(NULL, &err)) == NULL)
-	{
-        qDebug() << "Unable to initialize MP3 playback library.";
-		return false;
-	}
-	return true;
+    // Pass. This is a terrible place to initialize. We do it in main instead.
+    return true;
 }
 
 int FileFormatMP3::FillBuffer(unsigned char* buffer, int numBytes)
@@ -101,4 +89,8 @@ int FileFormatMP3::FillBuffer(unsigned char* buffer, int numBytes)
 		return -1;
 	}
 	return numDone;
+}
+
+FileFormatMP3::~FileFormatMP3()
+{
 }
