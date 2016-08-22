@@ -11,9 +11,9 @@ public:
 	AudioFileFormat() {}
 	virtual ~AudioFileFormat() {}
 	// For checking whether a file has the right extension for this format.
-	virtual bool CheckExtension(QString& filename) = 0;
+	virtual bool CheckExtension(const QString& filename) = 0;
 	// Open a file for reading and get its properties (bit rate, sample rate, channels, etc.)
-	virtual bool Open(QString& filename) = 0;
+	virtual bool Open(const QString& filename) = 0;
 	// Gets the file format enum.
 	virtual int GetFormat() = 0;
 	// Gets the bitrate of the file.

@@ -1,6 +1,6 @@
 #include "VorbitalDlg.h"
 #include "PlaylistThread.h"
-#include <QMessageBox>
+#include <QDebug>
 
 PlaylistThread::PlaylistThread(VorbitalDlg* dlg)
 {
@@ -62,21 +62,16 @@ void PlaylistThread::run()
 				}
 				if( filename.length() < 1 )
 				{
-					QMessageBox(QMessageBox::Information, QString("Nothing to play."), QString("Nothing to play."), QMessageBox::Ok);
+                    qDebug() << "Nothing to play.";
 					_dlg->SetPlayState(STOPPED);
 					break;
 				}
                 MusicStream* stream = _dlg->GetMusicStream();
-                printf("Calling stream->Open with %s\n", filename.toStdString().c_str());
+                qDebug() << "Calling stream->Open on " << filename;
 				if( stream->Open(filename) )
                 {
 				    _dlg->GetMusicStream()->Play();
-#ifdef WIN32
-					Sleep(20);
-#else
-                    usleep(20000);
-#endif
-                    printf("Updating channels, bitrate, and sample rate.\n");
+                    qDebug() << "Updating channels, bitrate, and sample rate.";
                     _dlg->UpdateNumChannels(_dlg->GetMusicStream()->GetChannels() );
                     _dlg->UpdateBitrate(_dlg->GetMusicStream()->GetBitrate());
                     _dlg->UpdateSampleRate(_dlg->GetMusicStream()->GetRate());
@@ -84,7 +79,7 @@ void PlaylistThread::run()
 				}
                 else
                 {
-                    printf("Stream open failed.\n");
+                    qDebug() << "Stream open failed.";
                     _dlg->OnButtonForwardClick();
                 }
 

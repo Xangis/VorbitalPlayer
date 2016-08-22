@@ -9,8 +9,9 @@
 class FileFormatMP3: public AudioFileFormat
 {
 public:
-	virtual bool CheckExtension(QString& filename);
-	virtual bool Open(QString& filename);
+    FileFormatMP3();
+	virtual bool CheckExtension(const QString& filename);
+	virtual bool Open(const QString& filename);
 	virtual int GetFormat();
 	virtual int GetBitrate();
 	virtual int GetChannels();

@@ -3,8 +3,8 @@
 
 #include "MusicStream.h"
 #include "PlaylistThread.h"
-#include "AL/al.h"
-#include "AL/alc.h"
+#include "al.h"
+#include "alc.h"
 
 #include <QDialog>
 #include <QThread>
@@ -30,6 +30,8 @@ public:
     static bool ShowToolTips();
     QString ExtractFilename(const QString& filename);
     void LoadAlbumArt(const QString& filename);
+    bool SetArtFile(const QString& filename);
+    void AddFolderToPlaylist(QString& folder);
     void LoadSettings();
     void SaveSettings();
     QListWidget* GetPlaylist() { return _lstPlaylist; }
@@ -47,6 +49,8 @@ public:
     void UpdateNumChannels(int channels);
     void UpdateBitrate(int bitrate);
     void UpdateSampleRate(int samplerate);
+	void UpdateVolume(int volume);
+    void UpdateAlbumArt(const QString& filename);
     void closeEvent(QCloseEvent* event);
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
@@ -69,6 +73,7 @@ public slots:
     void OnButtonRandomizeClick();
     void OnAbout();
     void OnVolume(int value);
+    void OnAlbumArtChanged(const QString& filename);
 private:
     ALCdevice *_device;
     ALCcontext *_context;
@@ -111,6 +116,8 @@ signals:
     void bitdepthChanged(int bitdepth);
     void samplerateChanged(int samplerate);
     void timeChanged(int time);
+	void volumeChanged(int volume);
+    void albumArtChanged(const QString& filename);
 };
 
 #endif

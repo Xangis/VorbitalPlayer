@@ -4,10 +4,10 @@
 #include <iostream>
 using namespace std;
 
-#include <AL/al.h>
+#include "AL.h"
 #include "MusicStream.h"
 //#include <speex/speex.h>
-#include "wavpack/wavpack.h"
+#include "wavpack.h"
 #include "WaveFile.h"
 #ifdef WIN32
 #include "windows.h"

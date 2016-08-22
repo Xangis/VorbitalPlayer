@@ -20,6 +20,16 @@ as the Linux build, and the Qt version hasn't been released on Windows yet). If
 you just want the app, an installable version of Vorbital 4.0 for Windows is
 available in the installer folder.
 
+#### These libraries were used to build version 4.1 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 version 1.14.2 [should be updated to 1.23.4]
+
 #### These libraries were used to build version 4.0 on Windows:
 
 OpenAL version 6.14.357.24.            
@@ -50,10 +60,18 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
+Version 4.1 changes:
+
+1. Switched Windows version fully over to Qt (4.0 was wxWidgets on Windows and Qt on Linux).
+2. Updated ogg, vorbis, sndfile, and wavpack libraries.
+3. Added loading of AlbumArtSmall.jpg as an album art fallback if Folder.jpg does not exist.
+4. Album art displays larger.
+5. Loading a folder now also loads everything in its subfolders.
+
 What's new in version 4.0 of Vorbital Player:
 
 1. Support for playing .mp3 files.
-2. Support for displaying album art.
+2. Support for displaying album art (if exists as Folder.jpg in the same folder).
 3. The program now remembers the volume setting, shuffle setting, and last window size when you exit, restoring them next time the program runs.
 4. Clicking the vorbitaplayer.com website link in the about box now tells you if there's a newer version of the software when you visit the site.
 5. Fixed a bug that could cause the program to crash on exit.

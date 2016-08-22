@@ -15,12 +15,12 @@ FileFormatVorbis::~FileFormatVorbis()
 	ov_clear(_oggVorbisFile);
 }
 
-bool FileFormatVorbis::CheckExtension(QString& filename)
+bool FileFormatVorbis::CheckExtension(const QString& filename)
 {
     return filename.contains(".OGG", Qt::CaseInsensitive);
 }
 
-bool FileFormatVorbis::Open(QString& filename)
+bool FileFormatVorbis::Open(const QString& filename)
 {
 	int result = ov_fopen(filename.toStdString().c_str(), _oggVorbisFile);
 
@@ -28,7 +28,7 @@ bool FileFormatVorbis::Open(QString& filename)
 	{
 		//fclose(_musicFile);
 #ifdef WIN32
-		MessageBox( QMessageBox::Critical, QString::Format("Could not open ogg file '%s': %s", filename, VorbisErrorString(result)), "Error", QMessageBox::Ok );
+        QMessageBox( QMessageBox::Critical, QString("Could not open ogg file '%1': %2").arg(filename).arg(VorbisErrorString(result)), "Error", QMessageBox::Ok );
 #endif
 		return false;
 	}

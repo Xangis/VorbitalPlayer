@@ -37,6 +37,8 @@
 
 VorbitalDlg::~VorbitalDlg()
 {
+    _playlistThread->terminate();
+    alutExit();
 }
 
 /*!
@@ -44,16 +46,13 @@ VorbitalDlg::~VorbitalDlg()
  */
 VorbitalDlg::VorbitalDlg( )
 {
+    _device = NULL;
     qDebug() << "VorbitalDlg Create.";
 	_done = false;
 	// OpenAL Initialization
-#ifdef WIN32
-	alutInit(NULL, 0);
-#else
     _device = alcOpenDevice(NULL);
     _context = alcCreateContext(_device, NULL);
     alcMakeContextCurrent(_context);
-#endif
 	alGetError();
 	// Initialize position of the Listener.
 	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
@@ -93,7 +92,10 @@ VorbitalDlg::VorbitalDlg( )
 	_incrementNeeded = true;
     _randomize = false;
 	_menuDoubleClicked = false;
+    // TODO: Do we need to do this on Windows?
+#ifdef linux
 	srand((unsigned)time(0));
+#endif
     CreateControls();
 	LoadSettings();
     QIcon icon("vorbital.ico");
@@ -145,10 +147,17 @@ void VorbitalDlg::LoadSettings()
             continue;
         }
         QFileInfo info(songList[i]);
-        QListWidgetItem* item = new QListWidgetItem(info.baseName());
-        item->setData(Qt::UserRole, QVariant(info.absoluteFilePath()));
-        qDebug() << "Adding to playlist: " << songList[i];
-        _lstPlaylist->addItem(item);
+        if( info.exists() )
+        {
+            QListWidgetItem* item = new QListWidgetItem(info.baseName());
+            item->setData(Qt::UserRole, QVariant(info.absoluteFilePath()));
+            qDebug() << "Adding to playlist: " << songList[i];
+            _lstPlaylist->addItem(item);
+        }
+        else
+        {
+            qDebug() << "File" << songList[i] << " from last session not found. Not adding to playlist.";
+        }
     }
     qDebug() << "Loaded Settings: Randomize =" << _randomize << ", Volume =" << volume << ", Width =" << sizex <<
         ", Height =" << sizey << ", Playlist =" << songList.count() << " items.";
@@ -305,7 +314,7 @@ void VorbitalDlg::CreateControls()
     _volumeSlider->setMaximum(100);
     _volumeSlider->setValue(100);
     _volumeSlider->setMaximumSize(100, 24);
-    connect(_volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(OnVolume(int)));
+    connect(_volumeSlider, SIGNAL(volumeChanged(int)), this, SLOT(OnVolume(int)));
     secondRowLayout->addWidget(_volumeSlider);
 
 	secondRowLayout->insertSpacing(10, 10);
@@ -328,6 +337,7 @@ void VorbitalDlg::CreateControls()
     connect(this, SIGNAL(numchannelsChanged(int)), this, SLOT(OnNumChannels(int)), Qt::AutoConnection);
     connect(this, SIGNAL(samplerateChanged(int)), this, SLOT(OnSampleRate(int)), Qt::AutoConnection);
     connect(this, SIGNAL(timeChanged(int)), this, SLOT(OnTime(int)), Qt::AutoConnection);
+    connect(this, SIGNAL(albumArtChanged(const QString&)), this, SLOT(OnAlbumArtChanged(const QString&)), Qt::AutoConnection);
 }
 
 void VorbitalDlg::OnBitrate(int value)
@@ -424,27 +434,38 @@ void VorbitalDlg::OnButtonBrowseClick()
 	}
 }
 
+void VorbitalDlg::AddFolderToPlaylist(QString& folder)
+{
+    qDebug() << "Directory: " << folder << ".";
+    QDir workingDirectory(folder);
+    QStringList filters;
+    filters << "*.wav" << "*.mp3" << "*.ogg" << "*.wv" << "*.snd" << "*.aif" << "*.aiff" /*<< "*.flac"*/;
+    QFileInfoList files = workingDirectory.entryInfoList(filters, QDir::Files, QDir::Name);
+    for( int i = 0; i < files.count(); i++ )
+    {
+        QListWidgetItem* item = new QListWidgetItem(files[i].baseName());
+        item->setData(Qt::UserRole, QVariant(files[i].absoluteFilePath()));
+        _lstPlaylist->addItem(item);
+    }
+    QFileInfoList folders = workingDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
+    for( int i = 0; i < folders.count(); i++ )
+    {
+        qDebug() << "Need to recurse directory: " << folders[i].absoluteFilePath();
+        AddFolderToPlaylist(folders[i].absoluteFilePath());
+    }
+
+    if( _lstPlaylist->currentRow() < 0 )
+    {
+        _lstPlaylist->setCurrentRow(0);
+        _listPosition = 0;
+    }
+}
+
 void VorbitalDlg::OnButtonBrowseFolderClick()
 {
 	QFileDialog fdialog( this, "Choose a directory", ".");
     QString dir = QFileDialog::getExistingDirectory(this, "Choose a directory", ".", QFileDialog::ShowDirsOnly);
-    qDebug() << "Directory: " << dir << ".";
-    QDir workingDirectory(dir);
-    QStringList filters;
-    filters << "*.wav" << "*.mp3" << "*.ogg" << "*.wv" << "*.snd" << "*.aif" << "*.aiff" /*<< "*.flac"*/;
-    QFileInfoList files = workingDirectory.entryInfoList(filters, QDir::Files, QDir::Name);
-	for( int i = 0; i < files.count(); i++ )
-	{
-        QListWidgetItem* item = new QListWidgetItem(files[i].baseName());
-        item->setData(Qt::UserRole, QVariant(files[i].absoluteFilePath()));
-        _lstPlaylist->addItem(item);
-	}
-
-	if( _lstPlaylist->currentRow() < 0 )
-	{
-		_lstPlaylist->setCurrentRow(0);
-		_listPosition = 0;
-	}
+    AddFolderToPlaylist(dir);
 }
 
 void VorbitalDlg::OnButtonStopClick()
@@ -515,6 +536,17 @@ void VorbitalDlg::OnButtonReverseClick()
 	{
 		OnButtonPlayClick();
 	}
+}
+
+void VorbitalDlg::OnAlbumArtChanged(const QString& filename)
+{
+    QPixmap image;
+    if( image.load(filename) )
+    {
+        image = image.scaled(QSize(150, 150), Qt::KeepAspectRatio);
+        _albumArt->setPixmap(image);
+        _albumArt->setVisible(true);
+    }
 }
 
 void VorbitalDlg::OnButtonForwardClick()
@@ -680,6 +712,7 @@ void VorbitalDlg::OnQuit()
     alcMakeContextCurrent(NULL);
     alcDestroyContext(_context);
     alcCloseDevice(_device);
+    _device = NULL;
 }
 
 /**
@@ -688,9 +721,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.0", "Vorbital Player 4.0\nCopyright 2006-2013 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the libogg 1.3.0, libvorbis 1.3.3, wavpack 4.60.1, mpg123 1.14.2, and libsndfile 1.0.25 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.1", "Vorbital Player 4.1\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt 5.7, libogg 1.3.2, libvorbis 1.3.5, wavpack 4.80.0, mpg123 1.14.2, and libsndfile 1.0.27 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.0", "Vorbital Player 4.0\nCopyright 2006-2013 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.1", "Vorbital Player 4.1\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -763,31 +796,38 @@ QString VorbitalDlg::ExtractFilename(const QString& filename)
 	return strng;
 }
 
+bool VorbitalDlg::SetArtFile(const QString& filename)
+{
+    qDebug() << "Loading album art file: " << filename;
+    QFile file(filename);
+    if( !file.exists() )
+    {
+        return false;
+    }
+    UpdateAlbumArt(filename);
+    return true;
+}
+
 void VorbitalDlg::LoadAlbumArt(const QString& filename)
 {
-#ifdef WIN32
-	int endPos = filename.lastIndexOf(QChar('\\'));
-#else
 	int endPos = filename.lastIndexOf(QChar('/'));
-#endif
 	QString dirname = filename.mid(0, endPos+1);
+    qDebug() << "Looking for album art in folder: " << dirname;
 	QString artFile = QString("%1%2").arg(dirname).arg("Folder.jpg");
-    qDebug() << "Loading album art file: " << artFile;
-    QFile file(artFile);
-	if( file.exists() )
-	{
-        QPixmap image;
-		if( image.load(artFile) )
+    //QString altArtFile = QString("%1%2").arg(dirname).arg("folder.jpg"); // Not necessary on Windows.
+    QString altArtFile = QString("%1%2").arg(dirname).arg("AlbumArtSmall.jpg");
+    // Also Try: AlbumArtSmall, folder.jpg (no capital F).
+    // Maybe also look for images with the same filename as the song (see Andy Rumsey album) and Au4 - On Audio.
+    // And One folder has some strange GUID-based artwork. Not sure whether there is any way
+    // to tie that back to an album/song... might be some weird Windows Media Player or iTunes thing.
+    if( !SetArtFile(artFile) )
+    {
+        if( !SetArtFile(altArtFile) )
         {
-	        image = image.scaled(QSize(120, 120), Qt::KeepAspectRatio);
-		    _albumArt->setPixmap(image);
-		    _albumArt->setVisible(true);
+            qDebug() << "Album art not found for " << filename;
+            _albumArt->setVisible(false);
         }
-	}
-	else
-	{
-		_albumArt->setVisible(false);
-	}
+    }
 }
 
 void VorbitalDlg::UpdateTime()
@@ -832,6 +872,16 @@ void VorbitalDlg::UpdateBitrate(int bitrate)
 void VorbitalDlg::UpdateSampleRate(int samplerate)
 {
     emit samplerateChanged(samplerate);
+}
+
+void VorbitalDlg::UpdateVolume(int volume)
+{
+	emit volumeChanged(volume);
+}
+
+void VorbitalDlg::UpdateAlbumArt(const QString& filename)
+{
+    emit albumArtChanged(filename);
 }
 
 void VorbitalDlg::closeEvent(QCloseEvent* event)

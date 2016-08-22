@@ -206,7 +206,9 @@ int MusicStream::GetBitrate()
 	}
 	else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
 	{
-		return _audioFile->GetBitrate();
+        int bitrate = _audioFile->GetBitrate();
+        qDebug() << "File bitrate is " << bitrate;
+        return bitrate;
 	}
 	else if( _fileFormat == FORMAT_WAVPACK )
 	{
@@ -552,7 +554,7 @@ void MusicStream::run()
 			if(!Playback())
 			{
 #ifdef WIN32
-				MessageBox( NULL, "Song Refused to Play", "ERROR", MB_OK );
+                QMessageBox( QMessageBox::Information, "Song Refused to Play", "ERROR", QMessageBox::Ok );
 #endif
 				return;
 			}
@@ -563,7 +565,7 @@ void MusicStream::run()
 					if( !Playback() )
 					{
 #ifdef WIN32
-						MessageBox( NULL, "Song abruptly stopped", "ERROR", MB_OK );
+                        QMessageBox( QMessageBox::Information, "Song abruptly stopped", "ERROR", QMessageBox::Ok );
 #endif
 						return;
 					}

@@ -2,7 +2,7 @@
 #define _FILEFORMATVORBIS_H_
 
 #include "AudioFileFormat.h"
-#include <vorbis/vorbisfile.h>
+#include "vorbisfile.h"
 
 #include <QString>
 
@@ -11,8 +11,8 @@ class FileFormatVorbis: public AudioFileFormat
 public:
 	FileFormatVorbis();
 	~FileFormatVorbis();
-	virtual bool CheckExtension(QString& filename);
-	virtual bool Open(QString& filename);
+	virtual bool CheckExtension(const QString& filename);
+	virtual bool Open(const QString& filename);
 	virtual int GetFormat();
 	virtual int GetBitrate();
 	virtual int GetChannels();

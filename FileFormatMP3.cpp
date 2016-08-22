@@ -1,33 +1,59 @@
 #include "FileFormatMP3.h"
 #include <stdio.h>
-#include <QMessageBox>
+#include <QDebug>
 
 mpg123_handle* FileFormatMP3::_mpg123;
 
-bool FileFormatMP3::CheckExtension(QString& filename)
+FileFormatMP3::FileFormatMP3()
+{
+    _channels = 0;
+    _encoding = 0;
+    _sampleRate = 0;
+    _bitRate = 0;
+    _filePosition = 0;
+}
+
+bool FileFormatMP3::CheckExtension(const QString& filename)
 {
 	return filename.contains(".MP3", Qt::CaseInsensitive);
 }
 
-bool FileFormatMP3::Open(QString& filename)
+bool FileFormatMP3::Open(const QString& filename)
 {
-	_filePosition = 0;
-	if( mpg123_open(_mpg123, filename.toStdString().c_str()) != MPG123_OK ||
-		mpg123_getformat(_mpg123, &_sampleRate, &_channels, &_encoding) != MPG123_OK )
+	if( _mpg123 == NULL )
 	{
-		QMessageBox(QMessageBox::Critical, filename, QString("Could not open file."), QMessageBox::Ok);
+		mpg123_init();
+		int merr;
+		_mpg123 = mpg123_new(0, &merr);
+		if( merr )
+		{
+			qDebug() << "mpg123_new error: " << merr;
+		}
+	}
+	_filePosition = 0;
+	const std::string fname = filename.toStdString();
+	int result = mpg123_open(_mpg123, fname.c_str());
+	if( result != MPG123_OK )
+	{
+		qDebug() << "Could not open file. " << filename << ", mpg123 result = " << result;
+		return false;
+	}
+	if( mpg123_getformat(_mpg123, &_sampleRate, &_channels, &_encoding) != MPG123_OK )
+	{
+		qDebug() << "Could not get format data from file " << filename;
 		return false;
 	}
     if(_encoding != MPG123_ENC_SIGNED_16 && _encoding != MPG123_ENC_FLOAT_32)
     {
         //cleanup(_mpg123);
-        fprintf(stderr, "Bad MP3 encoding for file %s: 0x%x!\n", filename.toStdString().c_str(), _encoding);
+        qDebug() << "Bad MP3 encoding for file " << filename << ": " << _encoding;
         return false;
     }
-	// TODO: Figure out if this is necessary.
-    /* Ensure that this output format will not change (it could, when we allow it). */
-    //mpg123_format_none(mh);
-    //mpg123_format(mh, rate, channels, encoding);
+	mpg123_frameinfo info;
+	mpg123_info(_mpg123, &info);
+	qDebug() << "MPG123 Bitrate: " << info.bitrate << ", rate: " << info.rate << ", vbr: " << info.vbr;
+	_bitRate = info.bitrate;
+	qDebug() << "MPG123 loaded file " << filename;
 
 	return true;
 }
@@ -58,7 +84,7 @@ bool FileFormatMP3::Init()
 	err = mpg123_init();
 	if( err != MPG123_OK || (_mpg123 = mpg123_new(NULL, &err)) == NULL)
 	{
-		QMessageBox(QMessageBox::Critical, QString("Unable to initialize MP3 playback library."), QString("ERROR"), QMessageBox::Ok );
+        qDebug() << "Unable to initialize MP3 playback library.";
 		return false;
 	}
 	return true;
