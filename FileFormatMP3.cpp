@@ -26,6 +26,8 @@ bool FileFormatMP3::Open(const QString& filename)
 {
 	_filePosition = 0;
 	const std::string fname = filename.toStdString();
+	// Close existing file, if any.
+	mpg123_close(_mpg123);
 	int result = mpg123_open(_mpg123, fname.c_str());
 	if( result != MPG123_OK )
 	{
@@ -93,4 +95,5 @@ int FileFormatMP3::FillBuffer(unsigned char* buffer, int numBytes)
 
 FileFormatMP3::~FileFormatMP3()
 {
+    mpg123_close(_mpg123);
 }

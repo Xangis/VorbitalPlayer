@@ -1,8 +1,12 @@
 Immediate TODO:
 
-- Fix volume slider. Does not appear to work at all.
-- Fix elapsed play time counder. Does not appear to work at all.
-- Bit rate does not fill in for MP3 files as far as I can tell.
+- Keeps file locks on songs so they can't be deleted after listening.
+  This MAY be file during normal auto-advance to the next track, but DEFINITELY
+  seems wrong when clicking next. It may also be a problem when double-clicking a
+  track
+- Needs a time slider so we can skip forward or back in a track.
+- Needs to show artist, album, track number, track name metadata for a track in either
+  the playlist (ideal) or in the player header (less ideal).
 
 Things to add or improve:
 -------------------------

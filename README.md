@@ -20,7 +20,7 @@ as the Linux build, and the Qt version hasn't been released on Windows yet). If
 you just want the app, an installable version of Vorbital 4.0 for Windows is
 available in the installer folder.
 
-#### These libraries were used to build version 4.1 on Windows:
+#### These libraries were used to build version 4.1 and 4.11 on Windows:
 
 PortAudio ???
 libogg version 1.3.2
@@ -59,6 +59,10 @@ libmpg123-dev
 Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
+
+Version 4.11 changes:
+
+1. No longer keeps open file locks for MP3 files after they're done playing.
 
 Version 4.1 changes:
 

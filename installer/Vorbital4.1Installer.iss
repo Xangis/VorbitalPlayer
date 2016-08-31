@@ -31,7 +31,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Xangis\code\build-Vorbital-Desktop_Qt_5_7_0_MSVC2013_32bit-Release\release\vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libmpg123-0.dll.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -40,6 +40,7 @@ Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.ico"; DestDir: "{a
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\users\Xangis\code\VorbitalPlayer\Release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;Source: "C:\users\Xangis\code\VorbitalPlayer\Release\add.xpm"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "C:\users\Xangis\code\VorbitalPlayer\Release\folder.xpm"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "C:\users\Xangis\code\VorbitalPlayer\Release\forward.xpm"; DestDir: "{app}"; Flags: ignoreversion

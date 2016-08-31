@@ -135,8 +135,9 @@
     <ClInclude Include="vorbitaldlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
+    <None Include="TODO.md" />
     <None Include="vorbital.ico" />
-    <None Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Vorbital.rc" />
