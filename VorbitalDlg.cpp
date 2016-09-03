@@ -49,6 +49,8 @@ VorbitalDlg::VorbitalDlg( )
     // Remove the question mark from the top of the window.
     Qt::WindowFlags flags = windowFlags();
     flags = flags & (~Qt::WindowContextHelpButtonHint);
+    // Add minimize button.
+    flags = flags | Qt::WindowMinimizeButtonHint;
     setWindowFlags(flags);
 
     _device = NULL;
@@ -164,6 +166,12 @@ void VorbitalDlg::LoadSettings()
             qDebug() << "File" << songList[i] << " from last session not found. Not adding to playlist.";
         }
     }
+    int playlistPos = (configData->value("playlistPosition")).toInt();
+    if( playlistPos < _lstPlaylist->count())
+    {
+        _listPosition = playlistPos;
+        _lstPlaylist->setCurrentRow(_listPosition);
+    }
     qDebug() << "Loaded Settings: Randomize =" << _randomize << ", Volume =" << volume << ", Width =" << sizex <<
         ", Height =" << sizey << ", Playlist =" << songList.count() << " items.";
 	delete configData;
@@ -192,6 +200,7 @@ void VorbitalDlg::SaveSettings()
 		playlistItems += filename;
     }
     configData->setValue("playlist", playlistItems);
+    configData->setValue("playlistPosition", _listPosition);
     configData->sync();
     qDebug() << "Saved Settings: Randomize =" << _randomize << ", Volume =" << _volumeSlider->value() <<
         ", Width =" << wsize.width() << ", Height =" << wsize.height() << ", Playlist =" << _lstPlaylist->count() << " items.";

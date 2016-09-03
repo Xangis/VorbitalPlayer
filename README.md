@@ -62,7 +62,9 @@ Just do the standard "qmake" and then "make" to build.
 
 Version 4.11 changes:
 
-1. No longer keeps open file locks for MP3 files after they're done playing.
+1. Now remembers the last song that was playing when saving/loading playlists so you can continue listening where you left off.
+2. Add minimize button lost in switch to Qt.
+3. No longer keeps open file locks for MP3 files after they're done playing.
 
 Version 4.1 changes:
 
