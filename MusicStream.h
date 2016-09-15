@@ -42,6 +42,10 @@ public:
 		int GetChannels();
 		int GetRate();
 		int GetBitrate();
+        int GetLength(); // Returns song length in seconds, or -1 if unknown.
+        const char* GetArtist(); // Artist name.
+        const char* GetAlbum(); // Album name.
+        const char* GetSong(); // Song title.
 		const char* GetComment();
 		bool DecodeSpeex(ALuint buffer);
 		bool FillBuffer(ALuint buffer);

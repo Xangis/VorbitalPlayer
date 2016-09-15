@@ -92,8 +92,15 @@ VorbitalDlg::VorbitalDlg( )
     _txtChannels = NULL;
 	_txtComment = NULL;
 	_txtTime = NULL;
+    _txtTimeDivider = NULL;
+    _txtMaxTime = NULL;
+    _txtArtist = NULL;
+    _txtAlbum = NULL;
+    _txtSong = NULL;
     _volumeSlider = NULL;
+    _positionSlider = NULL;
     _msecElapsed = 0;
+    _songLength = -1;
     qDebug() << "Setting VorbitalDlg play state to STOPPED.";
 	_playState = STOPPED;
 	_incrementNeeded = true;
@@ -339,10 +346,6 @@ void VorbitalDlg::CreateControls()
 
 	secondRowLayout->insertSpacing(10, 10);
 
-	_txtTime = new QLabel(this);
-    _txtTime->setText("0:00");
-    secondRowLayout->addWidget(_txtTime);
-
     QHBoxLayout* thirdRowLayout = new QHBoxLayout();
     rootLayout->addLayout(thirdRowLayout);
     rootLayout->setAlignment(thirdRowLayout, Qt::AlignHCenter);
@@ -353,6 +356,59 @@ void VorbitalDlg::CreateControls()
     thirdRowLayout->addWidget(_albumArt);
 	_albumArt->setVisible(false);
 
+    QHBoxLayout* fourthRowLayout = new QHBoxLayout();
+    rootLayout->setAlignment(fourthRowLayout, Qt::AlignLeft);
+    rootLayout->addLayout(fourthRowLayout);
+
+    _txtArtist = new QLabel(this);
+    _txtArtist->setText("Artist:");
+    fourthRowLayout->addWidget(_txtArtist);
+
+    fourthRowLayout->insertSpacing(16, 16);
+
+    _txtAlbum = new QLabel(this);
+    _txtAlbum->setText("Album:");
+    fourthRowLayout->addWidget(_txtAlbum);
+
+    fourthRowLayout->insertSpacing(16, 16);
+
+    _txtSong = new QLabel(this);
+    _txtSong->setText("Song:");
+    fourthRowLayout->addWidget(_txtSong);
+
+    // Hide artist, album, and song unless there's data.
+    _txtArtist->hide();
+    _txtAlbum->hide();
+    _txtSong->hide();
+
+    QHBoxLayout* fifthRowLayout = new QHBoxLayout();
+    rootLayout->addLayout(fifthRowLayout);
+
+    _positionSlider = new QSlider(Qt::Horizontal, this);
+    // Use a range 1000 values so slider can move more smoothly.
+    _positionSlider->setMinimum(0);
+    _positionSlider->setMaximum(1000);
+    _positionSlider->setValue(0);
+    connect(_positionSlider, SIGNAL(valueChanged(int)), this, SLOT(OnPositionSlider(int)), Qt::AutoConnection);
+    fifthRowLayout->addWidget(_positionSlider);
+
+    _txtTime = new QLabel(this);
+    _txtTime->setText("0:00");
+    fifthRowLayout->addWidget(_txtTime);
+
+    _txtTimeDivider = new QLabel(this);
+    _txtTimeDivider->setText(" / ");
+    fifthRowLayout->addWidget(_txtTimeDivider);
+
+    _txtMaxTime = new QLabel(this);
+    _txtMaxTime->setText("0:00");
+    fifthRowLayout->addWidget(_txtMaxTime);
+
+    // Hide all playlist time controls.
+    _positionSlider->setEnabled(false);
+    _txtMaxTime->hide();
+    _txtTimeDivider->hide();
+
 	_lstPlaylist = new QListWidget( this );
 	rootLayout->addWidget(_lstPlaylist);
 	connect(_lstPlaylist, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(OnPlaylistDoubleClick(QListWidgetItem*)), Qt::AutoConnection);
@@ -362,6 +418,10 @@ void VorbitalDlg::CreateControls()
     connect(this, SIGNAL(samplerateChanged(int)), this, SLOT(OnSampleRate(int)), Qt::AutoConnection);
     connect(this, SIGNAL(timeChanged(int)), this, SLOT(OnTime(int)), Qt::AutoConnection);
     connect(this, SIGNAL(albumArtChanged(const QString&)), this, SLOT(OnAlbumArtChanged(const QString&)), Qt::AutoConnection);
+    connect(this, SIGNAL(artistChanged(const QString&)), this, SLOT(OnArtistChanged(const QString&)), Qt::AutoConnection);
+    connect(this, SIGNAL(albumChanged(const QString&)), this, SLOT(OnAlbumChanged(const QString&)), Qt::AutoConnection);
+    connect(this, SIGNAL(songChanged(const QString&)), this, SLOT(OnSongChanged(const QString&)), Qt::AutoConnection);
+    connect(this, SIGNAL(songLengthChanged(int)), this, SLOT(OnSongLengthChanged(int)), Qt::AutoConnection);
 }
 
 void VorbitalDlg::OnBitrate(int value)
@@ -402,6 +462,12 @@ void VorbitalDlg::OnTime(int milliseconds)
   }
   //qDebug() << "Time changed to " << label;
   _txtTime->setText(label);
+  if( _songLength > 0 )
+  {
+      int pos = milliseconds / _songLength;
+      //qDebug() << "Position slider changed to " << pos;
+      _positionSlider->setValue(pos);
+  }
 }
 
 void VorbitalDlg::OnSampleRate(int data)
@@ -572,6 +638,45 @@ void VorbitalDlg::OnAlbumArtChanged(const QString& filename)
         image = image.scaled(QSize(150, 150), Qt::KeepAspectRatio);
         _albumArt->setPixmap(image);
         _albumArt->setVisible(true);
+    }
+}
+
+void VorbitalDlg::OnArtistChanged(const QString& artist)
+{
+    if( artist.length() > 0)
+    {
+        _txtArtist->setText(QString("Artist: %1").arg(artist));
+        _txtArtist->show();
+    }
+    else
+    {
+        _txtArtist->hide();
+    }
+}
+
+void VorbitalDlg::OnAlbumChanged(const QString& album)
+{
+    if( album.length() > 0)
+    {
+        _txtAlbum->setText(QString("Album: %1").arg(album));
+        _txtAlbum->show();
+    }
+    else
+    {
+        _txtAlbum->hide();
+    }
+}
+
+void VorbitalDlg::OnSongChanged(const QString& song)
+{
+    if( song.length() > 0)
+    {
+        _txtSong->setText(QString("Song: %1").arg(song));
+        _txtSong->show();
+    }
+    else
+    {
+        _txtSong->hide();
     }
 }
 
@@ -747,9 +852,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.11", "Vorbital Player 4.11\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt 5.7, libogg 1.3.2, libvorbis 1.3.5, wavpack 4.80.0, mpg123 1.14.2, and libsndfile 1.0.27 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.2", "Vorbital Player 4.2\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt 5.7, libogg 1.3.2, libvorbis 1.3.5, wavpack 4.80.0, mpg123 1.14.2, and libsndfile 1.0.27 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.11", "Vorbital Player 4.11\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.2", "Vorbital Player 4.2\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\nhttp://vorbitalplayer.com\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -805,6 +910,47 @@ void VorbitalDlg::OnVolume(int volume)
     {
         float actualVol = (float)volume / 100.0f;
         _musicStream->SetVolume( actualVol );
+    }
+}
+
+void VorbitalDlg::OnPositionSlider(int position)
+{
+    // TODO: Allow position slider to change, but don't react to events triggered
+    // by value changes.
+    // We may need to change this from a value changed event to a click event handler.
+    //qDebug() << "Position slider changed to " << position;
+    //if( _musicStream )
+    //{
+    //    qDebug() << "TODO: Change song position to " << position;
+    //}
+}
+
+void VorbitalDlg::OnSongLengthChanged(int length)
+{
+    qDebug() << "Received songLengthChanged as " << length;
+    _songLength = length;
+    if( length <= 0 )
+    {
+        _positionSlider->setEnabled(false);
+        _txtMaxTime->hide();
+        _txtTimeDivider->hide();
+    }
+    else
+    {
+        _positionSlider->setEnabled(true);
+        _positionSlider->setValue(0);
+        QString label;
+        if( (length % 60) > 9 )
+        {
+            label = QString("%1:%2").arg(length / 60).arg(length % 60);
+        }
+        else
+        {
+            label = QString("%1:0%2").arg(length / 60).arg(length % 60);
+        }
+        _txtMaxTime->setText(label);
+        _txtMaxTime->show();
+        _txtTimeDivider->show();
     }
 }
 
@@ -898,6 +1044,12 @@ void VorbitalDlg::UpdateBitrate(int bitrate)
     emit bitrateChanged(bitrate);
 }
 
+void VorbitalDlg::UpdateSongLength(int length)
+{
+    qDebug() << "Emitting songLengthChanged as " << length;
+    emit songLengthChanged(length);
+}
+
 void VorbitalDlg::UpdateSampleRate(int samplerate)
 {
     emit samplerateChanged(samplerate);
@@ -911,6 +1063,21 @@ void VorbitalDlg::UpdateVolume(int volume)
 void VorbitalDlg::UpdateAlbumArt(const QString& filename)
 {
     emit albumArtChanged(filename);
+}
+
+void VorbitalDlg::UpdateArtist(const QString& artist)
+{
+    emit artistChanged(artist);
+}
+
+void VorbitalDlg::UpdateAlbum(const QString& album)
+{
+    emit albumChanged(album);
+}
+
+void VorbitalDlg::UpdateSong(const QString& song)
+{
+    emit songChanged(song);
 }
 
 void VorbitalDlg::closeEvent(QCloseEvent* event)

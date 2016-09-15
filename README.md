@@ -60,6 +60,11 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
+Version 4.2 Changes:
+
+1. Now shows artist, album, and song name for currently playing song for MP3 files.
+2. Now shows a progress bar and the total time for MP3 and Ogg Vorbis files.
+
 Version 4.11 changes:
 
 1. Now remembers the last song that was playing when saving/loading playlists so you can continue listening where you left off.

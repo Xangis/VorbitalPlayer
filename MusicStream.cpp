@@ -171,6 +171,45 @@ int MusicStream::GetChannels()
 }
 
 /**
+ * Gets the length of a stream in seconds, or -1 if unknown.
+ */
+int MusicStream::GetLength()
+{
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    {
+        return _audioFile->GetLength();
+    }
+    return -1;
+}
+
+const char* MusicStream::GetArtist()
+{
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    {
+        return _audioFile->GetArtistName();
+    }
+    return NULL;
+}
+
+const char* MusicStream::GetAlbum()
+{
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    {
+        return _audioFile->GetAlbumName();
+    }
+    return NULL;
+}
+
+const char* MusicStream::GetSong()
+{
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    {
+        return _audioFile->GetSongName();
+    }
+    return NULL;
+}
+
+/**
 * Gets the sample rate for the currently playing file.
 */
 int MusicStream::GetRate()

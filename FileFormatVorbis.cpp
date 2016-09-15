@@ -1,6 +1,8 @@
 #include "FileFormatVorbis.h"
 
+// TODO: Make this NOT depend on Qt.
 #include <QMessageBox>
+#include <QDebug>
 
 OggVorbis_File* FileFormatVorbis::_oggVorbisFile;
 
@@ -57,6 +59,63 @@ int FileFormatVorbis::GetFormat()
 int FileFormatVorbis::GetSampleRate()
 {
 	return _vorbisInfo->rate;
+}
+
+const char* FileFormatVorbis::GetArtistName()
+{
+    if( this->_vorbisComment != NULL )
+    {
+        for( int i = 0; i < _vorbisComment->comments; i++)
+        {
+            //qDebug() << "Vorbis Comment: " << _vorbisComment->user_comments[i];
+            if( strstr( _vorbisComment->user_comments[i], "ARTIST="))
+            {
+                qDebug() << "Vorbis Artist found: " << &(_vorbisComment->user_comments[i][7]);
+                return &(_vorbisComment->user_comments[i][7]);
+            }
+        }
+    }
+    return NULL;
+}
+
+const char* FileFormatVorbis::GetAlbumName()
+{
+    if( this->_vorbisComment != NULL )
+    {
+        for( int i = 0; i < _vorbisComment->comments; i++)
+        {
+            //qDebug() << "Vorbis Comment: " << _vorbisComment->user_comments[i];
+            if( strstr( _vorbisComment->user_comments[i], "ALBUM="))
+            {
+                qDebug() << "Vorbis Album found: " << &(_vorbisComment->user_comments[i][6]);
+                return &(_vorbisComment->user_comments[i][6]);
+            }
+        }
+    }
+    return NULL;
+}
+
+const char* FileFormatVorbis::GetSongName()
+{
+    if( this->_vorbisComment != NULL )
+    {
+        for( int i = 0; i < _vorbisComment->comments; i++)
+        {
+            //qDebug() << "Vorbis Comment: " << _vorbisComment->user_comments[i];
+            if( strstr( _vorbisComment->user_comments[i], "TITLE="))
+            {
+                qDebug() << "Vorbis Song title found: " << &(_vorbisComment->user_comments[i][6]);
+                return &(_vorbisComment->user_comments[i][6]);
+            }
+        }
+    }
+    return NULL;
+}
+
+int FileFormatVorbis::GetLength()
+{
+    // http://stackoverflow.com/questions/20794204/how-to-determine-length-of-ogg-file?rq=1
+    return -1;
 }
 
 bool FileFormatVorbis::Init()

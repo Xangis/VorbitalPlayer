@@ -71,11 +71,15 @@ void PlaylistThread::run()
 				if( stream->Open(filename) )
                 {
 				    _dlg->GetMusicStream()->Play();
-                    qDebug() << "Updating channels, bitrate, and sample rate.";
+                    qDebug() << "Updating channels, bitrate, sample rate, and length.";
                     _dlg->UpdateNumChannels(_dlg->GetMusicStream()->GetChannels() );
                     _dlg->UpdateBitrate(_dlg->GetMusicStream()->GetBitrate());
                     _dlg->UpdateSampleRate(_dlg->GetMusicStream()->GetRate());
                     _dlg->LoadAlbumArt(filename);
+                    _dlg->UpdateSongLength(_dlg->GetMusicStream()->GetLength());
+                    _dlg->UpdateArtist(_dlg->GetMusicStream()->GetArtist());
+                    _dlg->UpdateAlbum(_dlg->GetMusicStream()->GetAlbum());
+                    _dlg->UpdateSong(_dlg->GetMusicStream()->GetSong());
 				}
                 else
                 {

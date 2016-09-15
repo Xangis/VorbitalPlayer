@@ -5,6 +5,8 @@
 FileFormatMP3::FileFormatMP3()
 {
     int merr;
+    _id3v1 = NULL;
+    _id3v2 = NULL;
     _mpg123 = mpg123_new(0, &merr);
     if( merr )
     {
@@ -15,6 +17,7 @@ FileFormatMP3::FileFormatMP3()
     _sampleRate = 0;
     _bitRate = 0;
     _filePosition = 0;
+    _length = -1;
 }
 
 bool FileFormatMP3::CheckExtension(const QString& filename)
@@ -45,11 +48,33 @@ bool FileFormatMP3::Open(const QString& filename)
         qDebug() << "Bad MP3 encoding for file " << filename << ": " << _encoding;
         return false;
     }
+    int length = 0;
+    length = mpg123_length(_mpg123);
+    if( length > 0 && _sampleRate > 0 )
+    {
+        _length = length / _sampleRate;
+    }
+    else
+    {
+        _length = -1;
+    }
+    qDebug() << "Read length as " << length << ". At sample rate " << _sampleRate << " this is " << _length << " seconds.";
 	mpg123_frameinfo info;
 	mpg123_info(_mpg123, &info);
 	qDebug() << "MPG123 Bitrate: " << info.bitrate << ", rate: " << info.rate << ", vbr: " << info.vbr;
 	_bitRate = info.bitrate;
-	qDebug() << "MPG123 loaded file " << filename;
+    mpg123_id3(_mpg123, &_id3v1, &_id3v2);
+    if( _id3v1 != NULL )
+    {
+        qDebug() << "Song has ID3v1 data.";
+        qDebug() << "v1 Artist: " << _id3v1->artist << "Album: " << _id3v1->album << "Song: " << _id3v1->title;
+    }
+    if( _id3v2 != NULL )
+    {
+        qDebug() << "Song has ID3v2 data.";
+        qDebug() << "v2 Artist: " << _id3v2->artist->p << "Album: " << _id3v2->album->p << "Song: " << _id3v2->title->p;
+    }
+    qDebug() << "MPG123 loaded file " << filename;
 
 	return true;
 }
@@ -64,6 +89,11 @@ int FileFormatMP3::GetChannels()
 	return _channels;
 }
 
+int FileFormatMP3::GetLength()
+{
+    return _length;
+}
+
 int FileFormatMP3::GetFormat()
 {
 	return FORMAT_MP3;
@@ -72,6 +102,45 @@ int FileFormatMP3::GetFormat()
 int FileFormatMP3::GetSampleRate()
 {
 	return _sampleRate;
+}
+
+const char* FileFormatMP3::GetArtistName()
+{
+    if( _id3v2 != NULL )
+    {
+        return _id3v2->artist->p;
+    }
+    else if( _id3v1 != NULL )
+    {
+        return _id3v1->artist;
+    }
+    return NULL;
+}
+
+const char* FileFormatMP3::GetAlbumName()
+{
+    if( _id3v2 != NULL )
+    {
+        return _id3v2->album->p;
+    }
+    else if( _id3v1 != NULL )
+    {
+        return _id3v1->album;
+    }
+    return NULL;
+}
+
+const char* FileFormatMP3::GetSongName()
+{
+    if( _id3v2 != NULL )
+    {
+        return _id3v2->title->p;
+    }
+    else if( _id3v1 != NULL )
+    {
+        return _id3v1->title;
+    }
+    return NULL;
 }
 
 bool FileFormatMP3::Init()

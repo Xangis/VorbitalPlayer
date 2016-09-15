@@ -1,12 +1,12 @@
 Immediate TODO:
 
-- Keeps file locks on songs so they can't be deleted after listening.
-  This MAY be file during normal auto-advance to the next track, but DEFINITELY
-  seems wrong when clicking next. It may also be a problem when double-clicking a
-  track
 - Needs a time slider so we can skip forward or back in a track.
 - Needs to show artist, album, track number, track name metadata for a track in either
   the playlist (ideal) or in the player header (less ideal).
+- Does not appear to set volume when settings are loaded (if volume is turned down, still loads /set/ at full volume
+  even though the slider is set correctly.
+- Change open button to allow selecting files or folders, and handle accordingly.
+  Also remember directory changes.
 
 Things to add or improve:
 -------------------------

@@ -51,6 +51,10 @@ public:
     void UpdateSampleRate(int samplerate);
 	void UpdateVolume(int volume);
     void UpdateAlbumArt(const QString& filename);
+    void UpdateSongLength(int length);
+    void UpdateArtist(const QString& artist);
+    void UpdateAlbum(const QString& album);
+    void UpdateSong(const QString& song);
     void closeEvent(QCloseEvent* event);
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
@@ -73,7 +77,12 @@ public slots:
     void OnButtonRandomizeClick();
     void OnAbout();
     void OnVolume(int value);
+    void OnPositionSlider(int position);
     void OnAlbumArtChanged(const QString& filename);
+    void OnSongLengthChanged(int length);
+    void OnArtistChanged(const QString& filename);
+    void OnAlbumChanged(const QString& filename);
+    void OnSongChanged(const QString& filename);
 private:
     ALCdevice *_device;
     ALCcontext *_context;
@@ -95,9 +104,15 @@ private:
     QLabel* _txtChannels;
     QLabel* _txtComment;
     QLabel* _txtTime;
+    QLabel* _txtMaxTime;
+    QLabel* _txtTimeDivider;
     QListWidget* _lstPlaylist;
     QSlider* _volumeSlider;
+    QSlider* _positionSlider;
 	QLabel* _albumArt;
+    QLabel* _txtArtist;
+    QLabel* _txtAlbum;
+    QLabel* _txtSong;
     //std::list<QString *> _playlist;
     MusicStream* _musicStream;
     int _listPosition;
@@ -108,6 +123,7 @@ private:
 	bool _done;
     QDateTime _lastTimeUpdate;
     int _msecElapsed;
+    int _songLength;
     QIcon _icon;
     PlaylistThread* _playlistThread;
 signals:
@@ -117,7 +133,12 @@ signals:
     void samplerateChanged(int samplerate);
     void timeChanged(int time);
 	void volumeChanged(int volume);
+    void positionSliderChanged(int position);
     void albumArtChanged(const QString& filename);
+    void songLengthChanged(int length);
+    void artistChanged(const QString& artist);
+    void albumChanged(const QString& album);
+    void songChanged(const QString& song);
 };
 
 #endif
