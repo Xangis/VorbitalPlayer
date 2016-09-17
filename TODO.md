@@ -1,10 +1,7 @@
 Immediate TODO:
 
-- Needs a time slider so we can skip forward or back in a track.
-- Needs to show artist, album, track number, track name metadata for a track in either
-  the playlist (ideal) or in the player header (less ideal).
-- Does not appear to set volume when settings are loaded (if volume is turned down, still loads /set/ at full volume
-  even though the slider is set correctly.
+- Needs time slider to work for skipping forward or back in a track.
+  (start with MP3 only)
 - Change open button to allow selecting files or folders, and handle accordingly.
   Also remember directory changes.
 

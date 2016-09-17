@@ -179,6 +179,10 @@ int MusicStream::GetLength()
     {
         return _audioFile->GetLength();
     }
+    else if( _fileFormat == FORMAT_WAVE )
+    {
+        return _waveFile.GetLength();
+    }
     return -1;
 }
 

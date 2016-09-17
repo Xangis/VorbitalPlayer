@@ -25,6 +25,8 @@ public:
     unsigned short GetBitsPerSample() { return _bitsPerSample; }
     unsigned short GetBlockAlign() { return _blockAlign; }
 	unsigned int GetDataLength() { return _dataLength; }
+    // Gets the length of the file in seconds, or -1 if unknown.
+    int GetLength();
     short* GetData();
     SF_INFO* GetSFInfo() { return &_sfinfo; }
     short* GetChunk( unsigned int start, unsigned int end );

@@ -118,6 +118,17 @@ bool WaveFile::Load( const char* filename )
 }
 
 /**
+ * Gets the length of the wave file in seconds.
+ */
+int WaveFile::GetLength()
+{
+    if( _sampleRate > 0 )
+    {
+        return _numSamples / _sampleRate;
+    }
+}
+
+/**
  * Copies the sound data for this wave file into a new file.
  */
 bool WaveFile::Save( const char *filename )
