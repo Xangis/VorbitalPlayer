@@ -183,6 +183,16 @@ int MusicStream::GetLength()
     {
         return _waveFile.GetLength();
     }
+    else if( _fileFormat == FORMAT_WAVPACK )
+    {
+        int numSamples = WavpackGetNumSamples(_wavpackContext);
+        int sampleRate = WavpackGetSampleRate(_wavpackContext);
+        qDebug() << "Wavpack NumSamples: " << numSamples << ", SampleRate: " << sampleRate;
+        if( sampleRate > 0 )
+        {
+            return numSamples / sampleRate;
+        }
+    }
     return -1;
 }
 
@@ -262,7 +272,8 @@ int MusicStream::GetBitrate()
 	}
 	else if( _fileFormat == FORMAT_WAVPACK )
 	{
-		return WavpackGetReducedChannels(_wavpackContext) * WavpackGetSampleRate(_wavpackContext) * (WavpackGetBitsPerSample(_wavpackContext) ) * 8;
+        //return WavpackGetAverageBitrate(_wavpackContext);
+        return WavpackGetReducedChannels(_wavpackContext) * WavpackGetSampleRate(_wavpackContext) * (WavpackGetBitsPerSample(_wavpackContext) );
 	}
 	else if( _fileFormat == FORMAT_WAVE )
 	{

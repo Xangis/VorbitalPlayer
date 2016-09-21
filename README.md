@@ -63,8 +63,9 @@ Just do the standard "qmake" and then "make" to build.
 Version 4.2 Changes:
 
 1. Now shows artist, album, and song name for currently playing song for MP3 files.
-2. Now shows a progress bar and the total time for MP3, Wav, and Ogg Vorbis files.
+2. Now shows a progress bar and the total time for MP3, Wav, AIFF, SND, and Ogg Vorbis files.
 3. Added installer file association for MP3 files.
+4. Fixed incorrect display of bitrate for Wavpack files.
 
 Version 4.11 changes:
 
