@@ -8,7 +8,8 @@ QT += core gui widgets
 win32:RC_ICONS += vorbital.ico
 
 linux:INCLUDEPATH += /usr/include/qt5/QtWidgets/
-win32:INCLUDEPATH += F:\lib\mpg123-1.14.2-x86
+#win32:INCLUDEPATH += F:\lib\mpg123-1.14.2-x86
+win32:INCLUDEPATH += F:\lib\mpg123-1.23.8-x86
 win32:INCLUDEPATH += "F:\lib\OpenAL 1.1 SDK\include"
 win32:INCLUDEPATH += F:\lib\libsndfile-1.0.27\include
 win32:INCLUDEPATH += F:\lib\wavpackdll-4.80.0
@@ -16,7 +17,8 @@ win32:INCLUDEPATH += F:\lib\libvorbis-1.3.5\include\vorbis
 win32:INCLUDEPATH += F:\lib\libogg-1.3.2\include
 win32:INCLUDEPATH += F:\lib\wxWidgets-3.0.2\include
 
-win32:LIBS += -LF:\lib\mpg123-1.14.2-x86 \
+win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
+    #-LF:\lib\mpg123-1.14.2-x86 \
     -L"F:\lib\OpenAL 1.1 SDK\libs\Win32" \
     -LF:\lib\libsndfile-1.0.27\lib \
     -LF:\lib\wavpackdll-4.80.0 \

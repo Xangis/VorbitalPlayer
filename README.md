@@ -32,7 +32,18 @@ as the Linux build, and the Qt version hasn't been released on Windows yet). If
 you just want the app, an installable version of Vorbital 4.0 for Windows is
 available in the installer folder.
 
-#### These libraries were used to build version 4.1 and 4.11 on Windows:
+### Updating libmpg123 on Windows
+
+The x86 precompiled download doesn't have a .lib file. Create one by going to a
+Visual Studio commpand prompt in the extracted file directory and running:
+
+lib /def:libmpg123-0.dll.def /OUT:libmpg123-0.lib
+
+### 4.3 uses all 4.1/4.2 libraries with this update:
+
+libmpg123 1.23.8
+
+#### These libraries were used to build version 4.1 and 4.11 and 4.2 on Windows:
 
 PortAudio ???
 libogg version 1.3.2
@@ -40,7 +51,7 @@ libvorbis 1.3.5
 libsndfile 1.0.27
 Qt 5.7
 wavpack version 4.80.0
-libmpg123 version 1.14.2 [should be updated to 1.23.4]
+libmpg123 version 1.14.2
 
 #### These libraries were used to build version 4.0 on Windows:
 
@@ -79,6 +90,7 @@ Version 4.3 Changes:
 3. Added reading artist, album, and song name for currently playing song for Wavpack files.
 4. Changed app url on about page from vorbitalplayer.com to zetacentauri.com.
 5. Added (or re-added) playing files from the command line.
+6. Updated mpg123 libraries from 1.14.2 to 1.23.8.
 
 Version 4.2 Changes:
 
