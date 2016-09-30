@@ -72,12 +72,13 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
-Version 4.21 Changes:
+Version 4.3 Changes:
 
-1. Bugfix for handling MP3 files with partial ID3v2 tags.
-2. Added reading artist, album, and song name for currently playing song for Wavpack files.
-3. Changed app url on about page from vorbitalplayer.com to zetacentauri.com.
-4. Added (or re-added) playing files from the command line.
+1. Added Support for FLAC file playback (already supported by libsndfile).
+2. Bugfix for handling MP3 files with partial ID3v2 tags.
+3. Added reading artist, album, and song name for currently playing song for Wavpack files.
+4. Changed app url on about page from vorbitalplayer.com to zetacentauri.com.
+5. Added (or re-added) playing files from the command line.
 
 Version 4.2 Changes:
 

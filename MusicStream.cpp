@@ -48,10 +48,6 @@ bool MusicStream::Open(QString file)
 	else*/
 	if( file.contains(".mp3", Qt::CaseInsensitive) )
 	{
-        if( _audioFile != NULL )
-        {
-            delete _audioFile;
-        }
 		_audioFile = new FileFormatMP3();
 		bool opened = _audioFile->Open(file);
         if( !opened ) return false;
@@ -79,13 +75,13 @@ bool MusicStream::Open(QString file)
 		_waveFile.Load(file.toStdString().c_str());
 		_format = GetOpenALFormatFromFile(&_waveFile);
 	}
-	//else if( file.contains(".flac", Qt::CaseInsensitive) )
-	//{
-	//	_wavePosition = 0;
-	//	_fileFormat = FORMAT_WAVE;
-	//	_waveFile.Load(file.mb_str());
-	//	_format = GetOpenALFormatFromFile(&_waveFile);
-	//}
+    else if( file.contains(".flac", Qt::CaseInsensitive) )
+    {
+        _wavePosition = 0;
+        _fileFormat = FORMAT_WAVE;
+        _waveFile.Load(file.toStdString().c_str());
+        _format = GetOpenALFormatFromFile(&_waveFile);
+    }
 	else if( file.contains(".aif", Qt::CaseInsensitive) || file.contains(".aiff", Qt::CaseInsensitive) )
 	{
 		_wavePosition = 0;
@@ -95,10 +91,6 @@ bool MusicStream::Open(QString file)
 	}
 	else if( file.contains(".wv", Qt::CaseInsensitive) )
 	{
-        if( _audioFile != NULL )
-        {
-            delete _audioFile;
-        }
         _audioFile = new FileFormatWavpack();
         _fileFormat = FORMAT_WAVPACK;
 		char* error = NULL;
@@ -115,10 +107,6 @@ bool MusicStream::Open(QString file)
 	}
 	else if( file.contains(".ogg", Qt::CaseInsensitive) )
 	{
-        if( _audioFile != NULL )
-        {
-            delete _audioFile;
-        }
         _audioFile = new FileFormatVorbis();
 		bool opened = _audioFile->Open(file);
         if( !opened ) return false;
