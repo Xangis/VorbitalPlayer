@@ -28,7 +28,6 @@ bool FileFormatVorbis::Open(const QString& filename)
 
 	if( result < 0)
 	{
-		//fclose(_musicFile);
 #ifdef WIN32
         QMessageBox( QMessageBox::Critical, QString("Could not open ogg file '%1': %2").arg(filename).arg(VorbisErrorString(result)), "Error", QMessageBox::Ok );
 #endif
@@ -114,7 +113,17 @@ const char* FileFormatVorbis::GetSongName()
 
 int FileFormatVorbis::GetLength()
 {
-    // http://stackoverflow.com/questions/20794204/how-to-determine-length-of-ogg-file?rq=1
+    // http://stackoverflow.com/questions/20794204/how-to-determine-length-of-ogg-file
+    if( _oggVorbisFile == NULL )
+    {
+        return -1;
+    }
+    //int previousPos = _filePosition;
+    //fseek( _oggVorbisFile, 0, SEEK_END);
+    // TODO: Seek from end until we find "OggS". Read a byte that should be 0, read a byte that should be 3, then read a 64-bit size.
+    // See here for example: https://github.com/nothings/stb/blob/master/stb_vorbis.c
+    //fseek( _oggVorbisFile, 0, previousPos);
+
     return -1;
 }
 

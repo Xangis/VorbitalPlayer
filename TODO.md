@@ -2,6 +2,9 @@ Immediate TODO:
 
 - Needs time slider to work for skipping forward or back in a track.
   (start with MP3 only)
+- Needs to be able to calculate length of a Wavpack file.
+- Needs to read meta tags from Wavpack files.
+- Needs to read metadata from .wav files.
 - Change open button to allow selecting files or folders, and handle accordingly.
   Also remember directory changes.
 
@@ -10,7 +13,6 @@ Things to add or improve:
 - Make right-click on playlist for file info work. Best if this also shows some basic
   file details, where appropriate (metadata - bitrate, artist, album, track number, track
   name, modified date, etc.)
-- Disable all qDebug statements.
 - Add support for FLAC.
 - Add support for Speex.
 - Test 8-bit, 32-bit, and mono versions of file formats because we're probably not

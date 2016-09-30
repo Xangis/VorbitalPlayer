@@ -1,6 +1,7 @@
 #include "MusicStream.h"
 #include "FileFormatMP3.h"
 #include "FileFormatVorbis.h"
+#include "FileFormatWavpack.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -47,6 +48,10 @@ bool MusicStream::Open(QString file)
 	else*/
 	if( file.contains(".mp3", Qt::CaseInsensitive) )
 	{
+        if( _audioFile != NULL )
+        {
+            delete _audioFile;
+        }
 		_audioFile = new FileFormatMP3();
 		bool opened = _audioFile->Open(file);
         if( !opened ) return false;
@@ -90,10 +95,16 @@ bool MusicStream::Open(QString file)
 	}
 	else if( file.contains(".wv", Qt::CaseInsensitive) )
 	{
-		_fileFormat = FORMAT_WAVPACK;
+        if( _audioFile != NULL )
+        {
+            delete _audioFile;
+        }
+        _audioFile = new FileFormatWavpack();
+        _fileFormat = FORMAT_WAVPACK;
 		char* error = NULL;
-		_wavpackContext = WavpackOpenFileInput (file.toStdString().c_str(), error, OPEN_WVC|OPEN_2CH_MAX|OPEN_NORMALIZE|OPEN_STREAMING, 1);
-		if( GetChannels() == 1 )
+        bool opened = _audioFile->Open(file);
+        if( !opened ) return false;
+        if( _audioFile->GetChannels() == 1 )
 		{
 			_format = AL_FORMAT_MONO16;
 		}
@@ -104,7 +115,11 @@ bool MusicStream::Open(QString file)
 	}
 	else if( file.contains(".ogg", Qt::CaseInsensitive) )
 	{
-		_audioFile = new FileFormatVorbis();
+        if( _audioFile != NULL )
+        {
+            delete _audioFile;
+        }
+        _audioFile = new FileFormatVorbis();
 		bool opened = _audioFile->Open(file);
         if( !opened ) return false;
 		_fileFormat = _audioFile->GetFormat();
@@ -155,13 +170,9 @@ int MusicStream::GetChannels()
 	{
 		return 1;
 	}
-	else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 	{
 		return _audioFile->GetChannels();
-	}
-	else if( _fileFormat == FORMAT_WAVPACK )
-	{
-		return WavpackGetReducedChannels(_wavpackContext);
 	}
 	else if( _fileFormat == FORMAT_WAVE )
 	{
@@ -175,7 +186,7 @@ int MusicStream::GetChannels()
  */
 int MusicStream::GetLength()
 {
-    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
     {
         return _audioFile->GetLength();
     }
@@ -183,22 +194,12 @@ int MusicStream::GetLength()
     {
         return _waveFile.GetLength();
     }
-    else if( _fileFormat == FORMAT_WAVPACK )
-    {
-        int numSamples = WavpackGetNumSamples(_wavpackContext);
-        int sampleRate = WavpackGetSampleRate(_wavpackContext);
-        qDebug() << "Wavpack NumSamples: " << numSamples << ", SampleRate: " << sampleRate;
-        if( sampleRate > 0 )
-        {
-            return numSamples / sampleRate;
-        }
-    }
     return -1;
 }
 
 const char* MusicStream::GetArtist()
 {
-    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
     {
         return _audioFile->GetArtistName();
     }
@@ -207,7 +208,7 @@ const char* MusicStream::GetArtist()
 
 const char* MusicStream::GetAlbum()
 {
-    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
     {
         return _audioFile->GetAlbumName();
     }
@@ -216,7 +217,7 @@ const char* MusicStream::GetAlbum()
 
 const char* MusicStream::GetSong()
 {
-    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
     {
         return _audioFile->GetSongName();
     }
@@ -232,19 +233,11 @@ int MusicStream::GetRate()
 	{
 		return 1;
 	}
-	else if( _fileFormat == FORMAT_WAVPACK )
-	{
-		return WavpackGetSampleRate(_wavpackContext);
-	}
-	else if( _fileFormat == FORMAT_VORBIS )
-	{
-		return _audioFile->GetSampleRate();
-	}
 	else if( _fileFormat == FORMAT_WAVE )
 	{
 		return _waveFile.GetSampleRate();
 	}
-	else if( _fileFormat == FORMAT_MP3 )
+    else if( _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK || _fileFormat == FORMAT_VORBIS )
 	{
 		if( _audioFile != NULL )
 		{
@@ -264,16 +257,11 @@ int MusicStream::GetBitrate()
 	{
 		return 1;
 	}
-	else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 )
+    else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 	{
         int bitrate = _audioFile->GetBitrate();
         qDebug() << "File bitrate is " << bitrate;
         return bitrate;
-	}
-	else if( _fileFormat == FORMAT_WAVPACK )
-	{
-        //return WavpackGetAverageBitrate(_wavpackContext);
-        return WavpackGetReducedChannels(_wavpackContext) * WavpackGetSampleRate(_wavpackContext) * (WavpackGetBitsPerSample(_wavpackContext) );
 	}
 	else if( _fileFormat == FORMAT_WAVE )
 	{
@@ -305,7 +293,7 @@ bool MusicStream::Playback()
 			return false;
 		alSourceQueueBuffers(_source, 2, _buffers);
 	}
-	else if( _fileFormat == FORMAT_VORBIS )
+    else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 	{
 		bool result = FillBuffer(_buffers[0]);
 		if( !result )
@@ -341,44 +329,6 @@ bool MusicStream::Playback()
 		delete[] chunk2;
 		_wavePosition += avail;
 		alSourceQueueBuffers(_source, 2, _buffers );
-	}
-	else if( _fileFormat == FORMAT_MP3 )
-	{
-		bool result = FillBuffer(_buffers[0]);
-		if( !result )
-		{
-			return false;
-		}
-		result = FillBuffer(_buffers[1]);
-		if( !result )
-		{
-			return false;
-		}
-		alSourceQueueBuffers(_source, 2, _buffers );
-	}
-	else if( _fileFormat == FORMAT_WAVPACK )
-	{
-		int size = WAVE_CHUNK_SIZE * this->GetChannels();
-		int32_t* data = new int32_t[size];
-		short* shortData = new short[size];
-		uint32_t numUnpacked = WavpackUnpackSamples(_wavpackContext, data, WAVE_CHUNK_SIZE);
-		int dataSize = numUnpacked * sizeof(short) * this->GetChannels();
-		int rate = GetRate();
-		for( unsigned int i = 0; i < numUnpacked * this->GetChannels(); i++ )
-		{
-			shortData[i] = data[i];
-		}
-		alBufferData(_buffers[0], _format, shortData, dataSize, rate);
-		numUnpacked = WavpackUnpackSamples(_wavpackContext, data, WAVE_CHUNK_SIZE);
-		for( unsigned int i = 0; i < numUnpacked * this->GetChannels(); i++ )
-		{
-			shortData[i] = data[i];
-		}
-		dataSize = numUnpacked * sizeof(short) * this->GetChannels();
-		alBufferData(_buffers[1], _format, shortData, dataSize, rate);
-		alSourceQueueBuffers(_source, 2, _buffers);
-		delete[] data;
-		delete[] shortData;
 	}
 
     alSourcePlay(_source);
@@ -476,7 +426,7 @@ bool MusicStream::Update()
         alSourceUnqueueBuffers(_source, 1, &buffer);
         Check();
 
-		if( _fileFormat == FORMAT_VORBIS )
+        if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 		{
 			bool result = FillBuffer(buffer);
 			if( !result )
@@ -485,7 +435,7 @@ bool MusicStream::Update()
 			}
 			alSourceQueueBuffers(_source, 1, &buffer );
 		}
-		else if( _fileFormat == FORMAT_WAVPACK )
+        /*else if( _fileFormat == FORMAT_WAVPACK )
 		{
 			int size = WAVE_CHUNK_SIZE * this->GetChannels(); // 8820 samples x 2 channels = 17640 ints of data samples for stereo.
 			int32_t* data = new int32_t[size]; // 17640 shorts of data for 8820 stereo samples
@@ -510,6 +460,7 @@ bool MusicStream::Update()
 			delete[] shortData;
 
 		}
+        */
 		else if( _fileFormat == FORMAT_WAVE )
 		{
 			unsigned int totalSamples = _waveFile.GetNumSamples();
@@ -526,15 +477,6 @@ bool MusicStream::Update()
 			alBufferData(buffer, _format, chunk, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
 			delete[] chunk;
 			_wavePosition += avail;
-			alSourceQueueBuffers(_source, 1, &buffer );
-		}
-		else if( _fileFormat == FORMAT_MP3 )
-		{
-			bool result = FillBuffer(buffer);
-			if( !result )
-			{
-				return false;
-			}
 			alSourceQueueBuffers(_source, 1, &buffer );
 		}
     }

@@ -5,8 +5,10 @@
 FileFormatMP3::FileFormatMP3()
 {
     int merr;
-    _id3v1 = NULL;
-    _id3v2 = NULL;
+    //_id3v1 = NULL;
+    //_id3v2 = NULL;
+	_id3v1 = new mpg123_id3v1;
+	_id3v2 = new mpg123_id3v2;
     _mpg123 = mpg123_new(0, &merr);
     if( merr )
     {
@@ -72,7 +74,14 @@ bool FileFormatMP3::Open(const QString& filename)
     if( _id3v2 != NULL )
     {
         qDebug() << "Song has ID3v2 data.";
-        qDebug() << "v2 Artist: " << _id3v2->artist->p << "Album: " << _id3v2->album->p << "Song: " << _id3v2->title->p;
+		if( _id3v2->artist != NULL && _id3v2->album != NULL && _id3v2->title != NULL )
+		{
+			qDebug() << "v2 Artist: " << _id3v2->artist->p << "Album: " << _id3v2->album->p << "Song: " << _id3v2->title->p;
+		}
+		else
+		{
+			qDebug() << "v2 At least one of artist, album or song are NULL.";
+		}
     }
     qDebug() << "MPG123 loaded file " << filename;
 
@@ -106,7 +115,7 @@ int FileFormatMP3::GetSampleRate()
 
 const char* FileFormatMP3::GetArtistName()
 {
-    if( _id3v2 != NULL )
+    if( _id3v2 != NULL && _id3v2->artist != NULL )
     {
         return _id3v2->artist->p;
     }
@@ -119,7 +128,7 @@ const char* FileFormatMP3::GetArtistName()
 
 const char* FileFormatMP3::GetAlbumName()
 {
-    if( _id3v2 != NULL )
+    if( _id3v2 != NULL && _id3v2->album != NULL )
     {
         return _id3v2->album->p;
     }
@@ -132,7 +141,7 @@ const char* FileFormatMP3::GetAlbumName()
 
 const char* FileFormatMP3::GetSongName()
 {
-    if( _id3v2 != NULL )
+    if( _id3v2 != NULL && _id3v2->title != NULL )
     {
         return _id3v2->title->p;
     }

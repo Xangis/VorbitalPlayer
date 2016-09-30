@@ -7,8 +7,8 @@ using namespace std;
 #include "AL.h"
 #include "MusicStream.h"
 //#include <speex/speex.h>
-#include "wavpack.h"
-#include "WaveFile.h"
+#define USE_QT 1
+#include "../AudioFile/wavefile.h"
 #ifdef WIN32
 #include "windows.h"
 #endif
@@ -62,7 +62,6 @@ private:
 		void *_speexDecoderState;
 		int _speexFrameSize;
 		int _fileFormat;
-		WavpackContext * _wavpackContext;
 		WaveFile _waveFile;
 		unsigned int _wavePosition;
 		// For testing purposes.

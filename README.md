@@ -1,3 +1,15 @@
+NOTE: THIS SHOULD NOT BE BUILT USING VISUAL STUDIO. USE QT CREATOR.
+      VISUAL STUDIO IS FOR DEBUGGING ONLY.
+
+To debug on Visual Studio:
+
+- Copy moc_*.cpp files from build output directory for the Qt Creator build. Rename them to have a
+  leading underscore so they aren't deleted when Qt Creator runs.
+- Fix the include paths in the MOC files.
+  (you could probably skip these two steps by just including the moc files as is, where is in the solution...)
+- Open .sln in Visual Studio and rebuild.
+- Debug.
+
 VorbitalPlayer
 ==============
 
@@ -59,6 +71,13 @@ libmpg123-dev
 Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
+
+Version 4.21 Changes:
+
+1. Bugfix for handling MP3 files with partial ID3v2 tags.
+2. Added reading artist, album, and song name for currently playing song for Wavpack files.
+3. Changed app url on about page from vorbitalplayer.com to zetacentauri.com.
+4. Added (or re-added) playing files from the command line.
 
 Version 4.2 Changes:
 

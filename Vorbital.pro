@@ -14,6 +14,7 @@ win32:INCLUDEPATH += F:\lib\libsndfile-1.0.27\include
 win32:INCLUDEPATH += F:\lib\wavpackdll-4.80.0
 win32:INCLUDEPATH += F:\lib\libvorbis-1.3.5\include\vorbis
 win32:INCLUDEPATH += F:\lib\libogg-1.3.2\include
+win32:INCLUDEPATH += F:\lib\wxWidgets-3.0.2\include
 
 win32:LIBS += -LF:\lib\mpg123-1.14.2-x86 \
     -L"F:\lib\OpenAL 1.1 SDK\libs\Win32" \
@@ -21,6 +22,7 @@ win32:LIBS += -LF:\lib\mpg123-1.14.2-x86 \
     -LF:\lib\wavpackdll-4.80.0 \
     -LF:\lib\libvorbis-1.3.5\win32\VS2010\Win32\Release \
     -LF:\lib\libogg-1.3.2\win32\VS2010\Win32\Release \
+    -LC:\Users\Xangis\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
 linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis
@@ -34,17 +36,19 @@ HEADERS += AudioFileFormat.h \
            resource.h \
            SettingsDlg.h \
            VorbitalDlg.h \
-           WaveFile.h \
-           PlaylistThread.h
+           PlaylistThread.h \
+    ../AudioFile/wavefile.h \
+    FileFormatWavpack.h
 
-SOURCES += WaveFile.cpp \
-           SettingsDlg.cpp \
+SOURCES += SettingsDlg.cpp \
            Main.cpp \
            FileFormatMP3.cpp \
            FileFormatVorbis.cpp \
            MusicStream.cpp \
            VorbitalDlg.cpp \
-           PlaylistThread.cpp
+           PlaylistThread.cpp \
+    ../AudioFile/wavefile.cpp \
+    FileFormatWavpack.cpp
 
 DISTFILES += \
     README.md \
