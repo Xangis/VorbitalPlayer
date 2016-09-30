@@ -35,6 +35,7 @@ Source: "C:\Users\Xangis\code\build-Vorbital-Desktop_Qt_5_7_0_MSVC2013_32bit-Rel
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libmpg123-0.dll.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libgcc_s_sjlj-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libsndfile-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
