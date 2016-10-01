@@ -126,6 +126,7 @@ private:
     int _songLength;
     QIcon _icon;
     PlaylistThread* _playlistThread;
+    QString _lastSelectedDirectory;
 signals:
     void numchannelsChanged(int channels);
     void bitrateChanged(int bitrate);

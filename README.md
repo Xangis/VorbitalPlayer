@@ -91,6 +91,7 @@ Version 4.3 Changes:
 4. Changed app url on about page from vorbitalplayer.com to zetacentauri.com.
 5. Added (or re-added) playing files from the command line.
 6. Updated mpg123 libraries from 1.14.2 to 1.23.8.
+7. Remembers previous directory selection, and remembers previous section on next run.
 
 Version 4.2 Changes:
 

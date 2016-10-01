@@ -106,6 +106,7 @@ VorbitalDlg::VorbitalDlg( )
 	_incrementNeeded = true;
     _randomize = false;
 	_menuDoubleClicked = false;
+    _lastSelectedDirectory = QString("");
     // TODO: Do we need to do this on Windows?
 #ifdef linux
 	srand((unsigned)time(0));
@@ -179,8 +180,13 @@ void VorbitalDlg::LoadSettings()
         _listPosition = playlistPos;
         _lstPlaylist->setCurrentRow(_listPosition);
     }
+    QString lastDir = (configData->value("lastSelectedDirectory")).toString();
+    if( lastDir.length() > 0)
+    {
+        _lastSelectedDirectory = lastDir;
+    }
     qDebug() << "Loaded Settings: Randomize =" << _randomize << ", Volume =" << volume << ", Width =" << sizex <<
-        ", Height =" << sizey << ", Playlist =" << songList.count() << " items.";
+        ", Height =" << sizey << ", Playlist =" << songList.count() << " items, Last Directory = " << _lastSelectedDirectory;
 	delete configData;
 }
 
@@ -208,9 +214,11 @@ void VorbitalDlg::SaveSettings()
     }
     configData->setValue("playlist", playlistItems);
     configData->setValue("playlistPosition", _listPosition);
+    configData->setValue("lastSelectedDirectory", _lastSelectedDirectory);
     configData->sync();
     qDebug() << "Saved Settings: Randomize =" << _randomize << ", Volume =" << _volumeSlider->value() <<
-        ", Width =" << wsize.width() << ", Height =" << wsize.height() << ", Playlist =" << _lstPlaylist->count() << " items.";
+        ", Width =" << wsize.width() << ", Height =" << wsize.height() << ", Playlist =" << _lstPlaylist->count() <<
+        " items, last selected directory = " << _lastSelectedDirectory;
 	delete configData;
 }
 
@@ -508,7 +516,7 @@ bool VorbitalDlg::ShowToolTips()
 
 void VorbitalDlg::OnButtonBrowseClick()
 {
-	QStringList filenames = QFileDialog::getOpenFileNames( this, "Choose a file", ".",
+    QStringList filenames = QFileDialog::getOpenFileNames( this, "Choose a file", _lastSelectedDirectory,
         "Supported Files (*.aif *.aiff *.flac *.mp3 *.ogg *.snd *.wav *.wv)" );
 
 	for( int i = 0; i < filenames.length(); i++ )
@@ -517,6 +525,11 @@ void VorbitalDlg::OnButtonBrowseClick()
         QListWidgetItem* item = new QListWidgetItem(info.baseName());
         item->setData(Qt::UserRole, QVariant(info.absoluteFilePath()));
         _lstPlaylist->addItem(item);
+        // Use the first file to set the last selected directory.
+        if( i == 0)
+        {
+            _lastSelectedDirectory = info.absoluteDir().path();
+        }
 	}
 
 	if( _lstPlaylist->currentRow() < 0 )
@@ -556,8 +569,9 @@ void VorbitalDlg::AddFolderToPlaylist(QString& folder)
 void VorbitalDlg::OnButtonBrowseFolderClick()
 {
 	QFileDialog fdialog( this, "Choose a directory", ".");
-    QString dir = QFileDialog::getExistingDirectory(this, "Choose a directory", ".", QFileDialog::ShowDirsOnly);
+    QString dir = QFileDialog::getExistingDirectory(this, "Choose a directory", _lastSelectedDirectory, QFileDialog::ShowDirsOnly);
     AddFolderToPlaylist(dir);
+    _lastSelectedDirectory = dir;
 }
 
 void VorbitalDlg::OnButtonStopClick()
