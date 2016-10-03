@@ -83,6 +83,10 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
+Version 4.31 Changes:
+
+1. Improved display of songs with a period in the middle of the filename.
+
 Version 4.3 Changes:
 
 1. Added Support for FLAC file playback (already supported by libsndfile).

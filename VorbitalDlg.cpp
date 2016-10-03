@@ -164,10 +164,7 @@ void VorbitalDlg::LoadSettings()
         QFileInfo info(songList[i]);
         if( info.exists() )
         {
-            QListWidgetItem* item = new QListWidgetItem(info.baseName());
-            item->setData(Qt::UserRole, QVariant(info.absoluteFilePath()));
-            qDebug() << "Adding to playlist: " << songList[i];
-            _lstPlaylist->addItem(item);
+            LoadFile(info.absoluteFilePath(), false);
         }
         else
         {
@@ -522,9 +519,7 @@ void VorbitalDlg::OnButtonBrowseClick()
 	for( int i = 0; i < filenames.length(); i++ )
 	{
         QFileInfo info(filenames[i]);
-        QListWidgetItem* item = new QListWidgetItem(info.baseName());
-        item->setData(Qt::UserRole, QVariant(info.absoluteFilePath()));
-        _lstPlaylist->addItem(item);
+        LoadFile(info.absoluteFilePath(), false);
         // Use the first file to set the last selected directory.
         if( i == 0)
         {
@@ -548,9 +543,7 @@ void VorbitalDlg::AddFolderToPlaylist(QString& folder)
     QFileInfoList files = workingDirectory.entryInfoList(filters, QDir::Files, QDir::Name);
     for( int i = 0; i < files.count(); i++ )
     {
-        QListWidgetItem* item = new QListWidgetItem(files[i].baseName());
-        item->setData(Qt::UserRole, QVariant(files[i].absoluteFilePath()));
-        _lstPlaylist->addItem(item);
+        LoadFile(files[i].absoluteFilePath(), false);
     }
     QFileInfoList folders = workingDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
     for( int i = 0; i < folders.count(); i++ )
@@ -866,9 +859,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.3", "Vorbital Player 4.3\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\n\nhttp://zetacentauri.com\n\nVorbital uses the Qt 5.7, libogg 1.3.2, libvorbis 1.3.5, wavpack 4.80.0, mpg123 1.23.8, and libsndfile 1.0.27 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.31", "Vorbital Player 4.31\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\n\nhttp://zetacentauri.com\n\nVorbital uses the Qt 5.7, libogg 1.3.2, libvorbis 1.3.5, wavpack 4.80.0, mpg123 1.23.8, and libsndfile 1.0.27 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.3", "Vorbital Player 4.3\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\n\nhttp://zetacentauri.com\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.31", "Vorbital Player 4.31\nCopyright 2006-2016 Zeta Centauri.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely.\n\nhttp://zetacentauri.com\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -904,7 +897,7 @@ void VorbitalDlg::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void VorbitalDlg::LoadFile( QString& filename )
+void VorbitalDlg::LoadFile( QString& filename, bool play )
 {
     int count = _lstPlaylist->count();
     if( _lstPlaylist != NULL )
@@ -923,7 +916,10 @@ void VorbitalDlg::LoadFile( QString& filename )
             _listPosition = count;
         }
     }
-    OnButtonPlayClick();
+    if( play )
+    {
+        OnButtonPlayClick();
+    }
 }
 
 void VorbitalDlg::OnVolume(int volume)
@@ -982,13 +978,23 @@ void VorbitalDlg::OnSongLengthChanged(int length)
 */
 QString VorbitalDlg::ExtractFilename(const QString& filename)
 {
-	int startPos = filename.lastIndexOf(QChar('\\'));
-	if( startPos == filename.length() || startPos == -1 )
+    int lastRightSlash = filename.lastIndexOf(QChar('/'));
+    QString newFilename;
+    if( lastRightSlash != -1 && lastRightSlash < (filename.length()-1))
+    {
+        newFilename = filename.mid(lastRightSlash+1, (filename.length() - lastRightSlash+1));
+    }
+    else
+    {
+        newFilename = filename;
+    }
+    int startPos = newFilename.lastIndexOf(QChar('\\'));
+    if( startPos == newFilename.length() || startPos == -1 )
 		startPos = 0;
 	if( startPos != 0 )
 		startPos += 1;
-	int endPos = filename.lastIndexOf(QChar('.'));
-	QString strng = filename.mid(startPos, endPos-startPos);
+    int endPos = newFilename.lastIndexOf(QChar('.'));
+    QString strng = newFilename.mid(startPos, endPos-startPos);
 	return strng;
 }
 

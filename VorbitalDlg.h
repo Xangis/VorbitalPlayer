@@ -21,7 +21,7 @@ public:
     VorbitalDlg( );
     ~VorbitalDlg( );
     void CreateControls();
-    void LoadFile( QString& filename );
+    void LoadFile( QString& filename, bool play = true );
     void OnMouseWheel();
     void OnListPosition();
     void OnQuit();
