@@ -21,7 +21,7 @@ public:
     VorbitalDlg( );
     ~VorbitalDlg( );
     void CreateControls();
-    void LoadFile( QString& filename, bool play = true );
+    void LoadFile( const QString& filename, bool play = true );
     void OnMouseWheel();
     void OnListPosition();
     void OnQuit();
@@ -31,7 +31,7 @@ public:
     QString ExtractFilename(const QString& filename);
     void LoadAlbumArt(const QString& filename);
     bool SetArtFile(const QString& filename);
-    void AddFolderToPlaylist(QString& folder);
+    void AddFolderToPlaylist(const QString& folder);
     void LoadSettings();
     void SaveSettings();
     QListWidget* GetPlaylist() { return _lstPlaylist; }

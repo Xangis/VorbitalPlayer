@@ -1,10 +1,11 @@
 #include "VorbitalDlg.h"
 #include "SettingsDlg.h"
-#ifdef WIN32
+#ifndef linux
 #include "alut.h"
-#else
+#ifndef WIN32
 #include <sys/stat.h>
 #include <unistd.h>
+#endif
 #endif
 
 #include <QFile>
@@ -534,7 +535,7 @@ void VorbitalDlg::OnButtonBrowseClick()
 	}
 }
 
-void VorbitalDlg::AddFolderToPlaylist(QString& folder)
+void VorbitalDlg::AddFolderToPlaylist(const QString& folder)
 {
     qDebug() << "Directory: " << folder << ".";
     QDir workingDirectory(folder);
@@ -897,7 +898,7 @@ void VorbitalDlg::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void VorbitalDlg::LoadFile( QString& filename, bool play )
+void VorbitalDlg::LoadFile( const QString& filename, bool play )
 {
     int count = _lstPlaylist->count();
     if( _lstPlaylist != NULL )

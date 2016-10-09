@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#include "AL.h"
+#include "al.h"
 #include "MusicStream.h"
 //#include <speex/speex.h>
 #define USE_QT 1
