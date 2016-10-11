@@ -38,6 +38,8 @@ win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
 
 linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis
 
+macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -framework OpenAL
+
 # Input
 HEADERS += AudioFileFormat.h \
            Constants.h \
