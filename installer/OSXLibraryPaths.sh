@@ -1,7 +1,4 @@
 #!/bin/bash
-	@rpath/QtWidgets.framework/Versions/5/QtWidgets (compatibility version 5.7.0, current version 5.7.0)
-	@rpath/QtGui.framework/Versions/5/QtGui (compatibility version 5.7.0, current version 5.7.0)
-	@rpath/QtCore.framework/Versions/5/QtCore (compatibility version 5.7.0, current version 5.7.0)
 install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets Vorbital.app/Contents/MacOS/Vorbital
 install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui Vorbital.app/Contents/MacOS/Vorbital
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore Vorbital.app/Contents/MacOS/Vorbital
