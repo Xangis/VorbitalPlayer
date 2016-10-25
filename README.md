@@ -83,11 +83,11 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
-Version 4.31 Changes:
+Version 4.31 Changes (October 2016):
 
 1. Improved display of songs with a period in the middle of the filename.
 
-Version 4.3 Changes:
+Version 4.3 Changes (Octtober 2016):
 
 1. Added Support for FLAC file playback (already supported by libsndfile).
 2. Bugfix for handling MP3 files with partial ID3v2 tags.
@@ -110,7 +110,7 @@ Version 4.11 changes:
 2. Add minimize button lost in switch to Qt.
 3. No longer keeps open file locks for MP3 files after they're done playing.
 
-Version 4.1 changes:
+Version 4.1 changes (2016):
 
 1. Switched Windows version fully over to Qt (4.0 was wxWidgets on Windows and Qt on Linux).
 2. Updated ogg, vorbis, sndfile, and wavpack libraries.
