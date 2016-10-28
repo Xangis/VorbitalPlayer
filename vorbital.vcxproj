@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="FileFormatMP3.cpp" />
     <ClCompile Include="FileFormatVorbis.cpp" />
+    <ClCompile Include="FileFormatWavpack.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MusicStream.cpp" />
     <ClCompile Include="PlaylistThread.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="FileFormatMP3.h" />
     <ClInclude Include="FileFormatVorbis.h" />
+    <ClInclude Include="FileFormatWavpack.h" />
     <ClInclude Include="MusicStream.h" />
     <ClInclude Include="PlaylistThread.h" />
     <ClInclude Include="resource.h" />
