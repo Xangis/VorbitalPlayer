@@ -395,7 +395,7 @@ void VorbitalDlg::CreateControls()
     _positionSlider->setMinimum(0);
     _positionSlider->setMaximum(1000);
     _positionSlider->setValue(0);
-    connect(_positionSlider, SIGNAL(valueChanged(int)), this, SLOT(OnPositionSlider(int)), Qt::AutoConnection);
+    connect(_positionSlider, SIGNAL(sliderReleased()), this, SLOT(OnPositionSlider()), Qt::AutoConnection);
     fifthRowLayout->addWidget(_positionSlider);
 
     _txtTime = new QLabel(this);
@@ -472,7 +472,12 @@ void VorbitalDlg::OnTime(int milliseconds)
   {
       int pos = milliseconds / _songLength;
       //qDebug() << "Position slider changed to " << pos;
-      _positionSlider->setValue(pos);
+      // Only update the slider if it's not currently being dragged,
+      // otherwise it screws up our ability to drag it.
+      if( !_positionSlider->isSliderDown() )
+      {
+          _positionSlider->setValue(pos);
+      }
   }
 }
 
@@ -933,8 +938,31 @@ void VorbitalDlg::OnVolume(int volume)
     }
 }
 
-void VorbitalDlg::OnPositionSlider(int position)
+void VorbitalDlg::OnPositionSlider()
 {
+    // The trouble is, if music is playing while we drag the slider, the value will
+    // change WHILE we are dragging, and probably before and during release.
+    // To do this right, we need to DISABLE slider updates while dragging.
+    int position = _positionSlider->value();
+    qDebug() << "Position slider released, value: " << position;
+    if( _musicStream != NULL)
+    {
+        if( _musicStream->CanSetPosition() )
+        {
+            int seconds = ((_musicStream->GetLength() * position) / 1000);
+            qDebug() << "Setting position to " << seconds << " out of " << _musicStream->GetLength();
+            if( _musicStream->SetPosition(seconds) )
+            {
+                QDateTime currTime = QDateTime::currentDateTime();
+                _msecElapsed = seconds * 1000;
+                _lastTimeUpdate = currTime;
+            }
+        }
+        else
+        {
+            qDebug() << "Cannot set position on file, skipping event";
+        }
+    }
     // TODO: Allow position slider to change, but don't react to events triggered
     // by value changes.
     // We may need to change this from a value changed event to a click event handler.

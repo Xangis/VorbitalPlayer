@@ -382,10 +382,6 @@ bool MusicStream::Playing()
     alGetSourcei(_source, AL_SOURCE_STATE, &state);
 
     bool retval = (state == AL_PLAYING);
-    if( retval == true )
-    {
-        QMessageBox(QMessageBox::Information, "Playing is true.", "Playing", QMessageBox::Ok);
-    }
     return retval;
 }
 
@@ -607,4 +603,22 @@ ALuint MusicStream::GetOpenALFormatFromFile(WaveFile* file)
 	}
 
 	return AL_FORMAT_STEREO16;
+}
+
+bool MusicStream::SetPosition(unsigned int position)
+{
+    if( _audioFile != NULL )
+    {
+        return _audioFile->SetPosition(position);
+    }
+    return false;
+}
+
+bool MusicStream::CanSetPosition()
+{
+    if( _audioFile != NULL )
+    {
+        return _audioFile->CanSetPosition();
+    }
+    return false;
 }

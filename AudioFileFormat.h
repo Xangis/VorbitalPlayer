@@ -28,6 +28,10 @@ public:
     virtual const char* GetArtistName() = 0;
     virtual const char* GetAlbumName() = 0;
     virtual const char* GetSongName() = 0;
+    // Override this for file formats that have the ability to seek to a specific
+    // position, in seconds, in the file.
+    virtual bool SetPosition(unsigned int seconds) { return false; }
+    virtual bool CanSetPosition() { return false; }
 	static bool Init();
 };
 

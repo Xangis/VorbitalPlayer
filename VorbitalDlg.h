@@ -77,7 +77,7 @@ public slots:
     void OnButtonRandomizeClick();
     void OnAbout();
     void OnVolume(int value);
-    void OnPositionSlider(int position);
+    void OnPositionSlider();
     void OnAlbumArtChanged(const QString& filename);
     void OnSongLengthChanged(int length);
     void OnArtistChanged(const QString& filename);

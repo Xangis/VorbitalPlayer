@@ -24,6 +24,8 @@ public:
     virtual const char* GetAlbumName();
     virtual const char* GetSongName();
     static bool Init();
+    virtual bool SetPosition(unsigned int seconds);
+    virtual bool CanSetPosition();
 private:
     mpg123_handle* _mpg123;
     mpg123_id3v1* _id3v1;

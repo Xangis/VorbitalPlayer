@@ -49,6 +49,8 @@ public:
 		const char* GetComment();
 		bool DecodeSpeex(ALuint buffer);
 		bool FillBuffer(ALuint buffer);
+        bool CanSetPosition();
+        bool SetPosition(unsigned int position);
 protected:
         void Empty();
         void Check();
