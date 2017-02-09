@@ -24,7 +24,7 @@ public:
 	virtual int GetSampleRate() = 0;
     // Gets the length of the file in seconds, or -1 if unknown.
     virtual int GetLength() = 0;
-	virtual int FillBuffer(unsigned char* buffer, int numBytes) = 0;
+    virtual int FillBuffer(unsigned char* buffer, unsigned int numBytes) = 0;
     virtual const char* GetArtistName() = 0;
     virtual const char* GetAlbumName() = 0;
     virtual const char* GetSongName() = 0;

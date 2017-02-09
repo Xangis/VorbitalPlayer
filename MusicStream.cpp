@@ -93,7 +93,6 @@ bool MusicStream::Open(QString file)
 	{
         _audioFile = new FileFormatWavpack();
         _fileFormat = FORMAT_WAVPACK;
-		char* error = NULL;
         bool opened = _audioFile->Open(file);
         if( !opened ) return false;
         if( _audioFile->GetChannels() == 1 )
@@ -383,7 +382,7 @@ bool MusicStream::Playing()
     alGetSourcei(_source, AL_SOURCE_STATE, &state);
 
     bool retval = (state == AL_PLAYING);
-    if( state == true )
+    if( retval == true )
     {
         QMessageBox(QMessageBox::Information, "Playing is true.", "Playing", QMessageBox::Ok);
     }

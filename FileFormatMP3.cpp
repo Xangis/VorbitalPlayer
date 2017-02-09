@@ -158,7 +158,7 @@ bool FileFormatMP3::Init()
     return true;
 }
 
-int FileFormatMP3::FillBuffer(unsigned char* buffer, int numBytes)
+int FileFormatMP3::FillBuffer(unsigned char* buffer, unsigned int numBytes)
 {
 	size_t numDone = 0;
 	int err = MPG123_OK;

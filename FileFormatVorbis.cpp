@@ -133,7 +133,7 @@ bool FileFormatVorbis::Init()
 	return true;
 }
 
-int FileFormatVorbis::FillBuffer(unsigned char* buffer, int numBytes)
+int FileFormatVorbis::FillBuffer(unsigned char* buffer, unsigned int numBytes)
 {
 	char* buf = (char*)buffer;
 	size_t numDone = 0;

@@ -20,7 +20,7 @@ public:
     virtual int GetChannels();
     virtual int GetSampleRate();
     virtual int GetLength();
-    virtual int FillBuffer(unsigned char* buffer, int numBytes);
+    virtual int FillBuffer(unsigned char* buffer, unsigned int numBytes);
     virtual const char* GetArtistName();
     virtual const char* GetAlbumName();
     virtual const char* GetSongName();

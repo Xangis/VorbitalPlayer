@@ -132,7 +132,7 @@ bool FileFormatWavpack::Init()
     return true;
 }
 
-int FileFormatWavpack::FillBuffer(unsigned char* buffer, int numBytes)
+int FileFormatWavpack::FillBuffer(unsigned char* buffer, unsigned int numBytes)
 {
     // Divide 16-bit times two channels to get the number of samples.
     int numSamples = numBytes / 4;
