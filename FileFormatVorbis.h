@@ -25,6 +25,8 @@ public:
     virtual const char* GetSongName();
 	static bool Init();
 	static const char* VorbisErrorString(int code);
+    virtual bool SetPosition(unsigned int seconds);
+    virtual bool CanSetPosition();
 private:
     static OggVorbis_File* _oggVorbisFile;
     vorbis_info* _vorbisInfo;

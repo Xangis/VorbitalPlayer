@@ -179,7 +179,6 @@ FileFormatMP3::~FileFormatMP3()
 bool FileFormatMP3::SetPosition(unsigned int seconds)
 {
     qDebug() << "FileFormatMP3::SetPosition called with seconds = " << seconds;
-    // TODO: Implement this.
     off_t seekFrame = mpg123_timeframe(_mpg123, seconds);
     if( seekFrame >= 0 )
     {

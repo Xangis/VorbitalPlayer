@@ -118,13 +118,8 @@ int FileFormatVorbis::GetLength()
     {
         return -1;
     }
-    //int previousPos = _filePosition;
-    //fseek( _oggVorbisFile, 0, SEEK_END);
-    // TODO: Seek from end until we find "OggS". Read a byte that should be 0, read a byte that should be 3, then read a 64-bit size.
-    // See here for example: https://github.com/nothings/stb/blob/master/stb_vorbis.c
-    //fseek( _oggVorbisFile, 0, previousPos);
-
-    return -1;
+    double totalTime = ov_time_total(_oggVorbisFile, -1);
+    return int(totalTime);
 }
 
 bool FileFormatVorbis::Init()
@@ -198,4 +193,29 @@ const char * FileFormatVorbis::VorbisErrorString(int code)
         default:
             return "Unknown Ogg error.";
     }
+}
+
+bool FileFormatVorbis::SetPosition(unsigned int seconds)
+{
+    qDebug() << "FileFormatVorbis::SetPosition called with seconds = " << seconds;
+    if( _oggVorbisFile == NULL )
+    {
+        return false;
+    }
+    int result = ov_time_seek(_oggVorbisFile, seconds);
+    if( result == 0 )
+    {
+        qDebug() << "FileFormatVorbis::Seeked to time " << seconds;
+        return true;
+    }
+    else
+    {
+        qDebug() << "Error seeking frame: " << result;
+        return false;
+    }
+}
+
+bool FileFormatVorbis::CanSetPosition()
+{
+    return true;
 }
