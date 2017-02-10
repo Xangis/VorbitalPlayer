@@ -116,7 +116,7 @@ int FileFormatWavpack::GetLength()
 {
     if( _wavpackContext != NULL )
     {
-        int numSamples = WavpackGetNumSamples(_wavpackContext);
+        int64_t numSamples = WavpackGetNumSamples64(_wavpackContext);
         int sampleRate = WavpackGetSampleRate(_wavpackContext);
         qDebug() << "Wavpack NumSamples: " << numSamples << ", SampleRate: " << sampleRate;
         if( sampleRate > 0 )
@@ -150,3 +150,34 @@ int FileFormatWavpack::FillBuffer(unsigned char* buffer, unsigned int numBytes)
     //qDebug() << "Wavpack: Numbytes = " << numBytes << ", numUnpacked = " << numUnpacked << ", dataSize = " << dataSize;
     return dataSize;
 }
+
+bool FileFormatWavpack::SetPosition(unsigned int seconds)
+{
+    qDebug() << "FileFormatWavpack::SetPosition called with seconds = " << seconds;
+
+    if( _wavpackContext == NULL )
+    {
+        return false;
+    }
+
+    int sampleRate = WavpackGetSampleRate(_wavpackContext);
+    int64_t targetPosition = sampleRate * seconds;
+    qDebug() << "Wavpack Target Position: " << targetPosition << ", SampleRate: " << sampleRate;
+    int result = WavpackSeekSample64(_wavpackContext, targetPosition);
+    if( result == 1 ) // TRUE is success.
+    {
+        qDebug() << "FileFormatWavpack: seeked to frame " << targetPosition;
+        return true;
+    }
+    else
+    {
+        qDebug() << "Fatal Error seeking frame: " << result;
+        return false;
+    }
+}
+
+bool FileFormatWavpack::CanSetPosition()
+{
+    return true;
+}
+

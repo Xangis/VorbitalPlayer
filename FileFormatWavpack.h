@@ -25,6 +25,8 @@ public:
     virtual const char* GetAlbumName();
     virtual const char* GetSongName();
     static bool Init();
+    virtual bool SetPosition(unsigned int seconds);
+    virtual bool CanSetPosition();
 private:
     //int _filePosition;
     WavpackContext * _wavpackContext;

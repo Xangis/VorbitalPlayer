@@ -83,6 +83,14 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
+Version 4.4 Changes (February 2017):
+
+1. Added ability to drag song position slider to change location in MP3 files.
+2. Added ability to drag song position slider to change location in Ogg Vorbis files.
+3. Now reports length and play progress for Ogg Vorbis files.
+
+??. Added ability to drag song position slider to change location in Wavpack files with length specified (unable to test).
+
 Version 4.31 Changes (October 2016):
 
 1. Improved display of songs with a period in the middle of the filename.
