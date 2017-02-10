@@ -39,30 +39,6 @@ Visual Studio commpand prompt in the extracted file directory and running:
 
 lib /def:libmpg123-0.dll.def /OUT:libmpg123-0.lib
 
-### 4.3 uses all 4.1/4.2 libraries with this update:
-
-libmpg123 1.23.8
-
-#### These libraries were used to build version 4.1 and 4.11 and 4.2 on Windows:
-
-PortAudio ???
-libogg version 1.3.2
-libvorbis 1.3.5
-libsndfile 1.0.27
-Qt 5.7
-wavpack version 4.80.0
-libmpg123 version 1.14.2
-
-#### These libraries were used to build version 4.0 on Windows:
-
-OpenAL version 6.14.357.24.            
-wrap_oal.dll version 2.2.0.5.            
-libogg version 1.3.0.            
-libvorbis 1.3.3.          
-libsndfile 1.0.25.          
-wxWidgets 2.9.4.          
-wavpack version 4.60.1.            
-libmpg123 version 1.14.2.        
 
 To build an installer for Windows, look in the /installer folder for NullSoft
 Installer (NSIS) and InnoSetup projects. File paths may have changed, so you may
@@ -87,13 +63,35 @@ Version 4.4 Changes (February 2017):
 
 1. Added ability to drag song position slider to change location in MP3 files.
 2. Added ability to drag song position slider to change location in Ogg Vorbis files.
-3. Now reports length and play progress for Ogg Vorbis files.
-
+3. Added ability to drag song position slider to change location in WAV, SND, AIFF, and FLAC files.
+4. Now reports length and play progress for Ogg Vorbis files.
+5. Updated Qt from 5.7 to 5.8.
+6. Updated Wavpack library from 4.80.0 to version 5.1.0
 ??. Added ability to drag song position slider to change location in Wavpack files with length specified (unable to test).
+
+Libraries used to build version 4.4 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.8
+wavpack version 5.1.0
+libmpg123 1.23.8
 
 Version 4.31 Changes (October 2016):
 
 1. Improved display of songs with a period in the middle of the filename.
+
+Libraries used to build version 4.31 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 1.23.8
 
 Version 4.3 Changes (Octtober 2016):
 
@@ -105,6 +103,16 @@ Version 4.3 Changes (Octtober 2016):
 6. Updated mpg123 libraries from 1.14.2 to 1.23.8.
 7. Remembers previous directory selection, and remembers previous section on next run.
 
+Libraries used to build version 4.3 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 1.23.8
+
 Version 4.2 Changes:
 
 1. Now shows artist, album, and song name for currently playing song for MP3 files.
@@ -112,11 +120,32 @@ Version 4.2 Changes:
 3. Added installer file association for MP3 files.
 4. Fixed incorrect display of bitrate for Wavpack files.
 
+Libraries used to build version 4.2 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 version 1.14.2
+
+
 Version 4.11 changes:
 
 1. Now remembers the last song that was playing when saving/loading playlists so you can continue listening where you left off.
 2. Add minimize button lost in switch to Qt.
 3. No longer keeps open file locks for MP3 files after they're done playing.
+
+Libraries used to build version 4.11 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 version 1.14.2
 
 Version 4.1 changes (2016):
 
@@ -126,7 +155,17 @@ Version 4.1 changes (2016):
 4. Album art displays larger.
 5. Loading a folder now also loads everything in its subfolders.
 
-What's new in version 4.0 of Vorbital Player:
+Libraries used to build version 4.1 on Windows:
+
+PortAudio ???
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.27
+Qt 5.7
+wavpack version 4.80.0
+libmpg123 version 1.14.2
+
+Version 4.0 Changes (????):
 
 1. Support for playing .mp3 files.
 2. Support for displaying album art (if exists as Folder.jpg in the same folder).
@@ -135,6 +174,17 @@ What's new in version 4.0 of Vorbital Player:
 5. Fixed a bug that could cause the program to crash on exit.
 6. Fixed a bug that could cause an item in the playlist to play twice in a row when double-clicked.
 7. Now available for Ubuntu Linux.
+
+Libraries used to build version 4.0 on Windows:
+
+OpenAL version 6.14.357.24.
+wrap_oal.dll version 2.2.0.5.
+libogg version 1.3.0.
+libvorbis 1.3.3.
+libsndfile 1.0.25.
+wxWidgets 2.9.4.
+wavpack version 4.60.1.
+libmpg123 version 1.14.2.
 
 What's new in version 3.1 of Vorbital:
 

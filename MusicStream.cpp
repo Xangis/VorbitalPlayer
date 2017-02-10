@@ -607,7 +607,27 @@ ALuint MusicStream::GetOpenALFormatFromFile(WaveFile* file)
 
 bool MusicStream::SetPosition(unsigned int position)
 {
-    if( _audioFile != NULL )
+    if( _fileFormat == FORMAT_WAVE )
+    {
+        int pos = GetRate() * position;
+        qDebug() << "SetPosition on FORMAT_WAVE: Bitrate = " << this->GetRate() << ", Seconds = " << position << ", Sample position = " << pos;
+        if( pos >= _waveFile.GetDataLength())
+        {
+            qDebug() << "Trying to seek past end of file, cannot set position";
+            return false;
+        }
+        else if( pos >= 0 )
+        {
+            this->_wavePosition = pos;
+            return true;
+        }
+        else
+        {
+            qDebug() << "Negative value, cannot set position.";
+            return false;
+        }
+    }
+    else if( _audioFile != NULL )
     {
         return _audioFile->SetPosition(position);
     }
@@ -616,7 +636,11 @@ bool MusicStream::SetPosition(unsigned int position)
 
 bool MusicStream::CanSetPosition()
 {
-    if( _audioFile != NULL )
+    if( _fileFormat == FORMAT_WAVE )
+    {
+        return true;
+    }
+    else if( _audioFile != NULL )
     {
         return _audioFile->CanSetPosition();
     }
