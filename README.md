@@ -59,6 +59,10 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
+Version 4.41 Changes (???):
+
+1. Volume slider now defaults to 100% on a new install.
+
 Version 4.4 Changes (February 2017):
 
 1. Added ability to drag song position slider to change location in MP3 files.
