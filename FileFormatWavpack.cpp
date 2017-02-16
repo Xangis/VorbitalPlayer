@@ -116,7 +116,11 @@ int FileFormatWavpack::GetLength()
 {
     if( _wavpackContext != NULL )
     {
+#ifndef __APPLE__
         int64_t numSamples = WavpackGetNumSamples64(_wavpackContext);
+#else
+        int numSamples = WavpackGetNumSamples(_wavpackContext);
+#endif
         int sampleRate = WavpackGetSampleRate(_wavpackContext);
         qDebug() << "Wavpack NumSamples: " << numSamples << ", SampleRate: " << sampleRate;
         if( sampleRate > 0 )
@@ -163,7 +167,11 @@ bool FileFormatWavpack::SetPosition(unsigned int seconds)
     int sampleRate = WavpackGetSampleRate(_wavpackContext);
     int64_t targetPosition = sampleRate * seconds;
     qDebug() << "Wavpack Target Position: " << targetPosition << ", SampleRate: " << sampleRate;
+#ifndef __APPLE__
     int result = WavpackSeekSample64(_wavpackContext, targetPosition);
+#else
+    int result = WavpackSeekSample(_wavpackContext, targetPosition);
+#endif
     if( result == 1 ) // TRUE is success.
     {
         qDebug() << "FileFormatWavpack: seeked to frame " << targetPosition;
