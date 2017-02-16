@@ -62,6 +62,7 @@ Just do the standard "qmake" and then "make" to build.
 Version 4.41 Changes (???):
 
 1. Volume slider now defaults to 100% on a new install.
+2. Adding songs while player is playing no longer makes next track jump to the beginning.
 
 Version 4.4 Changes (February 2017):
 

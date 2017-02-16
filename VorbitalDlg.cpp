@@ -906,7 +906,6 @@ void VorbitalDlg::dragEnterEvent(QDragEnterEvent *event)
 
 void VorbitalDlg::LoadFile( const QString& filename, bool play )
 {
-    int count = _lstPlaylist->count();
     if( _lstPlaylist != NULL )
     {
         QListWidgetItem* item = new QListWidgetItem(ExtractFilename(filename));
@@ -919,8 +918,10 @@ void VorbitalDlg::LoadFile( const QString& filename, bool play )
         }
         else
         {
-            _lstPlaylist->setCurrentRow( count );
-            _listPosition = count;
+            if( _listPosition >= 0 && _listPosition < _lstPlaylist->count() )
+            {
+                _lstPlaylist->setCurrentRow( _listPosition );
+            }
         }
     }
     if( play )
