@@ -59,10 +59,12 @@ Just do the standard "qmake" and then "make" to build.
 
 ### Changelog
 
-Version 4.41 Changes (???):
+Version 4.41 Changes (February 2017):
 
 1. Volume slider now defaults to 100% on a new install.
 2. Adding songs while player is playing no longer makes next track jump to the beginning.
+
+Same libraries as version 4.4.
 
 Version 4.4 Changes (February 2017):
 
