@@ -26,7 +26,7 @@ SettingsDlg::SettingsDlg( QDialog* parent )
     Create(parent);
 }
 
-bool SettingsDlg::Create( QDialog* parent )
+bool SettingsDlg::Create( QDialog* )
 {
     _btnOk = NULL;
 	_btnCancel = NULL;
