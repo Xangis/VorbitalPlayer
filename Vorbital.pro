@@ -11,6 +11,10 @@ QT += core gui widgets
 win32:RC_ICONS += vorbital.ico
 
 linux:INCLUDEPATH += /usr/include/qt5/QtWidgets/
+linux:INCLUDEPATH += /usr/include/AL
+linux:INCLUDEPATH += /usr/include/vorbis
+linux:INCLUDEPATH += /usr/include/wavpack
+
 win32:INCLUDEPATH += F:\lib\mpg123-1.23.8-x86
 win32:INCLUDEPATH += "F:\lib\OpenAL 1.1 SDK\include"
 win32:INCLUDEPATH += F:\lib\libsndfile-1.0.27\include
@@ -36,7 +40,7 @@ win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
     -LC:\Users\Xangis\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
-linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis
+linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis -lalut
 
 macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -framework OpenAL
 

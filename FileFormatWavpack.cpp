@@ -116,7 +116,7 @@ int FileFormatWavpack::GetLength()
 {
     if( _wavpackContext != NULL )
     {
-#ifndef __APPLE__
+#ifdef WIN32
         int64_t numSamples = WavpackGetNumSamples64(_wavpackContext);
 #else
         int numSamples = WavpackGetNumSamples(_wavpackContext);
@@ -167,7 +167,7 @@ bool FileFormatWavpack::SetPosition(unsigned int seconds)
     int sampleRate = WavpackGetSampleRate(_wavpackContext);
     int64_t targetPosition = sampleRate * seconds;
     qDebug() << "Wavpack Target Position: " << targetPosition << ", SampleRate: " << sampleRate;
-#ifndef __APPLE__
+#ifdef WIN32
     int result = WavpackSeekSample64(_wavpackContext, targetPosition);
 #else
     int result = WavpackSeekSample(_wavpackContext, targetPosition);

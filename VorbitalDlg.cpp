@@ -1,11 +1,9 @@
 #include "VorbitalDlg.h"
 #include "SettingsDlg.h"
-#ifndef linux
 #include "alut.h"
 #ifndef WIN32
 #include <sys/stat.h>
 #include <unistd.h>
-#endif
 #endif
 
 #include <QFile>
