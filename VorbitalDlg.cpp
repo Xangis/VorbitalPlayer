@@ -848,14 +848,17 @@ void VorbitalDlg::OnQuit()
 	_done = true;
 #ifdef WIN32
 	Sleep(50);
-#else
+#elif linux
     usleep(50);
 #endif
+#ifndef __APPLE__
+    // alcDestroyContext crashes the app on OSX.
     qDebug() << "Closing OpenAL context and device.";
     alcMakeContextCurrent(NULL);
     alcDestroyContext(_context);
     alcCloseDevice(_device);
     _device = NULL;
+#endif
 }
 
 /**
