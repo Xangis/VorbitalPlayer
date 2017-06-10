@@ -1,10 +1,9 @@
-Immediate TODO:
+TODO:
 
-- Needs time slider to work for skipping forward or back in a track.
-  (start with MP3 only)
-- Needs to be able to calculate length of a Wavpack file.
+- Needs to be able to calculate length of a Wavpack file. (may work, don't have good files to test)
 - Needs to read metadata from .wav files.
-- Change open button to allow selecting files or folders, and handle accordingly.
+- Change open button to allow selecting files or folders, and handle accordingly. This will let us
+  have just one open button instead of a separate "open file" and "open folder" button.
   (Needs a custom control, not possible in core Qt).
 - Needs a right-click menu item to view filename and edit tags.
 
@@ -20,4 +19,8 @@ Things to add or improve:
 - Allow user to configure interface colors and/or modify/skin the interface.
 - Add support for loading playlists (m3u, etc.).
 - Add support for displaying and editing ID3 tags (via playlist right-click).
-
+- Player sometimes glitches up and stutters. This may happen when the PC is starved for CPU
+  or when a file takes too long to load. It appears to be caused by not being able to fill
+  and audio buffer fast enough, and then the buffers get stuck. I've gone months without
+  it happening, and have also had it happen multiple times in a day. Haven't been able to
+  reliably reproduce it, so haven't fixed it.

@@ -1,19 +1,7 @@
-NOTE: THIS SHOULD NOT BE BUILT USING VISUAL STUDIO. USE QT CREATOR.
-      VISUAL STUDIO IS FOR DEBUGGING ONLY.
-
-To debug on Visual Studio:
-
-- Copy moc_*.cpp files from build output directory for the Qt Creator build. Rename them to have a
-  leading underscore so they aren't deleted when Qt Creator runs.
-- Fix the include paths in the MOC files.
-  (you could probably skip these two steps by just including the moc files as is, where is in the solution...)
-- Open .sln in Visual Studio and rebuild.
-- Debug.
-
 VorbitalPlayer
 ==============
 
-A music player for Linux and Windows with MP3, OGG, and WAV support. It was
+A music player for Linux, Windows, and OSX with MP3, OGG, and WAV support. It was
 originally released on http://zetacentauri.com and then vorbitalplayer.com and
 via the Ubuntu Software Center.
 
@@ -24,13 +12,45 @@ to Qt due to some multiplatform portability and consistency annoyances with
 wxWidgets. It is written in C++ and uses a number of libraries for file format
 support (mpg123, libsndfile, libogg, libvorbis, libwavpack, etc.)
 
+It was written to work with Qt 5.
+
+### Goals
+
+The goal with Vorbital Player is/was to build a music player that loaded quickly and JUST
+played music, without presuming to try to manage your music library (including all of
+those "connect to the internet to download media information" features).
+
+I want to hear a song instantly when I double-click on the file. I don't want to have to
+wait for a software update to finish, for an app to phone home and check for music news,
+wait for thousands of icons and images to load, or to be presented with a store. I just 
+want the song to play, hassle-free.
+
 ### Building on Windows
+
+NOTE: THIS SHOULD NOT BE BUILT USING VISUAL STUDIO. USE QT CREATOR.
+      VISUAL STUDIO IS FOR DEBUGGING ONLY.
 
 Building for Windows will be a nuisance because you will have to set paths to
 all of the various audio libraries (the Windows build isn't as well-maintained
 as the Linux build, and the Qt version hasn't been released on Windows yet). If
 you just want the app, an installable version of Vorbital 4.0 for Windows is
 available in the installer folder.
+
+There is a package.bat script in the installer folder. It is designed to work
+with the Desktop App Converter. Howver, I never was able to get a reliably working
+appx installer package (certificate and permission problems never quite worked out).
+The normal .exe installer works fine on Windows 10.
+
+To debug on Visual Studio (it's easier to debug with than Qt Creator):
+
+- Copy moc_*.cpp files from build output directory for the Qt Creator build. Rename them to have a
+  leading underscore so they aren't deleted when Qt Creator runs.
+- Fix the include paths in the MOC files.
+  (you could probably skip these two steps by just including the moc files as is, where is in the solution...)
+- Open .sln in Visual Studio and rebuild.
+- Debug.
+
+The included solution is for Visual Studio 2010, but should work fine with newer versions.
 
 ### Updating libmpg123 on Windows
 
@@ -39,10 +59,11 @@ Visual Studio commpand prompt in the extracted file directory and running:
 
 lib /def:libmpg123-0.dll.def /OUT:libmpg123-0.lib
 
-
 To build an installer for Windows, look in the /installer folder for NullSoft
 Installer (NSIS) and InnoSetup projects. File paths may have changed, so you may
-need to update them to build an installer.
+need to update them to build an installer. The NSIS files are no longer used,
+but were used with older versions and are included in case you want to update
+them and build with that instead.
 
 ### Building on Linux
 
@@ -56,6 +77,20 @@ libwavpack-dev
 libmpg123-dev
 
 Just do the standard "qmake" and then "make" to build.
+
+A much older version of this app was available for free via the Ubuntu store at one point,
+but that was a wxWidgets-based version.
+
+### Building on OSX
+
+You'll have to get the same dependencies mentioned for Linux and then use Qt to build
+as normal.
+
+In the installer folder, running OSXLibraryPaths.sh and then package.sh should get you
+an app package.
+
+I was able to get it to build and run on OSX, but was never able to get it to the point
+of being accepted by the Apple Store.
 
 ### Changelog
 
@@ -214,3 +249,20 @@ What's new in version 2 of Vorbital:
 6. Added "clear playlist" button.
 7. Fixed a handful of bugs and oddities.
 8. Add file button now supports multiple selections.
+
+### Development Status
+
+The Vorbital Player was written as free but proprietary software. Various versions
+have been released for Windows and Linux, but it has primarily been a Windows app.
+
+I open-sourced it because there's no reason for it to remain proprietary anymore
+since it's no longer part of a business.
+
+I may work on this from time to time if I feel like it, but for the most part it's
+an inactive project. I'll accept pull requests if you want to add something useful
+or make the build process easier. It has only been worked on by one person, so there
+are probably things that are specific to the development environments that I've used
+that could be made more generic and portable.
+
+I still sometimes use this app on Windows machines because it's nice to use an app
+that doesn't try to manage your music library for you, even if it's not perfect.
