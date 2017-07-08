@@ -27,5 +27,8 @@ Makefile
 *.manifest
 *.lastbuildstate
 *.pdb
+ipch/
+Debug/
 
+# Other
 .DS_Store

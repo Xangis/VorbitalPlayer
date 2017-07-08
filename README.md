@@ -1,11 +1,15 @@
-VorbitalPlayer
-==============
+# VorbitalPlayer
 
 A music player for Linux, Windows, and OSX with MP3, OGG, and WAV support. It was
 originally released on http://zetacentauri.com and then vorbitalplayer.com and
-via the Ubuntu Software Center.
+via the Ubuntu Software Center. It was downloaded more than 80,000 times before
+being open-sourced.
 
 ![Vorbital Player Screenshot](https://github.com/Xangis/VorbitalPlayer/blob/master/images/Vorbital4.png)
+
+A pre-built Windows installer is available in the installer directory:
+
+https://github.com/Xangis/VorbitalPlayer/blob/master/installer/VorbitalPlayer4.41Setup.exe
 
 The Vorbital Player was originally written using wxWidgets, but has been ported
 to Qt due to some multiplatform portability and consistency annoyances with
@@ -24,6 +28,8 @@ I want to hear a song instantly when I double-click on the file. I don't want to
 wait for a software update to finish, for an app to phone home and check for music news,
 wait for thousands of icons and images to load, or to be presented with a store. I just 
 want the song to play, hassle-free.
+
+# Building
 
 ### Building on Windows
 
@@ -92,16 +98,16 @@ an app package.
 I was able to get it to build and run on OSX, but was never able to get it to the point
 of being accepted by the Apple Store.
 
-### Changelog
+# Changelog
 
-Version 4.41 Changes (February 2017):
+### Version 4.41 Changes (February 2017):
 
 1. Volume slider now defaults to 100% on a new install.
 2. Adding songs while player is playing no longer makes next track jump to the beginning.
 
 Same libraries as version 4.4.
 
-Version 4.4 Changes (February 2017):
+### Version 4.4 Changes (February 2017):
 
 1. Added ability to drag song position slider to change location in MP3 files.
 2. Added ability to drag song position slider to change location in Ogg Vorbis files.
@@ -121,7 +127,7 @@ Qt 5.8
 wavpack version 5.1.0
 libmpg123 1.23.8
 
-Version 4.31 Changes (October 2016):
+### Version 4.31 Changes (October 2016):
 
 1. Improved display of songs with a period in the middle of the filename.
 
@@ -135,7 +141,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 1.23.8
 
-Version 4.3 Changes (Octtober 2016):
+### Version 4.3 Changes (Octtober 2016):
 
 1. Added Support for FLAC file playback (already supported by libsndfile).
 2. Bugfix for handling MP3 files with partial ID3v2 tags.
@@ -155,7 +161,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 1.23.8
 
-Version 4.2 Changes:
+### Version 4.2 Changes:
 
 1. Now shows artist, album, and song name for currently playing song for MP3 files.
 2. Now shows a progress bar and the total time for MP3, Wav, AIFF, SND, and Ogg Vorbis files.
@@ -172,8 +178,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 version 1.14.2
 
-
-Version 4.11 changes:
+### Version 4.11 changes:
 
 1. Now remembers the last song that was playing when saving/loading playlists so you can continue listening where you left off.
 2. Add minimize button lost in switch to Qt.
@@ -189,7 +194,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 version 1.14.2
 
-Version 4.1 changes (2016):
+### Version 4.1 changes (2016):
 
 1. Switched Windows version fully over to Qt (4.0 was wxWidgets on Windows and Qt on Linux).
 2. Updated ogg, vorbis, sndfile, and wavpack libraries.
@@ -207,7 +212,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 version 1.14.2
 
-Version 4.0 Changes (????):
+### Version 4.0 Changes (????):
 
 1. Support for playing .mp3 files.
 2. Support for displaying album art (if exists as Folder.jpg in the same folder).
@@ -228,18 +233,18 @@ wxWidgets 2.9.4.
 wavpack version 4.60.1.
 libmpg123 version 1.14.2.
 
-What's new in version 3.1 of Vorbital:
+### What's new in version 3.1 of Vorbital:
 
 1. Support for Audio Interchange File Format (.aif and .aiff) files.
 2. Support for Apple SND (.snd) files.
 
-What's new in version 3 of Vorbital:
+### What's new in version 3 of Vorbital:
 
 1. Support for Wavpack (.wv) files.
 2. Support for Wave (.wav) files.
 3. User interface improvements.
 
-What's new in version 2 of Vorbital:
+### What's new in version 2 of Vorbital:
 
 1. Added "randomize" button.
 2. Fixed function of pause button so it behaves as a pause rather than stop.
@@ -250,7 +255,7 @@ What's new in version 2 of Vorbital:
 7. Fixed a handful of bugs and oddities.
 8. Add file button now supports multiple selections.
 
-### Development Status
+# Development Status
 
 The Vorbital Player was written as free but proprietary software. Various versions
 have been released for Windows and Linux, but it has primarily been a Windows app.
