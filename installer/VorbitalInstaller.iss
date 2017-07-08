@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{987BFCC0-7A88-42C0-B8FB-4D62DD7E61C3}
 AppName=Vorbital Player
-AppVerName=Vorbital Player 4.41
+AppVerName=Vorbital Player 4.42
 AppPublisher=Zeta Centauri
 AppPublisherURL=http://zetacentauri.com
 AppSupportURL=http://zetacentauri.com
@@ -16,7 +16,7 @@ DefaultDirName={pf}\Zeta Centauri\Vorbital
 DefaultGroupName=Zeta Centauri\Vorbital
 LicenseFile=C:\users\Xangis\code\VorbitalPlayer\Release\License.txt
 OutputDir=C:\users\Xangis\code\VorbitalPlayer\Installer
-OutputBaseFilename=VorbitalPlayer4.41Setup
+OutputBaseFilename=VorbitalPlayer4.42Setup
 SetupIconFile=C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.ico
 UninstallDisplayIcon={app}\vorbital.ico
 Compression=lzma

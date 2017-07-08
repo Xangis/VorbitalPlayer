@@ -9,7 +9,7 @@ being open-sourced.
 
 A pre-built Windows installer is available in the installer directory:
 
-https://github.com/Xangis/VorbitalPlayer/blob/master/installer/VorbitalPlayer4.41Setup.exe
+https://github.com/Xangis/VorbitalPlayer/blob/master/installer/VorbitalPlayer4.42Setup.exe
 
 The Vorbital Player was originally written using wxWidgets, but has been ported
 to Qt due to some multiplatform portability and consistency annoyances with
@@ -30,6 +30,19 @@ wait for thousands of icons and images to load, or to be presented with a store.
 want the song to play, hassle-free.
 
 # Building
+
+In all cases, you'll need to set the paths in the Vorbital.pro project file to match where
+the various audio libraries are located on your system.
+
+The following libraries are required:
+
+Qt 5 SDK
+mpg123
+OpenAL SDK
+libsndfile
+wavpack
+libogg
+libvorbis
 
 ### Building on Windows
 
@@ -100,6 +113,18 @@ of being accepted by the Apple Store.
 
 # Changelog
 
+### Version 4.42 Changes (July 2017):
+
+1. First open-source version under the MIT license
+2. Updated libsndfile library from 1.0.27 to 1.0.28.
+
+libogg version 1.3.2
+libvorbis 1.3.5
+libsndfile 1.0.28
+Qt 5.8
+wavpack version 5.1.0
+libmpg123 1.23.8
+
 ### Version 4.41 Changes (February 2017):
 
 1. Volume slider now defaults to 100% on a new install.
@@ -141,7 +166,7 @@ Qt 5.7
 wavpack version 4.80.0
 libmpg123 1.23.8
 
-### Version 4.3 Changes (Octtober 2016):
+### Version 4.3 Changes (October 2016):
 
 1. Added Support for FLAC file playback (already supported by libsndfile).
 2. Bugfix for handling MP3 files with partial ID3v2 tags.
