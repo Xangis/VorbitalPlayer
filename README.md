@@ -113,6 +113,17 @@ of being accepted by the Apple Store.
 
 # Changelog
 
+### Version 4.43 Changes (July 2019):
+
+1. Updated library versions for libogg, libvorbis
+
+libogg 1.3.3
+libvorbis 1.3.6
+libsndfile 1.0.28
+Qt ???
+wavpack version 5.1.0
+libmpg123 version 1.25.10
+
 ### Version 4.42 Changes (July 2017):
 
 1. First open-source version under the MIT license

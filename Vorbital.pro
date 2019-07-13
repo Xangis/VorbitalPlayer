@@ -22,12 +22,12 @@ win32:INCLUDEPATH += F:\lib\wavpack-5.1.0-dll
 win32:INCLUDEPATH += F:\lib\libvorbis-1.3.5\include\vorbis
 win32:INCLUDEPATH += F:\lib\libogg-1.3.2\include
 
-macx:INCLUDEPATH += "/Users/Apple/lib/OpenAL 1.1 SDK/include"
-macx:INCLUDEPATH += "/Users/Apple/lib/libsndfile-1.0.28/include"
-macx:INCLUDEPATH += /Users/Apple/lib/mpg123-1.23.8-x86
-macx:INCLUDEPATH += /Users/Apple/lib/libvorbis-1.3.5/include/vorbis
-macx:INCLUDEPATH += /Users/Apple/lib/libogg-1.3.2/include
-macx:INCLUDEPATH += /Users/Apple/lib/wavpackdll-4.80.0
+macx:INCLUDEPATH += "/Users/xangis/lib/OpenAL 1.1 SDK/include"
+macx:INCLUDEPATH += "/Users/xangis/lib/libsndfile-1.0.28/src"
+macx:INCLUDEPATH += /Users/xangis/lib/mpg123-1.25.10/src/libmpg123
+macx:INCLUDEPATH += /Users/xangis/lib/libvorbis-1.3.6/include/vorbis
+macx:INCLUDEPATH += /Users/xangis/lib/libogg-1.3.3/include
+macx:INCLUDEPATH += /Users/xangis/lib/wavpack-5.1.0/include
 
 win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
     #-LF:\lib\mpg123-1.14.2-x86 \
