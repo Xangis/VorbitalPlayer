@@ -841,10 +841,6 @@ void VorbitalDlg::OnQuit()
 #ifndef __APPLE__
     // alcDestroyContext crashes the app on OSX.
     qDebug() << "Closing OpenAL context and device.";
-    alcMakeContextCurrent(NULL);
-    alcDestroyContext(_context);
-    alcCloseDevice(_device);
-    _device = NULL;
 #endif
 }
 

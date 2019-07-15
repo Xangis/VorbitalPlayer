@@ -14,6 +14,12 @@ linux:INCLUDEPATH += /usr/include/qt5/QtWidgets/
 linux:INCLUDEPATH += /usr/include/AL
 linux:INCLUDEPATH += /usr/include/vorbis
 linux:INCLUDEPATH += /usr/include/wavpack
+linux:INCLUDEPATH += /home/xangis/lib/SDL2_mixer-2.0.4
+linux:INCLUDEPATH += /home/xangis/lib/SDL2-2.0.9/include
+linux:INCLUDEPATH += /home/xangis/lib/mpg123-1.25.10/src/libmpg123
+linux:INCLUDEPATH += /home/xangis/lib/libvorbis-1.3.6/include/vorbis
+linux:INCLUDEPATH += /home/xangis/lib/libogg-1.3.3/include
+linux:INCLUDEPATH += /home/xangis/lib/wavpack-5.1.0/include
 
 win32:INCLUDEPATH += F:\lib\mpg123-1.23.8-x86
 win32:INCLUDEPATH += "F:\lib\OpenAL 1.1 SDK\include"
@@ -41,9 +47,9 @@ win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
     -LC:\Users\Xangis\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
-linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis -lalut
+linux:LIBS += -lsndfile -lmpg123 -lSDL2 -lwavpack -lvorbisfile -lvorbis -lSDL2_mixer
 
-macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -lSDL -lSDL_mixer \
+macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -lSDL2 -lSDL2_mixer \
     -L "/Users/xangis/lib/libogg-1.3.3/src/.libs/" \
     -L "/Users/xangis/lib/libvorbis-1.3.6/lib/.libs/" \
     -L "/Users/xangis/lib/libsndfile-1.0.28/src/.libs/" \
@@ -75,3 +81,4 @@ SOURCES += SettingsDlg.cpp \
 DISTFILES += \
     README.md \
     TODO.md
+
