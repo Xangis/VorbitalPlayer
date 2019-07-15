@@ -14,7 +14,6 @@ MusicStream::MusicStream(QDialog* parent)
 	//_speexDecoderState = speex_lib_get_mode(SPEEX_GET_HIGH_MODE);
 	//speex_decoder_ctl(_speexDecoderState, SPEEX_GET_FRAME_SIZE, &_speexFrameSize);
     _musicFile = NULL;
-	_source = 0;
 	_buffers[0] = 0;
 	_buffers[1] = 0;
 	_format = 0;
@@ -54,11 +53,11 @@ bool MusicStream::Open(QString file)
 		_fileFormat = _audioFile->GetFormat();
 		if( _audioFile->GetChannels() == 1 )
 		{
-			_format = AL_FORMAT_MONO16;
+            _format = AUDIO_S16SYS;
 		}
 		else
 		{
-			_format = AL_FORMAT_STEREO16;
+            _format = AUDIO_S16SYS;
 		}
 	}
 	else if( file.contains(".wav", Qt::CaseInsensitive) )
@@ -97,11 +96,11 @@ bool MusicStream::Open(QString file)
         if( !opened ) return false;
         if( _audioFile->GetChannels() == 1 )
 		{
-			_format = AL_FORMAT_MONO16;
+            _format = AUDIO_S16SYS;
 		}
 		else
 		{
-			_format = AL_FORMAT_STEREO16;
+            _format = AUDIO_S16SYS;
 		}
 	}
 	else if( file.contains(".ogg", Qt::CaseInsensitive) )
@@ -112,40 +111,31 @@ bool MusicStream::Open(QString file)
 		_fileFormat = _audioFile->GetFormat();
 		if( _audioFile->GetChannels() == 1 )
 		{
-			_format = AL_FORMAT_MONO16;
+            _format = AUDIO_S16SYS;
 		}
 		else
 		{
-			_format = AL_FORMAT_STEREO16;
+            _format = AUDIO_S16SYS;
 		}
 	}
 
-	alGenBuffers(2, _buffers);
-    Check();
-	alGenSources(1, &_source);
-    Check();
-
-    alSource3f(_source, AL_POSITION,        0.0, 0.0, 0.0);
-    alSource3f(_source, AL_VELOCITY,        0.0, 0.0, 0.0);
-    alSource3f(_source, AL_DIRECTION,       0.0, 0.0, 0.0);
-    alSourcef (_source, AL_ROLLOFF_FACTOR,  0.0          );
-    alSourcei (_source, AL_SOURCE_RELATIVE, AL_TRUE      );
+    // TODO: FIXME: Create buffers for SDL_Mixer
+    //alGenBuffers(2, _buffers);
 
 	return true;
 }
 
 void MusicStream::Release()
 {
-    alSourceStop(_source);
-    Empty();
-    alDeleteSources(1, &_source);
-    Check();
-    alDeleteBuffers(2, _buffers);
-    Check();
-	if( _audioFile != NULL )
-	{
-		delete _audioFile;
-	}
+    // TODO: FIXME: Delete buffers and shut down SDL_Mixer.
+    //alSourceStop(_source);
+    //Empty();
+    //alDeleteBuffers(2, _buffers);
+    //Check();
+    //if( _audioFile != NULL )
+    //{
+    //	delete _audioFile;
+    //}
 }
 
 /**
@@ -278,7 +268,8 @@ bool MusicStream::Playback()
 
 		if( !DecodeSpeex(_buffers[1]))
 			return false;
-		alSourceQueueBuffers(_source, 2, _buffers);
+        // TODO: FIXME: Enqueue buffers.
+        //alSourceQueueBuffers(_source, 2, _buffers);
 	}
     else if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 	{
@@ -292,7 +283,8 @@ bool MusicStream::Playback()
 		{
 			return false;
 		}
-		alSourceQueueBuffers(_source, 2, _buffers );
+        // TODO: FIXME: Enqueue buffers.
+        //alSourceQueueBuffers(_source, 2, _buffers );
 	}
 	else if( _fileFormat == FORMAT_WAVE )
 	{
@@ -303,7 +295,8 @@ bool MusicStream::Playback()
 			avail = WAVE_CHUNK_SIZE;
 		}
 		short* chunk1 = _waveFile.GetChunk(_wavePosition,_wavePosition + avail);
-		alBufferData(_buffers[0], _format, chunk1, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
+        // TODO: FIXME: Buffer data.
+        //alBufferData(_buffers[0], _format, chunk1, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
 		delete[] chunk1;
 		_wavePosition += avail;
 		avail = totalSamples - _wavePosition;
@@ -312,18 +305,21 @@ bool MusicStream::Playback()
 			avail = WAVE_CHUNK_SIZE;
 		}
 		short* chunk2 = _waveFile.GetChunk(_wavePosition,_wavePosition + avail);
-		alBufferData(_buffers[1], _format, chunk2, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
+        // TODO: FIXME: Buffer data.
+        //alBufferData(_buffers[1], _format, chunk2, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
 		delete[] chunk2;
 		_wavePosition += avail;
-		alSourceQueueBuffers(_source, 2, _buffers );
+        // TODO: FIXME: Enqueue buffers.
+        //alSourceQueueBuffers(_source, 2, _buffers );
 	}
 
-    alSourcePlay(_source);
+    // TODO: FIXME: Play source.
+    //alSourcePlay(_source);
 
     return true;
 }
 
-bool MusicStream::FillBuffer(ALuint buffer)
+bool MusicStream::FillBuffer(Mix_Chunk* buffer)
 {
 	bool result = false;
 	unsigned char* chunk = new unsigned char[BUFFER_SIZE];
@@ -331,7 +327,8 @@ bool MusicStream::FillBuffer(ALuint buffer)
 	int numDone = _audioFile->FillBuffer(chunk, BUFFER_SIZE);
 	if( numDone > 0 )
 	{
-		alBufferData(buffer, _format, chunk, numDone, _audioFile->GetSampleRate());
+        // TODO: FIXME: Copy data into buffer.
+        //alBufferData(buffer, _format, chunk, numDone, _audioFile->GetSampleRate());
 		result = true;
 	}
 	delete[] chunk;
@@ -339,7 +336,7 @@ bool MusicStream::FillBuffer(ALuint buffer)
 	return result;
 }
 
-bool MusicStream::DecodeSpeex(ALuint buffer)
+bool MusicStream::DecodeSpeex(Mix_Chunk* buffer)
 {
 	int chunkSize;
 	char cbits[256];
@@ -353,7 +350,8 @@ bool MusicStream::DecodeSpeex(ALuint buffer)
 	{
 		out[i] = output[i];
 	}
-	alBufferData(buffer, AL_FORMAT_STEREO16, out, _speexFrameSize*2, 44100);
+    // TODO: FIXME: Copy data into buffer
+    //alBufferData(buffer, AUDIO_S16SYS, out, _speexFrameSize*2, 44100);
 	return true;
 }
 
@@ -363,13 +361,15 @@ bool MusicStream::PausePlayback()
     {
         qDebug() << "Setting MusicStream play state to PAUSED.";
 	    _playState = PAUSED;
-        alSourcePause( _source );
+        // TODO: FIXME: Pause audio.
+        //alSourcePause( _source );
     }
     else if( _playState == PAUSED )
     {
         qDebug() << "Setting MusicStream play state to PLAYING.";
         _playState = PLAYING;
-        alSourcePlay( _source );
+        // TODO: FIXME: Resume audio.
+        //alSourcePlay( _source );
     }
     // Do nothing if we are in stopped state.
 	return true;
@@ -377,12 +377,13 @@ bool MusicStream::PausePlayback()
 
 bool MusicStream::Playing()
 {
-    ALenum state;
+    // TODO: FIXME: Query SDL_mixer play state and return the results.
+    return _playState == PLAYING;
 
-    alGetSourcei(_source, AL_SOURCE_STATE, &state);
-
-    bool retval = (state == AL_PLAYING);
-    return retval;
+    //ALenum state;
+    //alGetSourcei(_source, AL_SOURCE_STATE, &state);
+    //bool retval = (state == AL_PLAYING);
+    //return retval;
 }
 
 bool MusicStream::IsPlaying()
@@ -400,23 +401,27 @@ bool MusicStream::Update()
     int processed = 0;
     bool result = true;
 
-    alGetSourcei(_source, AL_BUFFERS_PROCESSED, &processed);
+    // TODO: FIXME: Get buffers processed if necessary.
+    //alGetSourcei(_source, AL_BUFFERS_PROCESSED, &processed);
 
     while(processed--)
     {
-        ALuint buffer;
+        //ALuint buffer;
 
-        alSourceUnqueueBuffers(_source, 1, &buffer);
+        // TODO: FIXME: Unqueue buffers.
+        //alSourceUnqueueBuffers(_source, 1, &buffer);
         Check();
 
         if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
 		{
-			bool result = FillBuffer(buffer);
+            // TODO: FIXME: Fill buffer.
+            //bool result = FillBuffer(buffer);
 			if( !result )
 			{
 				return false;
 			}
-			alSourceQueueBuffers(_source, 1, &buffer );
+            // TODO: FIXME: Enqueue buffers.
+            //alSourceQueueBuffers(_source, 1, &buffer );
 		}
         /*else if( _fileFormat == FORMAT_WAVPACK )
 		{
@@ -457,10 +462,12 @@ bool MusicStream::Update()
 				avail = WAVE_CHUNK_SIZE;
 			}
 			short* chunk = _waveFile.GetChunk(_wavePosition,_wavePosition + avail);
-			alBufferData(buffer, _format, chunk, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
+            // TODO: FIXME: Buffer data.
+            //alBufferData(buffer, _format, chunk, avail*_waveFile.GetNumChannels()*2, _waveFile.GetSampleRate());
 			delete[] chunk;
 			_wavePosition += avail;
-			alSourceQueueBuffers(_source, 1, &buffer );
+            // TODO: FIXME: Enqueue buffers.
+            //alSourceQueueBuffers(_source, 1, &buffer );
 		}
     }
 
@@ -471,32 +478,27 @@ void MusicStream::Empty()
 {
     int queued;
 
-    alGetSourcei(_source, AL_BUFFERS_QUEUED, &queued);
+    //alGetSourcei(_source, AL_BUFFERS_QUEUED, &queued);
 
     while(queued--)
     {
-        ALuint buffer;
-
-        alSourceUnqueueBuffers(_source, 1, &buffer);
+        // TODO: FIXME: Unqueue buffers.
+        //ALuint buffer;
+        //alSourceUnqueueBuffers(_source, 1, &buffer);
         Check();
     }
 }
 
 void MusicStream::Check()
 {
-	int error = alGetError();
-
-	if(error != AL_NO_ERROR)
-	{
-		qDebug() << "OpenAL error was raised: " << error;
-	}
 }
 
 int MusicStream::Play()
 {
     if( _playState == PAUSED )
     {
-        alSourcePlay( _source );
+        // TODO: FIXME: Play source.
+        //alSourcePlay( _source );
     }
     qDebug() << "Setting MusicStream play state to PLAYING.";
 	_playState = PLAYING;
@@ -581,10 +583,11 @@ void MusicStream::SetVolume( float volume )
         volume = 1.0f;
     }
 
-    alSourcef( _source, AL_GAIN, volume );
+    // TODO: FIXME: Set volume.
+    //alSourcef( _source, AL_GAIN, volume );
 }
 
-ALuint MusicStream::GetOpenALFormatFromFile(WaveFile* file)
+Uint16 MusicStream::GetOpenALFormatFromFile(WaveFile* file)
 {
 	int channels = file->GetNumChannels();
 
@@ -595,14 +598,14 @@ ALuint MusicStream::GetOpenALFormatFromFile(WaveFile* file)
 
 	if( channels == 1 )
 	{
-		return AL_FORMAT_MONO16;
+        return AUDIO_S16SYS;
 	}
 	else if( channels == 2)
 	{
-		return AL_FORMAT_STEREO16;
+        return AUDIO_S16SYS;
 	}
 
-	return AL_FORMAT_STEREO16;
+    return AUDIO_S16SYS;
 }
 
 bool MusicStream::SetPosition(unsigned int position)

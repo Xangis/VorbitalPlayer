@@ -4,8 +4,8 @@
 #include <iostream>
 using namespace std;
 
-#include "al.h"
-#include "MusicStream.h"
+#include "SDL.h"
+#include "SDL_mixer.h"
 //#include <speex/speex.h>
 #define USE_QT 1
 #include "../AudioFile/wavefile.h"
@@ -38,7 +38,7 @@ public:
         bool Update();
 		void run();
         void SetVolume( float volume );
-		ALuint GetOpenALFormatFromFile(WaveFile* file);
+        Uint16 GetOpenALFormatFromFile(WaveFile* file);
 		int GetChannels();
 		int GetRate();
 		int GetBitrate();
@@ -47,8 +47,8 @@ public:
         const char* GetAlbum(); // Album name.
         const char* GetSong(); // Song title.
 		const char* GetComment();
-		bool DecodeSpeex(ALuint buffer);
-		bool FillBuffer(ALuint buffer);
+        bool DecodeSpeex(Mix_Chunk* buffer);
+        bool FillBuffer(Mix_Chunk* buffer);
         bool CanSetPosition();
         bool SetPosition(unsigned int position);
 protected:
@@ -56,9 +56,9 @@ protected:
         void Check();
 private:
         FILE* _musicFile;
-        ALuint _buffers[2];
-        ALuint _source;
-        ALenum _format;
+        Mix_Chunk* _buffers[2];
+        //ALuint _source;
+        Uint16 _format;
 		int _playState;
 		//SpeexBits _bits;
 		void *_speexDecoderState;

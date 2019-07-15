@@ -28,20 +28,26 @@ macx:INCLUDEPATH += /Users/xangis/lib/mpg123-1.25.10/src/libmpg123
 macx:INCLUDEPATH += /Users/xangis/lib/libvorbis-1.3.6/include/vorbis
 macx:INCLUDEPATH += /Users/xangis/lib/libogg-1.3.3/include
 macx:INCLUDEPATH += /Users/xangis/lib/wavpack-5.1.0/include
+macx:INCLUDEPATH += /Users/xangis/lib/SDL2_mixer-2.0.4
+macx:INCLUDEPATH += /Users/xangis/lib/SDL2-2.0.9/include
 
 win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
     #-LF:\lib\mpg123-1.14.2-x86 \
     -L"F:\lib\OpenAL 1.1 SDK\libs\Win32" \
     -LF:\lib\libsndfile-1.0.28\lib \
     -LF:\lib\wavpack-5.1.0-dll \
-    -LF:\lib\libvorbis-1.3.5\win32\VS2010\Win32\Release \
-    -LF:\lib\libogg-1.3.2\win32\VS2010\Win32\Release \
+    -LF:\lib\libvorbis-1.3.6\win32\VS2010\Win32\Release \
+    -LF:\lib\libogg-1.3.3\win32\VS2010\Win32\Release \
     -LC:\Users\Xangis\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
 linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis -lalut
 
-macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -framework OpenAL
+macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lwavpack -lSDL -lSDL_mixer \
+    -L "/Users/xangis/lib/libogg-1.3.3/src/.libs/" \
+    -L "/Users/xangis/lib/libvorbis-1.3.6/lib/.libs/" \
+    -L "/Users/xangis/lib/libsndfile-1.0.28/src/.libs/" \
+    -L "/Users/xangis/lib/"
 
 # Input
 HEADERS += AudioFileFormat.h \

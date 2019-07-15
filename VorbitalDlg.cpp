@@ -1,6 +1,5 @@
 #include "VorbitalDlg.h"
 #include "SettingsDlg.h"
-#include "alut.h"
 #ifndef WIN32
 #include <sys/stat.h>
 #include <unistd.h>
@@ -37,7 +36,6 @@
 VorbitalDlg::~VorbitalDlg()
 {
     _playlistThread->terminate();
-    alutExit();
 }
 
 /*!
@@ -52,24 +50,13 @@ VorbitalDlg::VorbitalDlg( )
     flags = flags | Qt::WindowMinimizeButtonHint;
     setWindowFlags(flags);
 
-    _device = NULL;
+    // TODO: FIXME: Do we need a device?
+    //_device = NULL;
     qDebug() << "VorbitalDlg Create.";
 	_done = false;
-	// OpenAL Initialization
-    _device = alcOpenDevice(NULL);
-    _context = alcCreateContext(_device, NULL);
-    alcMakeContextCurrent(_context);
-	alGetError();
-	// Initialize position of the Listener.
-	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
-	// Velocity of the Listener.
-	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
-	// Orientation of the Listener. (first 3 elements are "at", second 3 are "up")
-	// Also note that these should be units of '1'.
-	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0,  0.0, 1.0, 0.0 };
-	alListenerfv(AL_POSITION,    ListenerPos);
-	alListenerfv(AL_VELOCITY,    ListenerVel);
-	alListenerfv(AL_ORIENTATION, ListenerOri);
+
+    // SDL_Mixer initialization
+    Mix_OpenAudio(44100, AUDIO_S16SYS, 2, BUFFER_SIZE);
 
 	_listPosition = 0;
 	_musicStream = NULL;

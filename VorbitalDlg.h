@@ -3,8 +3,6 @@
 
 #include "MusicStream.h"
 #include "PlaylistThread.h"
-#include "al.h"
-#include "alc.h"
 
 #include <QDialog>
 #include <QThread>
@@ -84,8 +82,6 @@ public slots:
     void OnAlbumChanged(const QString& filename);
     void OnSongChanged(const QString& filename);
 private:
-    ALCdevice *_device;
-    ALCcontext *_context;
     QPushButton* _btnBrowse;
     QPushButton* _btnBrowseFolder;
     QPushButton* _btnPlay;
