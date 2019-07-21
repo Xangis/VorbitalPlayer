@@ -53,7 +53,9 @@ macx:LIBS += -L/usr/local/lib -logg -lvorbisfile -lvorbis -lmpg123 -lwavpack -lS
     -L"/Users/xangis/lib/libogg-1.3.3/src/.libs/" \
     -L"/Users/xangis/lib/libvorbis-1.3.6/lib/.libs/" \
     -L"/Users/xangis/lib/libsndfile-1.0.28/src/.libs/" \
-    -L"/Users/xangis/lib/"
+    -L"/Users/xangis/lib/mpg123-1.25.10/src/libmpg123/.libs/" \
+    -L"/Users/xangis/lib/wavpack-5.1.0/src/.libs/" \
+    -L"/Users/xangis/lib/SDL2_mixer-2.0.4/build/.libs/"
 
 # Input
 HEADERS += AudioFileFormat.h \
