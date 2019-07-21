@@ -53,11 +53,11 @@ bool MusicStream::Open(QString file)
 		_fileFormat = _audioFile->GetFormat();
 		if( _audioFile->GetChannels() == 1 )
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 		else
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 	}
 	else if( file.contains(".wav", Qt::CaseInsensitive) )
@@ -65,28 +65,28 @@ bool MusicStream::Open(QString file)
 		_wavePosition = 0;
 		_fileFormat = FORMAT_WAVE;
 		_waveFile.Load(file.toStdString().c_str());
-		_format = GetOpenALFormatFromFile(&_waveFile);
+		_format = GetRtAudioFormatFromFile(&_waveFile);
 	}
 	else if( file.contains(".snd", Qt::CaseInsensitive) )
 	{
 		_wavePosition = 0;
 		_fileFormat = FORMAT_WAVE;
 		_waveFile.Load(file.toStdString().c_str());
-		_format = GetOpenALFormatFromFile(&_waveFile);
+		_format = GetRtAudioFormatFromFile(&_waveFile);
 	}
     else if( file.contains(".flac", Qt::CaseInsensitive) )
     {
         _wavePosition = 0;
         _fileFormat = FORMAT_WAVE;
         _waveFile.Load(file.toStdString().c_str());
-        _format = GetOpenALFormatFromFile(&_waveFile);
+        _format = GetRtAudioFormatFromFile(&_waveFile);
     }
 	else if( file.contains(".aif", Qt::CaseInsensitive) || file.contains(".aiff", Qt::CaseInsensitive) )
 	{
 		_wavePosition = 0;
 		_fileFormat = FORMAT_WAVE;
 		_waveFile.Load(file.toStdString().c_str());
-		_format = GetOpenALFormatFromFile(&_waveFile);
+		_format = GetRtAudioFormatFromFile(&_waveFile);
 	}
 	else if( file.contains(".wv", Qt::CaseInsensitive) )
 	{
@@ -96,11 +96,11 @@ bool MusicStream::Open(QString file)
         if( !opened ) return false;
         if( _audioFile->GetChannels() == 1 )
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 		else
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 	}
 	else if( file.contains(".ogg", Qt::CaseInsensitive) )
@@ -111,11 +111,11 @@ bool MusicStream::Open(QString file)
 		_fileFormat = _audioFile->GetFormat();
 		if( _audioFile->GetChannels() == 1 )
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 		else
 		{
-            _format = AUDIO_S16SYS;
+            _format = RTAUDIO_SINT16;
 		}
 	}
 
@@ -319,7 +319,7 @@ bool MusicStream::Playback()
     return true;
 }
 
-bool MusicStream::FillBuffer(Mix_Chunk* buffer)
+bool MusicStream::FillBuffer(double* buffer)
 {
 	bool result = false;
 	unsigned char* chunk = new unsigned char[BUFFER_SIZE];
@@ -336,7 +336,7 @@ bool MusicStream::FillBuffer(Mix_Chunk* buffer)
 	return result;
 }
 
-bool MusicStream::DecodeSpeex(Mix_Chunk* buffer)
+bool MusicStream::DecodeSpeex(double* buffer)
 {
 	int chunkSize;
 	char cbits[256];
@@ -351,7 +351,7 @@ bool MusicStream::DecodeSpeex(Mix_Chunk* buffer)
 		out[i] = output[i];
 	}
     // TODO: FIXME: Copy data into buffer
-    //alBufferData(buffer, AUDIO_S16SYS, out, _speexFrameSize*2, 44100);
+    //alBufferData(buffer, RTAUDIO_SINT16, out, _speexFrameSize*2, 44100);
 	return true;
 }
 
@@ -476,7 +476,7 @@ bool MusicStream::Update()
 
 void MusicStream::Empty()
 {
-    int queued;
+    int queued = 0;
 
     //alGetSourcei(_source, AL_BUFFERS_QUEUED, &queued);
 
@@ -587,7 +587,7 @@ void MusicStream::SetVolume( float volume )
     //alSourcef( _source, AL_GAIN, volume );
 }
 
-Uint16 MusicStream::GetOpenALFormatFromFile(WaveFile* file)
+RtAudioFormat MusicStream::GetRtAudioFormatFromFile(WaveFile* file)
 {
 	int channels = file->GetNumChannels();
 
@@ -598,21 +598,21 @@ Uint16 MusicStream::GetOpenALFormatFromFile(WaveFile* file)
 
 	if( channels == 1 )
 	{
-        return AUDIO_S16SYS;
+        return RTAUDIO_SINT16;
 	}
 	else if( channels == 2)
 	{
-        return AUDIO_S16SYS;
+        return RTAUDIO_SINT16;
 	}
 
-    return AUDIO_S16SYS;
+    return RTAUDIO_SINT16;
 }
 
 bool MusicStream::SetPosition(unsigned int position)
 {
     if( _fileFormat == FORMAT_WAVE )
     {
-        int pos = GetRate() * position;
+        unsigned int pos = GetRate() * position;
         qDebug() << "SetPosition on FORMAT_WAVE: Bitrate = " << this->GetRate() << ", Seconds = " << position << ", Sample position = " << pos;
         if( pos >= _waveFile.GetDataLength())
         {

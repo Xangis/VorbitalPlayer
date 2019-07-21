@@ -56,7 +56,7 @@ VorbitalDlg::VorbitalDlg( )
 	_done = false;
 
     // SDL_Mixer initialization
-    Mix_OpenAudio(44100, AUDIO_S16SYS, 2, BUFFER_SIZE);
+    //Mix_OpenAudio(44100, RTAUDIO_SINT16, 2, BUFFER_SIZE);
 
 	_listPosition = 0;
 	_musicStream = NULL;
