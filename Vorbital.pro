@@ -18,6 +18,7 @@ linux:INCLUDEPATH += /home/xangis/lib/mpg123-1.25.10/src/libmpg123
 linux:INCLUDEPATH += /home/xangis/lib/libvorbis-1.3.6/include/vorbis
 linux:INCLUDEPATH += /home/xangis/lib/libogg-1.3.3/include
 linux:INCLUDEPATH += /home/xangis/lib/wavpack-5.1.0/include
+linux:INCLUDEPATH += /home/xangis/lib/rtaudio-5.1.0/
 
 win32:INCLUDEPATH += F:\lib\mpg123-1.23.8-x86
 win32:INCLUDEPATH += "F:\lib\OpenAL 1.1 SDK\include"
