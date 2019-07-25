@@ -48,7 +48,7 @@ win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
 
 linux:LIBS += -lsndfile -lmpg123 -lwavpack -lvorbisfile -lvorbisfile
 
-macx:LIBS += -L/usr/local/lib -logg -lvorbisfile -lvorbis -lmpg123 -lwavpack -lsndfile \
+macx:LIBS += -L/usr/local/lib -logg -lvorbisfile -lvorbis -lmpg123 -lwavpack -lsndfile -lrtaudio\
     -L"/Users/xangis/lib/libogg-1.3.3/src/.libs/" \
     -L"/Users/xangis/lib/libvorbis-1.3.6/lib/.libs/" \
     -L"/Users/xangis/lib/libsndfile-1.0.28/src/.libs/" \

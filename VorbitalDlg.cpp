@@ -33,6 +33,13 @@
 #include "reverse.xpm"
 #include "stop.xpm"
 
+int RenderAudio( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
+         double streamTime, RtAudioStreamStatus status, void *userData )
+{
+    MusicStream* stream = (MusicStream*)userData;
+    stream->FillBuffer((double*)outputBuffer);
+}
+
 VorbitalDlg::~VorbitalDlg()
 {
     _playlistThread->terminate();
@@ -55,8 +62,22 @@ VorbitalDlg::VorbitalDlg( )
     qDebug() << "VorbitalDlg Create.";
 	_done = false;
 
-    // SDL_Mixer initialization
-    //Mix_OpenAudio(44100, RTAUDIO_SINT16, 2, BUFFER_SIZE);
+    RtAudio::StreamParameters parameters;
+    RtAudio dac;
+    parameters.deviceId = dac.getDefaultOutputDevice();
+    parameters.nChannels = 2;
+    parameters.firstChannel = 0;
+    unsigned int sampleRate = 44100;
+    unsigned int bufferFrames = BUFFER_SIZE; // 256 sample frames
+    try {
+      dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64,
+                      sampleRate, &bufferFrames, RenderAudio, (void *)_musicStream );
+      dac.startStream();
+    }
+    catch ( RtAudioError& e ) {
+      e.printMessage();
+      exit( 0 );
+    }
 
 	_listPosition = 0;
 	_musicStream = NULL;
