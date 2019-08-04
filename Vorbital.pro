@@ -46,7 +46,7 @@ win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
     -LC:\Users\Xangis\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
-linux:LIBS += -lsndfile -lmpg123 -lwavpack -lvorbisfile -lvorbisfile
+linux:LIBS += -lsndfile -lmpg123 -lwavpack -lvorbisfile -lvorbisfile -lrtaudio
 
 macx:LIBS += -L/usr/local/lib -logg -lvorbisfile -lvorbis -lmpg123 -lwavpack -lsndfile -lrtaudio\
     -L"/Users/xangis/lib/libogg-1.3.3/src/.libs/" \
