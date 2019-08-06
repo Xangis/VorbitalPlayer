@@ -38,11 +38,13 @@ int RenderAudio( void *outputBuffer, void *inputBuffer, unsigned int nBufferFram
 {
     MusicStream* stream = (MusicStream*)userData;
     stream->FillBuffer((double*)outputBuffer);
+    return 0;
 }
 
 VorbitalDlg::~VorbitalDlg()
 {
     _playlistThread->terminate();
+    delete _audio;
 }
 
 /*!
@@ -60,45 +62,51 @@ VorbitalDlg::VorbitalDlg( )
     // TODO: FIXME: Do we need a device?
     //_device = NULL;
     qDebug() << "VorbitalDlg Create.";
-	_done = false;
+    _done = false;
 
     RtAudio::StreamParameters parameters;
-    RtAudio dac;
-    parameters.deviceId = dac.getDefaultOutputDevice();
+    _audio = new RtAudio();
+    int count = _audio->getDeviceCount();
+    cout << count << " audio devices detected." << endl;
+    parameters.deviceId = _audio->getDefaultOutputDevice();
+    cout << "Default output device: " << parameters.deviceId << endl;
+    //RtAudioDeviceInfo info = _audio->getDevicenfo(parameters.devceId);
+    //cout << "Device " << info.name << ", " << info.outputChannels << " output channels, " << info.inputChannels <<
+    //    " input channels, " << info.duplexChannels << " duplex channels, " << info.nativeFormats << " native formats" << endl;
     parameters.nChannels = 2;
     parameters.firstChannel = 0;
     unsigned int sampleRate = 44100;
     unsigned int bufferFrames = BUFFER_SIZE; // 256 sample frames
     try {
-      dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64,
+      _audio->openStream( &parameters, NULL, RTAUDIO_FLOAT64,
                       sampleRate, &bufferFrames, RenderAudio, (void *)_musicStream );
-      dac.startStream();
+      _audio->startStream();
     }
     catch ( RtAudioError& e ) {
       e.printMessage();
       exit( 0 );
     }
 
-	_listPosition = 0;
-	_musicStream = NULL;
+    _listPosition = 0;
+    _musicStream = NULL;
     _btnBrowse = NULL;
     _btnBrowseFolder = NULL;
     _btnPlay = NULL;
-	_btnStop = NULL;
-	_btnPause = NULL;
-	_btnForward = NULL;
-	_btnReverse = NULL;
+    _btnStop = NULL;
+    _btnPause = NULL;
+    _btnForward = NULL;
+    _btnReverse = NULL;
     _btnClear = NULL;
-	_btnRemove = NULL;
-	_btnSettings = NULL;
-	_btnAbout = NULL;
-	_btnRandomize = NULL;
+    _btnRemove = NULL;
+    _btnSettings = NULL;
+    _btnAbout = NULL;
+    _btnRandomize = NULL;
     _txtSampleRate = NULL;
     _txtVersion = NULL;
     _txtBitRate = NULL;
     _txtChannels = NULL;
-	_txtComment = NULL;
-	_txtTime = NULL;
+    _txtComment = NULL;
+    _txtTime = NULL;
     _txtTimeDivider = NULL;
     _txtMaxTime = NULL;
     _txtArtist = NULL;
@@ -109,28 +117,28 @@ VorbitalDlg::VorbitalDlg( )
     _msecElapsed = 0;
     _songLength = -1;
     qDebug() << "Setting VorbitalDlg play state to STOPPED.";
-	_playState = STOPPED;
-	_incrementNeeded = true;
+    _playState = STOPPED;
+    _incrementNeeded = true;
     _randomize = false;
-	_menuDoubleClicked = false;
+    _menuDoubleClicked = false;
     _lastSelectedDirectory = QString("");
     // TODO: Do we need to do this on Windows?
 #ifdef linux
-	srand((unsigned)time(0));
+    srand((unsigned)time(0));
 #endif
     CreateControls();
-	LoadSettings();
+    LoadSettings();
     QIcon icon("vorbital.ico");
-	setWindowIcon(icon);
+    setWindowIcon(icon);
     setWindowTitle("Vorbital Player");
-	// Start up the playlist thread.
+    // Start up the playlist thread.
     _playlistThread = new PlaylistThread(this);
-	_playlistThread->start();
+    _playlistThread->start();
 }
 
 void VorbitalDlg::LoadSettings()
 {
-	QSettings* configData = new QSettings("Zeta Centauri", "Vorbital Player");
+    QSettings* configData = new QSettings("Zeta Centauri", "Vorbital Player");
     qDebug() << "LoadSettings loading file " << configData->fileName() << ".";
 
 	// Randomizer setting.

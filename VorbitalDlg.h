@@ -3,6 +3,7 @@
 
 #include "MusicStream.h"
 #include "PlaylistThread.h"
+#include "RtAudio.h"
 
 #include <QDialog>
 #include <QThread>
@@ -105,7 +106,7 @@ private:
     QListWidget* _lstPlaylist;
     QSlider* _volumeSlider;
     QSlider* _positionSlider;
-	QLabel* _albumArt;
+    QLabel* _albumArt;
     QLabel* _txtArtist;
     QLabel* _txtAlbum;
     QLabel* _txtSong;
@@ -115,21 +116,22 @@ private:
     int _playState;
     bool _incrementNeeded;
     bool _randomize;
-	bool _menuDoubleClicked;
-	bool _done;
+    bool _menuDoubleClicked;
+    bool _done;
     QDateTime _lastTimeUpdate;
     int _msecElapsed;
     int _songLength;
     QIcon _icon;
     PlaylistThread* _playlistThread;
     QString _lastSelectedDirectory;
+    RtAudio* _audio;
 signals:
     void numchannelsChanged(int channels);
     void bitrateChanged(int bitrate);
     void bitdepthChanged(int bitdepth);
     void samplerateChanged(int samplerate);
     void timeChanged(int time);
-	void volumeChanged(int volume);
+    void volumeChanged(int volume);
     void positionSliderChanged(int position);
     void albumArtChanged(const QString& filename);
     void songLengthChanged(int length);
