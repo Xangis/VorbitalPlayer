@@ -88,17 +88,17 @@ bool FileFormatMP3::Open(const QString& filename)
 	return true;
 }
 
-int FileFormatMP3::GetBitrate()
+unsigned int FileFormatMP3::GetBitrate()
 {
 	return _bitRate;
 }
 
-int FileFormatMP3::GetChannels()
+unsigned int FileFormatMP3::GetChannels()
 {
 	return _channels;
 }
 
-int FileFormatMP3::GetLength()
+unsigned int FileFormatMP3::GetLength()
 {
     return _length;
 }
@@ -108,7 +108,7 @@ int FileFormatMP3::GetFormat()
 	return FORMAT_MP3;
 }
 
-int FileFormatMP3::GetSampleRate()
+unsigned int FileFormatMP3::GetSampleRate()
 {
 	return _sampleRate;
 }

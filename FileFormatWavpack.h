@@ -16,10 +16,10 @@ public:
     virtual bool CheckExtension(const QString& filename);
     virtual bool Open(const QString& filename);
     virtual int GetFormat();
-    virtual int GetBitrate();
-    virtual int GetChannels();
-    virtual int GetSampleRate();
-    virtual int GetLength();
+    virtual unsigned int GetBitrate();
+    virtual unsigned int GetChannels();
+    virtual unsigned int GetSampleRate();
+    virtual unsigned int GetLength();
     virtual int FillBuffer(unsigned char* buffer, unsigned int numBytes);
     virtual const char* GetArtistName();
     virtual const char* GetAlbumName();

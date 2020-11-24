@@ -40,12 +40,12 @@ bool FileFormatVorbis::Open(const QString& filename)
 	return true;
 }
 
-int FileFormatVorbis::GetBitrate()
+unsigned int FileFormatVorbis::GetBitrate()
 {
 	return _vorbisInfo->bitrate_nominal;
 }
 
-int FileFormatVorbis::GetChannels()
+unsigned int FileFormatVorbis::GetChannels()
 {
 	return _vorbisInfo->channels;
 }
@@ -55,7 +55,7 @@ int FileFormatVorbis::GetFormat()
 	return FORMAT_VORBIS;
 }
 
-int FileFormatVorbis::GetSampleRate()
+unsigned int FileFormatVorbis::GetSampleRate()
 {
 	return _vorbisInfo->rate;
 }
@@ -111,7 +111,7 @@ const char* FileFormatVorbis::GetSongName()
     return NULL;
 }
 
-int FileFormatVorbis::GetLength()
+unsigned int FileFormatVorbis::GetLength()
 {
     // http://stackoverflow.com/questions/20794204/how-to-determine-length-of-ogg-file
     if( _oggVorbisFile == NULL )

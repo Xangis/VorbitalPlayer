@@ -52,12 +52,12 @@ VorbitalDlg::VorbitalDlg( )
     flags = flags | Qt::WindowMinimizeButtonHint;
     setWindowFlags(flags);
 
-    _device = NULL;
+    _device = nullptr;
     qDebug() << "VorbitalDlg Create.";
 	_done = false;
 	// OpenAL Initialization
-    _device = alcOpenDevice(NULL);
-    _context = alcCreateContext(_device, NULL);
+    _device = alcOpenDevice(nullptr);
+    _context = alcCreateContext(_device, nullptr);
     alcMakeContextCurrent(_context);
 	alGetError();
 	// Initialize position of the Listener.
@@ -72,32 +72,30 @@ VorbitalDlg::VorbitalDlg( )
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
 	_listPosition = 0;
-	_musicStream = NULL;
-    _btnBrowse = NULL;
-    _btnBrowseFolder = NULL;
-    _btnPlay = NULL;
-	_btnStop = NULL;
-	_btnPause = NULL;
-	_btnForward = NULL;
-	_btnReverse = NULL;
-    _btnClear = NULL;
-	_btnRemove = NULL;
-	_btnSettings = NULL;
-	_btnAbout = NULL;
-	_btnRandomize = NULL;
-    _txtSampleRate = NULL;
-    _txtVersion = NULL;
-    _txtBitRate = NULL;
-    _txtChannels = NULL;
-	_txtComment = NULL;
-	_txtTime = NULL;
-    _txtTimeDivider = NULL;
-    _txtMaxTime = NULL;
-    _txtArtist = NULL;
-    _txtAlbum = NULL;
-    _txtSong = NULL;
-    _volumeSlider = NULL;
-    _positionSlider = NULL;
+    _musicStream = nullptr;
+    _btnBrowse = nullptr;
+    _btnBrowseFolder = nullptr;
+    _btnPlay = nullptr;
+    _btnStop = nullptr;
+    _btnPause = nullptr;
+    _btnForward = nullptr;
+    _btnReverse = nullptr;
+    _btnClear = nullptr;
+    _btnRemove = nullptr;
+    _btnSettings = nullptr;
+    _btnAbout = nullptr;
+    _btnRandomize = nullptr;
+    _txtSampleRate = nullptr;
+    _txtVersion = nullptr;
+    _txtBitRate = nullptr;
+    _txtChannels = nullptr;
+    _txtComment = nullptr;
+    _txtTime = nullptr;
+    _txtTimeDivider = nullptr;
+    _txtMaxTime = nullptr;
+    _txtArtist = nullptr;
+    _volumeSlider = nullptr;
+    _positionSlider = nullptr;
     _msecElapsed = 0;
     _songLength = -1;
     qDebug() << "Setting VorbitalDlg play state to STOPPED.";
@@ -140,7 +138,7 @@ void VorbitalDlg::LoadSettings()
     _volumeSlider->setValue(wantedVolume);
     int volume = _volumeSlider->value();
     float actualVol = (float)volume / 100.0f;
-    if( _musicStream != NULL )
+    if( _musicStream != nullptr )
     {
         _musicStream->SetVolume( actualVol );
     }
@@ -225,6 +223,7 @@ void VorbitalDlg::SaveSettings()
 void VorbitalDlg::CreateControls()
 {
     qDebug() << "CreateControls.";
+    QFont f( "Calibri", 10, QFont::Bold);
     setAcceptDrops(true);
 
     QVBoxLayout* rootLayout = new QVBoxLayout();
@@ -238,67 +237,67 @@ void VorbitalDlg::CreateControls()
 
 	_btnBrowse = new QPushButton( this );
     _btnBrowse->setIcon(QPixmap(add_xpm));
-	_btnBrowse->setToolTip("Add file to playlist.");
+    _btnBrowse->setToolTip("Add file to playlist");
     connect(_btnBrowse, SIGNAL(released()), this, SLOT(OnButtonBrowseClick()));
     firstRowLayout->addWidget(_btnBrowse);
 
     _btnBrowseFolder = new QPushButton( this );
     _btnBrowseFolder->setIcon(QPixmap(folder_xpm));
-	_btnBrowseFolder->setToolTip("Add folder to playlist.");
+    _btnBrowseFolder->setToolTip("Add folder to playlist");
     connect(_btnBrowseFolder, SIGNAL(released()), this, SLOT(OnButtonBrowseFolderClick()));
     firstRowLayout->addWidget(_btnBrowseFolder);
 
     _btnRemove = new QPushButton( this );
     _btnRemove->setIcon(QPixmap(remove_xpm));
-	_btnRemove->setToolTip("Remove selected item from playlist.");
+    _btnRemove->setToolTip("Remove selected item from playlist");
     connect(_btnRemove, SIGNAL(released()), this, SLOT(OnButtonRemoveClick()));
     firstRowLayout->addWidget(_btnRemove);
 
     _btnClear = new QPushButton( this );
     _btnClear->setIcon(QPixmap(null_xpm));
-	_btnClear->setToolTip("Clear playlist.");
+    _btnClear->setToolTip("Clear playlist");
     connect(_btnClear, SIGNAL(released()), this, SLOT(OnButtonClearClick()));
     firstRowLayout->addWidget(_btnClear);
 
 	_btnReverse = new QPushButton( this );
     _btnReverse->setIcon(QPixmap(reverse_xpm));
-	_btnReverse->setToolTip("Previous track.");
+    _btnReverse->setToolTip("Previous track");
     connect(_btnReverse, SIGNAL(released()), this, SLOT(OnButtonReverseClick()));
     firstRowLayout->addWidget(_btnReverse);
 
 	_btnPause = new QPushButton( this );
     _btnPause->setIcon(QPixmap(pause_xpm));
-	_btnPause->setToolTip("Pause.");
+    _btnPause->setToolTip("Pause");
     connect(_btnPause, SIGNAL(released()), this, SLOT(OnButtonPauseClick()));
     firstRowLayout->addWidget(_btnPause);
 
 	_btnStop = new QPushButton( this );
     _btnStop->setIcon(QPixmap(stop_xpm));
-	_btnStop->setToolTip("Stop.");
+    _btnStop->setToolTip("Stop");
     connect(_btnStop, SIGNAL(released()), this, SLOT(OnButtonStopClick()));
     firstRowLayout->addWidget(_btnStop);
 
 	_btnPlay = new QPushButton( this );
     _btnPlay->setIcon(QPixmap(play_xpm));
-	_btnPlay->setToolTip("Play.");
+    _btnPlay->setToolTip("Play");
     connect(_btnPlay, SIGNAL(released()), this, SLOT(OnButtonPlayClick()));
     firstRowLayout->addWidget(_btnPlay);
 
     _btnForward = new QPushButton( this );
     _btnForward->setIcon(QPixmap(forward_xpm));
-	_btnForward->setToolTip("Next track.");
+    _btnForward->setToolTip("Next track");
     connect(_btnForward, SIGNAL(released()), this, SLOT(OnButtonForwardClick()));
     firstRowLayout->addWidget(_btnForward);
 
     _btnRandomize = new QPushButton( this );
     _btnRandomize->setIcon(QPixmap(normal_xpm));
-	_btnRandomize->setToolTip("Turn shuffle on or off.");
+    _btnRandomize->setToolTip("Turn shuffle on or off");
     connect(_btnRandomize, SIGNAL(released()), this, SLOT(OnButtonRandomizeClick()));
     firstRowLayout->addWidget(_btnRandomize);
 
 	_btnAbout = new QPushButton( this );
     _btnAbout->setIcon(QPixmap(question_xpm));
-	_btnAbout->setToolTip("About Vorbital Player.");
+    _btnAbout->setToolTip("About Vorbital Player");
     connect(_btnAbout, SIGNAL(released()), this, SLOT(OnAbout()));
     firstRowLayout->addWidget(_btnAbout);
 
@@ -307,36 +306,30 @@ void VorbitalDlg::CreateControls()
 
     secondRowLayout->insertSpacing(6, 6);
 
-	QLabel* itemStaticText16 = new QLabel(this);
-    itemStaticText16->setText("SR:");
-	itemStaticText16->setToolTip("Sample rate.");
-    secondRowLayout->addWidget(itemStaticText16);
-
     _txtSampleRate = new QLabel(this);
-    _txtSampleRate->setText("0");
+    _txtSampleRate->setFont(f);
+    _txtSampleRate->setText("");
     secondRowLayout->addWidget(_txtSampleRate);
 
 	secondRowLayout->insertSpacing(4, 4);
 
-	QLabel* itemStaticText20 = new QLabel(this);
-    itemStaticText20->setText("BR:");
-	itemStaticText20->setToolTip("Bit rate.");
-    secondRowLayout->addWidget(itemStaticText20);
-
     _txtBitRate = new QLabel(this);
-    _txtBitRate->setText("0");
+    _txtBitRate->setFont(f);
+    _txtBitRate->setText("");
     secondRowLayout->addWidget(_txtBitRate);
 
     secondRowLayout->insertSpacing(4, 4);
 
     _txtChannels = new QLabel(this);
-    _txtChannels->setText("Stereo");
+    _txtChannels->setFont(f);
+    _txtChannels->setText("");
     secondRowLayout->addWidget(_txtChannels);
 
 	secondRowLayout->insertSpacing(10, 10);
 
     QLabel* volume = new QLabel(this);
-    volume->setText("Vol:");
+    volume->setFont(f);
+    volume->setText("Vol");
     secondRowLayout->addWidget(volume);
 
     _volumeSlider = new QSlider(Qt::Horizontal, this);
@@ -366,25 +359,14 @@ void VorbitalDlg::CreateControls()
     rootLayout->addLayout(fourthRowLayout);
 
     _txtArtist = new QLabel(this);
-    _txtArtist->setText("Artist:");
+    _txtArtist->setText("");
+    _txtArtist->setFont(f);
     fourthRowLayout->addWidget(_txtArtist);
 
     fourthRowLayout->insertSpacing(16, 16);
 
-    _txtAlbum = new QLabel(this);
-    _txtAlbum->setText("Album:");
-    fourthRowLayout->addWidget(_txtAlbum);
-
-    fourthRowLayout->insertSpacing(16, 16);
-
-    _txtSong = new QLabel(this);
-    _txtSong->setText("Song:");
-    fourthRowLayout->addWidget(_txtSong);
-
     // Hide artist, album, and song unless there's data.
     _txtArtist->hide();
-    _txtAlbum->hide();
-    _txtSong->hide();
 
     QHBoxLayout* fifthRowLayout = new QHBoxLayout();
     rootLayout->addLayout(fifthRowLayout);
@@ -398,14 +380,16 @@ void VorbitalDlg::CreateControls()
     fifthRowLayout->addWidget(_positionSlider);
 
     _txtTime = new QLabel(this);
+    _txtTime->setFont(f);
     _txtTime->setText("0:00");
     fifthRowLayout->addWidget(_txtTime);
 
     _txtTimeDivider = new QLabel(this);
-    _txtTimeDivider->setText(" / ");
+    _txtTimeDivider->setText("/");
     fifthRowLayout->addWidget(_txtTimeDivider);
 
     _txtMaxTime = new QLabel(this);
+    _txtMaxTime->setFont(f);
     _txtMaxTime->setText("0:00");
     fifthRowLayout->addWidget(_txtMaxTime);
 
@@ -432,7 +416,7 @@ void VorbitalDlg::CreateControls()
 void VorbitalDlg::OnBitrate(int value)
 {
   qDebug() << "Bitrate changed to " << value << ".";
-  _txtBitRate->setText(QString("%1").arg(value));
+  _txtBitRate->setText(QString("%1 kbps").arg(value));
 }
 
 void VorbitalDlg::OnListPosition()
@@ -483,7 +467,7 @@ void VorbitalDlg::OnTime(int milliseconds)
 void VorbitalDlg::OnSampleRate(int data)
 {
   qDebug() << "Samplerate changed to " << data << ".";
-  _txtSampleRate->setText(QString("%1").arg(data));
+  _txtSampleRate->setText(QString("%1 Hz").arg(data));
 }
 
 /**
@@ -653,43 +637,28 @@ void VorbitalDlg::OnAlbumArtChanged(const QString& filename)
     }
 }
 
+void VorbitalDlg::UpdateSongName()
+{
+    _txtArtist->setText(QString("%1 - %2 - %3").arg(_artist, _album, _song));
+    _txtArtist->show();
+}
+
 void VorbitalDlg::OnArtistChanged(const QString& artist)
 {
-    if( artist.length() > 0)
-    {
-        _txtArtist->setText(QString("Artist: %1").arg(artist));
-        _txtArtist->show();
-    }
-    else
-    {
-        _txtArtist->hide();
-    }
+    _artist = artist;
+    UpdateSongName();
 }
 
 void VorbitalDlg::OnAlbumChanged(const QString& album)
 {
-    if( album.length() > 0)
-    {
-        _txtAlbum->setText(QString("Album: %1").arg(album));
-        _txtAlbum->show();
-    }
-    else
-    {
-        _txtAlbum->hide();
-    }
+    _album = album;
+    UpdateSongName();
 }
 
 void VorbitalDlg::OnSongChanged(const QString& song)
 {
-    if( song.length() > 0)
-    {
-        _txtSong->setText(QString("Song: %1").arg(song));
-        _txtSong->show();
-    }
-    else
-    {
-        _txtSong->hide();
-    }
+    _song = song;
+    UpdateSongName();
 }
 
 void VorbitalDlg::OnButtonForwardClick()
@@ -816,7 +785,7 @@ void VorbitalDlg::OnButtonPlayClick()
 		_musicStream = new MusicStream(this);
 		int volume = _volumeSlider->value();
 		float actualVol = (float)volume / 100.0f;
-		if( _musicStream != NULL )
+        if( _musicStream != nullptr )
 		{
 			_musicStream->SetVolume( actualVol );
 		}
@@ -854,10 +823,10 @@ void VorbitalDlg::OnQuit()
 #ifndef __APPLE__
     // alcDestroyContext crashes the app on OSX.
     qDebug() << "Closing OpenAL context and device.";
-    alcMakeContextCurrent(NULL);
+    alcMakeContextCurrent(nullptr);
     alcDestroyContext(_context);
     alcCloseDevice(_device);
-    _device = NULL;
+    _device = nullptr;
 #endif
 }
 
@@ -867,9 +836,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.42", "Vorbital Player 4.42\nCopyright 2006-2017 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.5, wavpack 5.1.0, mpg123 1.23.8, and libsndfile 1.0.28 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.42\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.42", "Vorbital Player 4.42\nCopyright 2006-2017 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.42\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -907,7 +876,7 @@ void VorbitalDlg::dragEnterEvent(QDragEnterEvent *event)
 
 void VorbitalDlg::LoadFile( const QString& filename, bool play )
 {
-    if( _lstPlaylist != NULL )
+    if( _lstPlaylist != nullptr )
     {
         QListWidgetItem* item = new QListWidgetItem(ExtractFilename(filename));
         item->setData(Qt::UserRole, QVariant(filename));
@@ -948,7 +917,7 @@ void VorbitalDlg::OnPositionSlider()
     // To do this right, we need to DISABLE slider updates while dragging.
     int position = _positionSlider->value();
     qDebug() << "Position slider released, value: " << position;
-    if( _musicStream != NULL)
+    if( _musicStream != nullptr)
     {
         if( _musicStream->CanSetPosition() )
         {

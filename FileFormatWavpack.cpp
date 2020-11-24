@@ -6,12 +6,12 @@
 
 FileFormatWavpack::FileFormatWavpack()
 {
-    _wavpackContext = NULL;
+    _wavpackContext = nullptr;
 }
 
 FileFormatWavpack::~FileFormatWavpack()
 {
-    if(_wavpackContext != NULL)
+    if(_wavpackContext != nullptr)
     {
         WavpackCloseFile(_wavpackContext);
         delete _wavpackContext;
@@ -25,20 +25,20 @@ bool FileFormatWavpack::CheckExtension(const QString& filename)
 
 bool FileFormatWavpack::Open(const QString& filename)
 {
-    if( _wavpackContext != NULL )
+    if( _wavpackContext != nullptr )
     {
         WavpackCloseFile(_wavpackContext);
     }
 
-    char* error = NULL;
+    char* error = nullptr;
     _wavpackContext = WavpackOpenFileInput (filename.toStdString().c_str(), error, OPEN_WVC|OPEN_TAGS|OPEN_2CH_MAX|OPEN_NORMALIZE|OPEN_STREAMING, 1);
 
-    if( error != NULL )
+    if( error != nullptr )
     {
         qDebug() << "Error opening wavpack file " << filename << ": " << error;
     }
 
-    if( _wavpackContext == NULL )
+    if( _wavpackContext == nullptr )
     {
         qDebug() << "Could not open wavpack file " << filename;
         return false;
@@ -47,27 +47,27 @@ bool FileFormatWavpack::Open(const QString& filename)
     return true;
 }
 
-int FileFormatWavpack::GetBitrate()
+unsigned int FileFormatWavpack::GetBitrate()
 {
-    if(_wavpackContext != NULL)
+    if(_wavpackContext != nullptr)
     {
         return WavpackGetReducedChannels(_wavpackContext) * WavpackGetSampleRate(_wavpackContext) * (WavpackGetBitsPerSample(_wavpackContext) );
     }
     else
     {
-        return -1;
+        return 0;
     }
 }
 
-int FileFormatWavpack::GetChannels()
+unsigned int FileFormatWavpack::GetChannels()
 {
-    if( _wavpackContext != NULL )
+    if( _wavpackContext != nullptr )
     {
         return WavpackGetReducedChannels(_wavpackContext);
     }
     else
     {
-        return -1;
+        return 0;
     }
 }
 
@@ -76,15 +76,15 @@ int FileFormatWavpack::GetFormat()
     return FORMAT_VORBIS;
 }
 
-int FileFormatWavpack::GetSampleRate()
+unsigned int FileFormatWavpack::GetSampleRate()
 {
-    if( _wavpackContext != NULL )
+    if( _wavpackContext != nullptr )
     {
         return WavpackGetSampleRate(_wavpackContext);
     }
     else
     {
-        return -1;
+        return 0;
     }
 }
 
@@ -112,23 +112,23 @@ const char* FileFormatWavpack::GetSongName()
     return _wavpackTrack;
 }
 
-int FileFormatWavpack::GetLength()
+unsigned int FileFormatWavpack::GetLength()
 {
-    if( _wavpackContext != NULL )
+    if( _wavpackContext != nullptr )
     {
 #ifdef WIN32
         int64_t numSamples = WavpackGetNumSamples64(_wavpackContext);
 #else
         int numSamples = WavpackGetNumSamples(_wavpackContext);
 #endif
-        int sampleRate = WavpackGetSampleRate(_wavpackContext);
+        unsigned int sampleRate = WavpackGetSampleRate(_wavpackContext);
         qDebug() << "Wavpack NumSamples: " << numSamples << ", SampleRate: " << sampleRate;
         if( sampleRate > 0 )
         {
             return numSamples / sampleRate;
         }
     }
-    return -1;
+    return 0;
 }
 
 bool FileFormatWavpack::Init()
@@ -143,7 +143,7 @@ int FileFormatWavpack::FillBuffer(unsigned char* buffer, unsigned int numBytes)
     int32_t* data = new int32_t[numSamples * this->GetChannels()];
     short* shortData = (short*)buffer;
     uint32_t numUnpacked = WavpackUnpackSamples(_wavpackContext, data, numSamples);
-    int dataSize = numUnpacked * sizeof(short) * this->GetChannels();
+    unsigned int dataSize = numUnpacked * sizeof(short) * this->GetChannels();
     for( unsigned int i = 0; i < numUnpacked * this->GetChannels(); i++ )
     {
         shortData[i] = data[i];
@@ -159,13 +159,13 @@ bool FileFormatWavpack::SetPosition(unsigned int seconds)
 {
     qDebug() << "FileFormatWavpack::SetPosition called with seconds = " << seconds;
 
-    if( _wavpackContext == NULL )
+    if( _wavpackContext == nullptr )
     {
         return false;
     }
 
-    int sampleRate = WavpackGetSampleRate(_wavpackContext);
-    int64_t targetPosition = sampleRate * seconds;
+    unsigned int sampleRate = WavpackGetSampleRate(_wavpackContext);
+    uint64_t targetPosition = sampleRate * seconds;
     qDebug() << "Wavpack Target Position: " << targetPosition << ", SampleRate: " << sampleRate;
 #ifdef WIN32
     int result = WavpackSeekSample64(_wavpackContext, targetPosition);

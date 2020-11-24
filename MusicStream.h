@@ -40,7 +40,7 @@ public:
         void SetVolume( float volume );
 		ALuint GetOpenALFormatFromFile(WaveFile* file);
 		int GetChannels();
-		int GetRate();
+        unsigned int GetRate();
 		int GetBitrate();
         int GetLength(); // Returns song length in seconds, or -1 if unknown.
         const char* GetArtist(); // Artist name.

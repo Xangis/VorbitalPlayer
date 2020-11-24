@@ -83,6 +83,7 @@ public slots:
     void OnArtistChanged(const QString& filename);
     void OnAlbumChanged(const QString& filename);
     void OnSongChanged(const QString& filename);
+    void UpdateSongName();
 private:
     ALCdevice *_device;
     ALCcontext *_context;
@@ -111,8 +112,6 @@ private:
     QSlider* _positionSlider;
 	QLabel* _albumArt;
     QLabel* _txtArtist;
-    QLabel* _txtAlbum;
-    QLabel* _txtSong;
     //std::list<QString *> _playlist;
     MusicStream* _musicStream;
     int _listPosition;
@@ -127,6 +126,10 @@ private:
     QIcon _icon;
     PlaylistThread* _playlistThread;
     QString _lastSelectedDirectory;
+    QString _artist;
+    QString _album;
+    QString _song;
+    QString _filename;
 signals:
     void numchannelsChanged(int channels);
     void bitrateChanged(int bitrate);

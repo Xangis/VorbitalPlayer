@@ -17,13 +17,13 @@ public:
 	// Gets the file format enum.
 	virtual int GetFormat() = 0;
 	// Gets the bitrate of the file.
-	virtual int GetBitrate() = 0;
+    virtual unsigned int GetBitrate() = 0;
 	// Gets the number of channels for the file.
-	virtual int GetChannels() = 0;
+    virtual unsigned int GetChannels() = 0;
 	// Gets the sample rate for the file.
-	virtual int GetSampleRate() = 0;
+    virtual unsigned int GetSampleRate() = 0;
     // Gets the length of the file in seconds, or -1 if unknown.
-    virtual int GetLength() = 0;
+    virtual unsigned int GetLength() = 0;
     virtual int FillBuffer(unsigned char* buffer, unsigned int numBytes) = 0;
     virtual const char* GetArtistName() = 0;
     virtual const char* GetAlbumName() = 0;

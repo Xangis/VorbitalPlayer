@@ -113,6 +113,19 @@ of being accepted by the Apple Store.
 
 # Changelog
 
+### Version 4.43 Changes (November 2020?):
+
+Changed song display to a single label without colons.
+Larger text with a different font. No colons on labels.
+
+Updated libogg 1.3.2 => 1.3.4
+Updated libvorbis 1.3.5 => 1.3.7
+Updated Qt 5.8 => 5.12.2
+Updated Wavpack 5.1.0 => 5.3.0
+libsndfile 1.0.28
+Want to update libmpg123 1.23.8 => 1.26.3 but need a .lib file first.
+So currently libmpg123 1.23.8
+
 ### Version 4.42 Changes (July 2017):
 
 1. First open-source version under the MIT license

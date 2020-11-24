@@ -8,12 +8,12 @@
 
 MusicStream::MusicStream(QDialog* parent)
 {
-	_audioFile = NULL;
+    _audioFile = nullptr;
 	_parent = parent;
 	//speex_bits_init(&_bits);
 	//_speexDecoderState = speex_lib_get_mode(SPEEX_GET_HIGH_MODE);
 	//speex_decoder_ctl(_speexDecoderState, SPEEX_GET_FRAME_SIZE, &_speexFrameSize);
-    _musicFile = NULL;
+    _musicFile = nullptr;
 	_source = 0;
 	_buffers[0] = 0;
 	_buffers[1] = 0;
@@ -33,11 +33,11 @@ MusicStream::~MusicStream()
 
 bool MusicStream::Open(QString file)
 {
-    if( _audioFile != NULL )
+    if( _audioFile != nullptr )
     {
         qDebug() << "Deleting existing _audioFile.";
         delete _audioFile;
-        _audioFile = NULL;
+        _audioFile = nullptr;
     }
     qDebug() << "Loading file: " << file;
 
@@ -142,7 +142,7 @@ void MusicStream::Release()
     Check();
     alDeleteBuffers(2, _buffers);
     Check();
-	if( _audioFile != NULL )
+    if( _audioFile != nullptr )
 	{
 		delete _audioFile;
 	}
@@ -190,7 +190,7 @@ const char* MusicStream::GetArtist()
     {
         return _audioFile->GetArtistName();
     }
-    return NULL;
+    return nullptr;
 }
 
 const char* MusicStream::GetAlbum()
@@ -199,7 +199,7 @@ const char* MusicStream::GetAlbum()
     {
         return _audioFile->GetAlbumName();
     }
-    return NULL;
+    return nullptr;
 }
 
 const char* MusicStream::GetSong()
@@ -208,13 +208,13 @@ const char* MusicStream::GetSong()
     {
         return _audioFile->GetSongName();
     }
-    return NULL;
+    return nullptr;
 }
 
 /**
 * Gets the sample rate for the currently playing file.
 */
-int MusicStream::GetRate()
+unsigned int MusicStream::GetRate()
 {
 	if( _fileFormat == FORMAT_SPEEX )
 	{
@@ -226,7 +226,7 @@ int MusicStream::GetRate()
 	}
     else if( _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK || _fileFormat == FORMAT_VORBIS )
 	{
-		if( _audioFile != NULL )
+        if( _audioFile != nullptr )
 		{
 			return _audioFile->GetSampleRate();
 		}
@@ -435,7 +435,7 @@ bool MusicStream::Update()
 					shortData[i] = data[i];
 				}
 				int dataSize = numUnpacked * sizeof(short) * this->GetChannels();
-				int rate = GetRate();
+                unsigned int rate = GetRate();
 				alBufferData(buffer, _format, shortData, dataSize, rate);
 				alSourceQueueBuffers(_source, 1, &buffer);
 			}
@@ -557,7 +557,7 @@ void MusicStream::run()
 					}
 					else
 					{
-						//MessageBox( NULL, "Ogg stream was interrupted", "ERROR", MB_OK );
+                        //MessageBox( nullptr, "Ogg stream was interrupted", "ERROR", MB_OK );
 					}
 				}
 #ifdef WIN32
@@ -609,7 +609,7 @@ bool MusicStream::SetPosition(unsigned int position)
 {
     if( _fileFormat == FORMAT_WAVE )
     {
-        int pos = GetRate() * position;
+        unsigned int pos = GetRate() * position;
         qDebug() << "SetPosition on FORMAT_WAVE: Bitrate = " << this->GetRate() << ", Seconds = " << position << ", Sample position = " << pos;
         if( pos >= _waveFile.GetDataLength())
         {
@@ -627,7 +627,7 @@ bool MusicStream::SetPosition(unsigned int position)
             return false;
         }
     }
-    else if( _audioFile != NULL )
+    else if( _audioFile != nullptr )
     {
         return _audioFile->SetPosition(position);
     }
@@ -640,7 +640,7 @@ bool MusicStream::CanSetPosition()
     {
         return true;
     }
-    else if( _audioFile != NULL )
+    else if( _audioFile != nullptr )
     {
         return _audioFile->CanSetPosition();
     }
