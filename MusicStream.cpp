@@ -151,7 +151,7 @@ void MusicStream::Release()
 /**
 * Gets the number of channels in the currently playing file.
 */
-int MusicStream::GetChannels()
+unsigned int MusicStream::GetChannels()
 {
 	if( _fileFormat == FORMAT_SPEEX )
 	{
@@ -171,7 +171,7 @@ int MusicStream::GetChannels()
 /**
  * Gets the length of a stream in seconds, or -1 if unknown.
  */
-int MusicStream::GetLength()
+unsigned int MusicStream::GetLength()
 {
     if( _fileFormat == FORMAT_VORBIS || _fileFormat == FORMAT_MP3 || _fileFormat == FORMAT_WAVPACK )
     {
@@ -181,7 +181,7 @@ int MusicStream::GetLength()
     {
         return _waveFile.GetLength();
     }
-    return -1;
+    return 0;
 }
 
 const char* MusicStream::GetArtist()
@@ -238,7 +238,7 @@ unsigned int MusicStream::GetRate()
 * Gets the bitrate for the currently playing file.  For most formats, this is the sample
 * rate times the block alignment.
 */
-int MusicStream::GetBitrate()
+unsigned int MusicStream::GetBitrate()
 {
 	if( _fileFormat == FORMAT_SPEEX )
 	{
@@ -447,7 +447,7 @@ bool MusicStream::Update()
 		else if( _fileFormat == FORMAT_WAVE )
 		{
 			unsigned int totalSamples = _waveFile.GetNumSamples();
-			int avail = totalSamples - _wavePosition;
+            int avail = totalSamples - _wavePosition;
 			if( avail < 2 )
 			{
 				result = false;
@@ -616,16 +616,8 @@ bool MusicStream::SetPosition(unsigned int position)
             qDebug() << "Trying to seek past end of file, cannot set position";
             return false;
         }
-        else if( pos >= 0 )
-        {
-            this->_wavePosition = pos;
-            return true;
-        }
-        else
-        {
-            qDebug() << "Negative value, cannot set position.";
-            return false;
-        }
+        this->_wavePosition = pos;
+        return true;
     }
     else if( _audioFile != nullptr )
     {

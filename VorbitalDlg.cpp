@@ -137,7 +137,7 @@ void VorbitalDlg::LoadSettings()
     int wantedVolume = configData->value("volume", 100).toInt();
     _volumeSlider->setValue(wantedVolume);
     int volume = _volumeSlider->value();
-    float actualVol = (float)volume / 100.0f;
+    float actualVol = float(volume / 100.0f);
     if( _musicStream != nullptr )
     {
         _musicStream->SetVolume( actualVol );
@@ -784,7 +784,7 @@ void VorbitalDlg::OnButtonPlayClick()
         qDebug() << "Creating new MusicStream instance.";
 		_musicStream = new MusicStream(this);
 		int volume = _volumeSlider->value();
-		float actualVol = (float)volume / 100.0f;
+        float actualVol = float(volume / 100.0f);
         if( _musicStream != nullptr )
 		{
 			_musicStream->SetVolume( actualVol );
@@ -836,9 +836,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.42\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.43\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.42\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://github.com/Xangis/VorbitalPlayer\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.43\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -905,7 +905,7 @@ void VorbitalDlg::OnVolume(int volume)
     qDebug() << "Volume changed to " << volume;
     if( _musicStream )
     {
-        float actualVol = (float)volume / 100.0f;
+        float actualVol = float(volume / 100.0f);
         _musicStream->SetVolume( actualVol );
     }
 }
@@ -915,13 +915,13 @@ void VorbitalDlg::OnPositionSlider()
     // The trouble is, if music is playing while we drag the slider, the value will
     // change WHILE we are dragging, and probably before and during release.
     // To do this right, we need to DISABLE slider updates while dragging.
-    int position = _positionSlider->value();
+    unsigned int position = (unsigned int)_positionSlider->value();
     qDebug() << "Position slider released, value: " << position;
     if( _musicStream != nullptr)
     {
         if( _musicStream->CanSetPosition() )
         {
-            int seconds = ((_musicStream->GetLength() * position) / 1000);
+            unsigned int seconds = ((_musicStream->GetLength() * position) / 1000);
             qDebug() << "Setting position to " << seconds << " out of " << _musicStream->GetLength();
             if( _musicStream->SetPosition(seconds) )
             {

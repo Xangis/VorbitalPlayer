@@ -7,17 +7,17 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{987BFCC0-7A88-42C0-B8FB-4D62DD7E61C3}
 AppName=Vorbital Player
-AppVerName=Vorbital Player 4.42
+AppVerName=Vorbital Player 4.43
 AppPublisher=Zeta Centauri
 AppPublisherURL=http://zetacentauri.com
 AppSupportURL=http://zetacentauri.com
 AppUpdatesURL=http://zetacentauri.com
 DefaultDirName={pf}\Zeta Centauri\Vorbital
 DefaultGroupName=Zeta Centauri\Vorbital
-LicenseFile=C:\users\Xangis\code\VorbitalPlayer\Release\License.txt
-OutputDir=C:\users\Xangis\code\VorbitalPlayer\Installer
-OutputBaseFilename=VorbitalPlayer4.42Setup
-SetupIconFile=C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.ico
+LicenseFile=E:\code\VorbitalPlayer\License.txt
+OutputDir=E:\code\VorbitalPlayer\installer
+OutputBaseFilename=VorbitalPlayer4.43Setup
+SetupIconFile=E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\vorbital.ico
 UninstallDisplayIcon={app}\vorbital.ico
 Compression=lzma
 SolidCompression=yes
@@ -31,26 +31,24 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "C:\Users\Xangis\code\build-Vorbital-Desktop_Qt_5_8_0_MSVC2013_32bit-Release\release\vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libmpg123-0.dll.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libgcc_s_sjlj-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\libsndfile-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vorbital.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\libmpg123-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\libsndfile-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\vorbital.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vcredist2013_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
-Source: "C:\users\Xangis\code\VorbitalPlayer\Release\oalinst.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
+; Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vcredist2013_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
+; Source: "C:\users\Xangis\code\VorbitalPlayer\Release\oalinst.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
  
 [Icons]
 Name: "{group}\Vorbital Player"; Filename: "{app}\vorbital.exe"
 Name: "{group}\{cm:ProgramOnTheWeb,Vorbital Player}"; Filename: "http://zetacentauri.com/software_vorbital.htm"
-Name: "{group}\Find Music with MusicSrch"; Filename: "http://musicsrch.com"
-Name: "{commondesktop}\Vorbital"; Filename: "{app}\vorbital.exe"; Tasks: desktopicon
+Name: "{group}\Find Music with MusicSrch"; Filename: "https://musicsrch.com"
+Name: "{commondesktop}\Vorbital"; Filename: "{app}\Vorbital.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Vorbital"; Filename: "{app}\vorbital.exe"; Tasks: quicklaunchicon
 
 [Registry]
@@ -80,7 +78,7 @@ Root: HKCR; Subkey: "VorbitalAIFFile\shell\open\command"; ValueType: string; Val
 Root: HKCR; Subkey: "VorbitalAIFFFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Vorbital.exe"" ""%1"""
 
 [Run]
-Filename: "{app}\vcredist2013_x86.exe"; Parameters: "/q"; WorkingDir: "{app}";  StatusMsg: "Installing Visual C++ 2013 Redistributable..."; Flags: waituntilterminated
-Filename: "{app}\oalinst.exe"; Parameters: "/s"; WorkingDir: "{app}";  StatusMsg: "Installing OpenAL..."; Flags: waituntilterminated
-Filename: "{app}\vorbital.exe"; Description: "{cm:LaunchProgram,Vorbital}"; Flags: nowait postinstall skipifsilent
+; Filename: "{app}\vcredist2013_x86.exe"; Parameters: "/q"; WorkingDir: "{app}";  StatusMsg: "Installing Visual C++ 2013 Redistributable..."; Flags: waituntilterminated
+; Filename: "{app}\oalinst.exe"; Parameters: "/s"; WorkingDir: "{app}";  StatusMsg: "Installing OpenAL..."; Flags: waituntilterminated
+Filename: "{app}\Vorbital.exe"; Description: "{cm:LaunchProgram,Vorbital}"; Flags: nowait postinstall skipifsilent
 
