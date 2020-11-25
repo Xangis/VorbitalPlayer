@@ -33,6 +33,7 @@
 #include "remove.xpm"
 #include "reverse.xpm"
 #include "stop.xpm"
+#include "speaker.xpm"
 
 VorbitalDlg::~VorbitalDlg()
 {
@@ -328,8 +329,8 @@ void VorbitalDlg::CreateControls()
 	secondRowLayout->insertSpacing(10, 10);
 
     QLabel* volume = new QLabel(this);
-    volume->setFont(f);
-    volume->setText("Vol");
+    QPixmap speaker = QPixmap(speaker_xpm);
+    volume->setPixmap(speaker);
     secondRowLayout->addWidget(volume);
 
     _volumeSlider = new QSlider(Qt::Horizontal, this);
@@ -362,6 +363,7 @@ void VorbitalDlg::CreateControls()
     _txtArtist->setText("");
     _txtArtist->setFont(f);
     fourthRowLayout->addWidget(_txtArtist);
+    rootLayout->setAlignment(fourthRowLayout, Qt::AlignHCenter);
 
     fourthRowLayout->insertSpacing(16, 16);
 
@@ -393,10 +395,8 @@ void VorbitalDlg::CreateControls()
     _txtMaxTime->setText("0:00");
     fifthRowLayout->addWidget(_txtMaxTime);
 
-    // Hide all playlist time controls.
+    // Disable time slider.
     _positionSlider->setEnabled(false);
-    _txtMaxTime->hide();
-    _txtTimeDivider->hide();
 
 	_lstPlaylist = new QListWidget( this );
 	rootLayout->addWidget(_lstPlaylist);

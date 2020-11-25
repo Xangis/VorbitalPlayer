@@ -23,6 +23,8 @@ Compression=lzma
 SolidCompression=yes
 ChangesAssociations=yes
 
+#define BuildDir "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release"
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
@@ -31,17 +33,19 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\libmpg123-0.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\libsndfile-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\vorbital.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\build-Vorbital-Desktop_Qt_5_12_2_MSVC2017_32bit-Release\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\Vorbital.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\alut.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\OpenAL32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\wavpackdll.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\libmpg123-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\libsndfile-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\vorbital.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-; Source: "C:\users\Xangis\code\VorbitalPlayer\Release\vcredist2013_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
+Source: "{#BuildDir}\vc_redist2015.x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
 ; Source: "C:\users\Xangis\code\VorbitalPlayer\Release\oalinst.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
  
 [Icons]
@@ -78,7 +82,7 @@ Root: HKCR; Subkey: "VorbitalAIFFile\shell\open\command"; ValueType: string; Val
 Root: HKCR; Subkey: "VorbitalAIFFFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Vorbital.exe"" ""%1"""
 
 [Run]
-; Filename: "{app}\vcredist2013_x86.exe"; Parameters: "/q"; WorkingDir: "{app}";  StatusMsg: "Installing Visual C++ 2013 Redistributable..."; Flags: waituntilterminated
+Filename: "{app}\vc_redist2015.x86.exe"; Parameters: "/q"; WorkingDir: "{app}";  StatusMsg: "Installing Visual C++ 2015 Redistributable..."; Flags: waituntilterminated
 ; Filename: "{app}\oalinst.exe"; Parameters: "/s"; WorkingDir: "{app}";  StatusMsg: "Installing OpenAL..."; Flags: waituntilterminated
 Filename: "{app}\Vorbital.exe"; Description: "{cm:LaunchProgram,Vorbital}"; Flags: nowait postinstall skipifsilent
 
