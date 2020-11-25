@@ -892,7 +892,8 @@ void VorbitalDlg::dropEvent(QDropEvent *event)
 
 void VorbitalDlg::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasFormat("text/plain"))
+    qDebug() << "QDragEnterEvent, mime hasText = " << event->mimeData()->hasText() << ", text = " << event->mimeData()->text();
+    if (event->mimeData()->hasText())
     {
         event->acceptProposedAction();
     }
