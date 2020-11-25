@@ -14,7 +14,6 @@ FileFormatWavpack::~FileFormatWavpack()
     if(_wavpackContext != nullptr)
     {
         WavpackCloseFile(_wavpackContext);
-        delete _wavpackContext;
     }
 }
 
@@ -27,6 +26,7 @@ bool FileFormatWavpack::Open(const QString& filename)
 {
     if( _wavpackContext != nullptr )
     {
+        qDebug() << "Closing current wavpack file before opening another";
         WavpackCloseFile(_wavpackContext);
     }
 
@@ -151,7 +151,7 @@ int FileFormatWavpack::FillBuffer(unsigned char* buffer, unsigned int numBytes)
 
     delete[] data;
 
-    //qDebug() << "Wavpack: Numbytes = " << numBytes << ", numUnpacked = " << numUnpacked << ", dataSize = " << dataSize;
+    qDebug() << "Wavpack: Numbytes = " << numBytes << ", numUnpacked = " << numUnpacked << ", dataSize = " << dataSize;
     return dataSize;
 }
 
@@ -168,7 +168,7 @@ bool FileFormatWavpack::SetPosition(unsigned int seconds)
     uint64_t targetPosition = sampleRate * seconds;
     qDebug() << "Wavpack Target Position: " << targetPosition << ", SampleRate: " << sampleRate;
 #ifdef WIN32
-    int result = WavpackSeekSample64(_wavpackContext, targetPosition);
+    unsigned int result = WavpackSeekSample64(_wavpackContext, targetPosition);
 #else
     int result = WavpackSeekSample(_wavpackContext, targetPosition);
 #endif

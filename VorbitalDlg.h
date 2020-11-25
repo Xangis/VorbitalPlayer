@@ -100,6 +100,7 @@ private:
     QPushButton* _btnAbout;
     QPushButton* _btnSettings;
     QPushButton* _btnRandomize;
+    QPushButton* _btnVolume;
     QLabel* _txtSampleRate;
     QLabel* _txtVersion;
     QLabel* _txtBitRate;
@@ -113,6 +114,8 @@ private:
     QSlider* _positionSlider;
 	QLabel* _albumArt;
     QLabel* _txtArtist;
+    QPixmap* _speaker;
+    QPixmap* _speakerQuiet;
     //std::list<QString *> _playlist;
     MusicStream* _musicStream;
     int _listPosition;

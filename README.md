@@ -118,6 +118,9 @@ of being accepted by the Apple Store.
 Changed song display to a single label without colons.
 Larger text with a different font. No colons on labels.
 No periods on button hover text.
+Default music open directory defaults to user default music directory on first load.
+Can click speaker icon to mute or unmute audio
+Drag and drop has been fixed
 
 Updated libmpg123 1.23.8 => 1.26.3 (had to manually create lib file from .def)
 Updated libogg 1.3.2 => 1.3.4

@@ -18,6 +18,7 @@
 #include <QCloseEvent>
 #include <QDebug>
 #include <QMimeData>
+#include <QStandardPaths>
 
 #include "add.xpm"
 #include "folder.xpm"
@@ -34,6 +35,7 @@
 #include "reverse.xpm"
 #include "stop.xpm"
 #include "speaker.xpm"
+#include "speaker_quiet.xpm"
 
 VorbitalDlg::~VorbitalDlg()
 {
@@ -106,7 +108,7 @@ VorbitalDlg::VorbitalDlg( )
 	_incrementNeeded = true;
     _randomize = false;
 	_menuDoubleClicked = false;
-    _lastSelectedDirectory = QString("");
+    _lastSelectedDirectory = QString(QStandardPaths::MusicLocation);
     // TODO: Do we need to do this on Windows?
 #ifdef linux
 	srand((unsigned)time(0));
@@ -333,13 +335,14 @@ void VorbitalDlg::CreateControls()
 
 	secondRowLayout->insertSpacing(10, 10);
 
-    QPushButton* volume = new QPushButton(this);
+    _btnVolume = new QPushButton(this);
 
-    QPixmap speaker = QPixmap(speaker_xpm);
-    volume->setIcon(speaker);
-    volume->setFlat(true);
-    connect(volume, SIGNAL(released()), this, SLOT(OnSpeakerClicked()));
-    secondRowLayout->addWidget(volume);
+    _speaker = new QPixmap(speaker_xpm);
+    _speakerQuiet = new QPixmap(speaker_quiet_xpm);
+    _btnVolume->setIcon(*_speaker);
+    _btnVolume->setFlat(true);
+    connect(_btnVolume, SIGNAL(released()), this, SLOT(OnSpeakerClicked()));
+    secondRowLayout->addWidget(_btnVolume);
 
     _volumeSlider = new QSlider(Qt::Horizontal, this);
     _volumeSlider->setMinimum(0);
@@ -439,11 +442,13 @@ void VorbitalDlg::OnSpeakerClicked()
         _muted = false;
         float actualVol = float(_volume / 100.0f);
         _musicStream->SetVolume( actualVol );
+        _btnVolume->setIcon(*_speaker);
     }
     else
     {
         _muted = true;
         _musicStream->SetVolume(0.0f);
+        _btnVolume->setIcon(*_speakerQuiet);
     }
     qDebug() << "Muted changed to " << _muted << ".";
 }
@@ -929,9 +934,10 @@ void VorbitalDlg::OnVolume(int volume)
 {
     qDebug() << "Volume changed to " << volume;
     _volume = volume;
-    if(_volume > 0)
+    if(_volume > 0 && _muted)
     {
         _muted = false;
+        _btnVolume->setIcon(*_speaker);
     }
     if( _musicStream )
     {
