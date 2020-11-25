@@ -72,6 +72,7 @@ VorbitalDlg::VorbitalDlg( )
 	alListenerfv(AL_VELOCITY,    ListenerVel);
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
+    _muted = false;
 	_listPosition = 0;
     _musicStream = nullptr;
     _btnBrowse = nullptr;
@@ -238,18 +239,21 @@ void VorbitalDlg::CreateControls()
 
 	_btnBrowse = new QPushButton( this );
     _btnBrowse->setIcon(QPixmap(add_xpm));
+    //_btnBrowse->setFlat(true);
     _btnBrowse->setToolTip("Add file to playlist");
     connect(_btnBrowse, SIGNAL(released()), this, SLOT(OnButtonBrowseClick()));
     firstRowLayout->addWidget(_btnBrowse);
 
     _btnBrowseFolder = new QPushButton( this );
     _btnBrowseFolder->setIcon(QPixmap(folder_xpm));
+    //_btnBrowseFolder->setFlat(true);
     _btnBrowseFolder->setToolTip("Add folder to playlist");
     connect(_btnBrowseFolder, SIGNAL(released()), this, SLOT(OnButtonBrowseFolderClick()));
     firstRowLayout->addWidget(_btnBrowseFolder);
 
     _btnRemove = new QPushButton( this );
     _btnRemove->setIcon(QPixmap(remove_xpm));
+    //_btnRemove->setFlat(true);
     _btnRemove->setToolTip("Remove selected item from playlist");
     connect(_btnRemove, SIGNAL(released()), this, SLOT(OnButtonRemoveClick()));
     firstRowLayout->addWidget(_btnRemove);
@@ -328,9 +332,12 @@ void VorbitalDlg::CreateControls()
 
 	secondRowLayout->insertSpacing(10, 10);
 
-    QLabel* volume = new QLabel(this);
+    QPushButton* volume = new QPushButton(this);
+
     QPixmap speaker = QPixmap(speaker_xpm);
-    volume->setPixmap(speaker);
+    volume->setIcon(speaker);
+    volume->setFlat(true);
+    connect(volume, SIGNAL(released()), this, SLOT(OnSpeakerClicked()));
     secondRowLayout->addWidget(volume);
 
     _volumeSlider = new QSlider(Qt::Horizontal, this);
@@ -422,6 +429,19 @@ void VorbitalDlg::OnBitrate(int value)
 void VorbitalDlg::OnListPosition()
 {
   //_lstPlaylist->SetSelection(event.GetString());
+}
+
+void VorbitalDlg::OnSpeakerClicked()
+{
+    if(_muted)
+    {
+        _muted = false;
+    }
+    else
+    {
+        _muted = true;
+    }
+    qDebug() << "Muted changed to " << _muted << ".";
 }
 
 void VorbitalDlg::OnNumChannels(int data)

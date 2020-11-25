@@ -77,6 +77,7 @@ public slots:
     void OnButtonRandomizeClick();
     void OnAbout();
     void OnVolume(int value);
+    void OnSpeakerClicked();
     void OnPositionSlider();
     void OnAlbumArtChanged(const QString& filename);
     void OnSongLengthChanged(int length);
@@ -120,6 +121,7 @@ private:
     bool _randomize;
 	bool _menuDoubleClicked;
 	bool _done;
+    bool _muted;
     QDateTime _lastTimeUpdate;
     int _msecElapsed;
     int _songLength;
