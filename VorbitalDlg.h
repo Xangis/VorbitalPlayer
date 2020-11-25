@@ -117,6 +117,7 @@ private:
     MusicStream* _musicStream;
     int _listPosition;
     int _playState;
+    int _volume;
     bool _incrementNeeded;
     bool _randomize;
 	bool _menuDoubleClicked;

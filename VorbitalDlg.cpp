@@ -72,6 +72,7 @@ VorbitalDlg::VorbitalDlg( )
 	alListenerfv(AL_VELOCITY,    ListenerVel);
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
+    _volume = 100;
     _muted = false;
 	_listPosition = 0;
     _musicStream = nullptr;
@@ -436,10 +437,13 @@ void VorbitalDlg::OnSpeakerClicked()
     if(_muted)
     {
         _muted = false;
+        float actualVol = float(_volume / 100.0f);
+        _musicStream->SetVolume( actualVol );
     }
     else
     {
         _muted = true;
+        _musicStream->SetVolume(0.0f);
     }
     qDebug() << "Muted changed to " << _muted << ".";
 }
@@ -923,9 +927,14 @@ void VorbitalDlg::LoadFile( const QString& filename, bool play )
 void VorbitalDlg::OnVolume(int volume)
 {
     qDebug() << "Volume changed to " << volume;
+    _volume = volume;
+    if(_volume > 0)
+    {
+        _muted = false;
+    }
     if( _musicStream )
     {
-        float actualVol = float(volume / 100.0f);
+        float actualVol = float(_volume / 100.0f);
         _musicStream->SetVolume( actualVol );
     }
 }
