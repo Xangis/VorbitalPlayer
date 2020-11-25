@@ -345,7 +345,7 @@ bool MusicStream::DecodeSpeex(ALuint buffer)
 	char cbits[256];
 	float* output = new float[_speexFrameSize];
 	short* out = new short[_speexFrameSize];
-	int numRead = fread(&chunkSize, sizeof(int), 1, _musicFile);
+    unsigned int numRead = fread(&chunkSize, sizeof(int), 1, _musicFile);
 	numRead = fread(cbits, 1, chunkSize, _musicFile);
 	//speex_bits_read_from(&_bits, cbits, chunkSize);
 	//speex_decode(_speexDecoderState, &_bits, output);

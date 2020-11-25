@@ -123,12 +123,11 @@ Can click speaker icon to mute or unmute audio
 Drag and drop has been fixed
 
 Updated libmpg123 1.23.8 => 1.26.3 (had to manually create lib file from .def)
-Updated libogg 1.3.2 => 1.3.4
+Updated libogg 1.3.2 (wanted to update to 1.3.4 but couldn't get static library to build)
 Updated libvorbis 1.3.5 => 1.3.7
 Updated Qt 5.8 => 5.12.2
 Updated Wavpack 5.1.0 => 5.3.0
 libsndfile 1.0.28
-So currently libmpg123 1.23.8
 
 ### Version 4.42 Changes (July 2017):
 
