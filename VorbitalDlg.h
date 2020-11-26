@@ -25,8 +25,7 @@ public:
     void OnMouseWheel();
     void OnListPosition();
     void OnQuit();
-    void OnRightClick();
-    void ShowFileInfo(int index);
+    void ShowFileInfo(QString& filename);
     static bool ShowToolTips();
     QString ExtractFilename(const QString& filename);
     void LoadAlbumArt(const QString& filename);
@@ -78,6 +77,7 @@ public slots:
     void OnAbout();
     void OnVolume(int value);
     void OnSpeakerClicked();
+    void OnRightClick(const QPoint& pos);
     void OnPositionSlider();
     void OnAlbumArtChanged(const QString& filename);
     void OnSongLengthChanged(int length);

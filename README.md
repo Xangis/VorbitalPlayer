@@ -113,6 +113,11 @@ of being accepted by the Apple Store.
 
 # Changelog
 
+### Version 4.44 Changes (December 2020?):
+
+Now also loads cover.jpg files as album art.
+Right-click to show file location is working again.
+
 ### Version 4.43 Changes (November 2020):
 
 Changed song display to a single label without colons.

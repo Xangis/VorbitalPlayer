@@ -410,8 +410,10 @@ void VorbitalDlg::CreateControls()
     _positionSlider->setEnabled(false);
 
 	_lstPlaylist = new QListWidget( this );
-	rootLayout->addWidget(_lstPlaylist);
+    _lstPlaylist->setContextMenuPolicy(Qt::CustomContextMenu);
+    rootLayout->addWidget(_lstPlaylist);
 	connect(_lstPlaylist, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(OnPlaylistDoubleClick(QListWidgetItem*)), Qt::AutoConnection);
+    connect(_lstPlaylist, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(OnRightClick(const QPoint&)), Qt::AutoConnection);
 
     connect(this, SIGNAL(bitrateChanged(int)), this, SLOT(OnBitrate(int)), Qt::AutoConnection);
     connect(this, SIGNAL(numchannelsChanged(int)), this, SLOT(OnNumChannels(int)), Qt::AutoConnection);
@@ -504,24 +506,48 @@ void VorbitalDlg::OnSampleRate(int data)
 */
 // TODO: Reimplement this, and bind it to a right click signal.
 // This could be used to show an ID3 tag editor.
-void VorbitalDlg::OnRightClick()
+void VorbitalDlg::OnRightClick(const QPoint& pos)
 {
-	//int index = _lstPlaylist->itemAt(<< mouse position >>);
-	//if( index > -1 )
-	//{
-	//	ShowFileInfo(index);
-	//}
+    /*
+     *     // for most widgets
+    QPoint globalPos = myWidget->mapToGlobal(pos);
+    // for QAbstractScrollArea and derived classes you would use:
+    // QPoint globalPos = myWidget->viewport()->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Menu Item 1");
+    // ...
+
+    QAction* selectedItem = myMenu.exec(globalPos);
+    if (selectedItem)
+    {
+        // something was chosen, do stuff
+    }
+    else
+    {
+        // nothing was chosen
+    }
+     */
+    qDebug() << "Playlist right click at position " << pos;
+    QListWidgetItem* item = _lstPlaylist->itemAt(pos);
+    qDebug() << "QListWidgetItem: " << item;
+    QVariant variant = item->data(Qt::UserRole);
+    qDebug() << "Data: " << variant;
+    QString filename = variant.toString();
+    qDebug() << "Filename: " << filename;
+    if( !filename.isNull() )
+    {
+        ShowFileInfo(filename);
+    }
 }
 
 /**
 * Shows file details for a playlist item.
 */
-void VorbitalDlg::ShowFileInfo(int index)
+void VorbitalDlg::ShowFileInfo(QString& filename)
 {
-    QListWidgetItem* item = _lstPlaylist->item(index);
-    QVariant variant = item->data(Qt::UserRole);
-    QString filename = variant.toString();
-	QMessageBox(QMessageBox::Information, filename, "File Location", QMessageBox::Ok);
+    qDebug() << "Show file info for: " << filename;
+    QMessageBox::information(this, "File Location", filename, QMessageBox::Ok);
 }
 
 bool VorbitalDlg::ShowToolTips()
@@ -865,9 +891,9 @@ void VorbitalDlg::OnQuit()
 void VorbitalDlg::OnAbout()
 {
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.43\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.43", "Vorbital Player 4.43\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 }
 
@@ -1055,6 +1081,7 @@ void VorbitalDlg::LoadAlbumArt(const QString& filename)
 	QString artFile = QString("%1%2").arg(dirname).arg("Folder.jpg");
     //QString altArtFile = QString("%1%2").arg(dirname).arg("folder.jpg"); // Not necessary on Windows.
     QString altArtFile = QString("%1%2").arg(dirname).arg("AlbumArtSmall.jpg");
+    QString thirdArtFile = QString("%1%2").arg(dirname).arg("cover.jpg");
     // Also Try: AlbumArtSmall, folder.jpg (no capital F).
     // Maybe also look for images with the same filename as the song (see Andy Rumsey album) and Au4 - On Audio.
     // And One folder has some strange GUID-based artwork. Not sure whether there is any way
@@ -1063,8 +1090,11 @@ void VorbitalDlg::LoadAlbumArt(const QString& filename)
     {
         if( !SetArtFile(altArtFile) )
         {
-            qDebug() << "Album art not found for " << filename;
-            _albumArt->setVisible(false);
+            if( !SetArtFile(thirdArtFile))
+            {
+                qDebug() << "Album art not found for " << filename;
+                _albumArt->setVisible(false);
+            }
         }
     }
 }
