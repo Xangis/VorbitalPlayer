@@ -1079,7 +1079,7 @@ void VorbitalDlg::LoadAlbumArt(const QString& filename)
 	QString dirname = filename.mid(0, endPos+1);
     qDebug() << "Looking for album art in folder: " << dirname;
 	QString artFile = QString("%1%2").arg(dirname).arg("Folder.jpg");
-    //QString altArtFile = QString("%1%2").arg(dirname).arg("folder.jpg"); // Not necessary on Windows.
+    QString artFile2 = QString("%1%2").arg(dirname).arg("folder.jpg");
     QString altArtFile = QString("%1%2").arg(dirname).arg("AlbumArtSmall.jpg");
     QString thirdArtFile = QString("%1%2").arg(dirname).arg("cover.jpg");
     // Also Try: AlbumArtSmall, folder.jpg (no capital F).
@@ -1088,12 +1088,15 @@ void VorbitalDlg::LoadAlbumArt(const QString& filename)
     // to tie that back to an album/song... might be some weird Windows Media Player or iTunes thing.
     if( !SetArtFile(artFile) )
     {
-        if( !SetArtFile(altArtFile) )
+        if( !SetArtFile(artFile2) )
         {
-            if( !SetArtFile(thirdArtFile))
+            if( !SetArtFile(altArtFile) )
             {
-                qDebug() << "Album art not found for " << filename;
-                _albumArt->setVisible(false);
+                if( !SetArtFile(thirdArtFile))
+                {
+                    qDebug() << "Album art not found for " << filename;
+                    _albumArt->setVisible(false);
+                }
             }
         }
     }
