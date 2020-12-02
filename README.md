@@ -117,6 +117,7 @@ of being accepted by the Apple Store.
 
 Now also loads cover.jpg files as album art.
 Right-click to show file location is working again.
+No longer shows "- -" as song name when ID3 tag is empty (should show filename, but doesn't, but blank is better than dumb).
 
 ### Version 4.43 Changes (November 2020):
 

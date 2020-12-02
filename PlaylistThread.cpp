@@ -70,6 +70,7 @@ void PlaylistThread::run()
                 qDebug() << "Calling stream->Open on " << filename;
 				if( stream->Open(filename) )
                 {
+                    _dlg->SetFilename(filename);
 				    _dlg->GetMusicStream()->Play();
                     qDebug() << "Updating channels, bitrate, sample rate, and length.";
                     _dlg->UpdateNumChannels(_dlg->GetMusicStream()->GetChannels() );

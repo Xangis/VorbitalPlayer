@@ -694,7 +694,15 @@ void VorbitalDlg::OnAlbumArtChanged(const QString& filename)
 
 void VorbitalDlg::UpdateSongName()
 {
-    _txtArtist->setText(QString("%1 - %2 - %3").arg(_artist, _album, _song));
+    // Use artist, album, and song if present. Otherwise use filename.
+    if( !_artist.isEmpty() && !_album.isEmpty() && !_song.isEmpty())
+    {
+        _txtArtist->setText(QString("%1 - %2 - %3").arg(_artist, _album, _song));
+    }
+    else
+    {
+        _txtArtist->setText(ExtractFilename(_filename));
+    }
     _txtArtist->show();
 }
 
@@ -1059,6 +1067,11 @@ QString VorbitalDlg::ExtractFilename(const QString& filename)
     int endPos = newFilename.lastIndexOf(QChar('.'));
     QString strng = newFilename.mid(startPos, endPos-startPos);
 	return strng;
+}
+
+void VorbitalDlg::SetFilename(const QString& filename)
+{
+    _filename = filename;
 }
 
 bool VorbitalDlg::SetArtFile(const QString& filename)

@@ -42,6 +42,7 @@ public:
     int GetListPosition() { return _listPosition; }
     int GetPlayState() { return _playState; }
     void SetPlayState(int value) { _playState = value; printf("PlayState changed to %d\n", value); }
+    void SetFilename(const QString& filename);
     void UpdateTime();
     void PausedUpdateTime();
     void ResetTime();
