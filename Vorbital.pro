@@ -45,9 +45,11 @@ macx:LIBS += -L/usr/local/lib -logg -lsndfile -lvorbisfile -lvorbis -lmpg123 -lw
 
 # Input
 HEADERS += AudioFileFormat.h \
+    AboutDlg.h \
            Constants.h \
            FileFormatMP3.h \
            FileFormatVorbis.h \
+    InfoDlg.h \
            MusicStream.h \
            resource.h \
            SettingsDlg.h \
@@ -57,6 +59,8 @@ HEADERS += AudioFileFormat.h \
     FileFormatWavpack.h
 
 SOURCES += SettingsDlg.cpp \
+    AboutDlg.cpp \
+    InfoDlg.cpp \
            Main.cpp \
            FileFormatMP3.cpp \
            FileFormatVorbis.cpp \

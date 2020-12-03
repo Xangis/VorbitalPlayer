@@ -3,6 +3,8 @@
 
 #include "MusicStream.h"
 #include "PlaylistThread.h"
+#include "AboutDlg.h"
+#include "InfoDlg.h"
 #include "al.h"
 #include "alc.h"
 
@@ -137,6 +139,8 @@ private:
     QString _album;
     QString _song;
     QString _filename;
+    AboutDlg* _aboutDlg;
+    InfoDlg* _infoDlg;
 signals:
     void numchannelsChanged(int channels);
     void bitrateChanged(int bitrate);
