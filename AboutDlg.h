@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QIcon>
+#include <QLabel>
 
 class AboutDlg : public QDialog
 {

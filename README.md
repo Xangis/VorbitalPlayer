@@ -118,6 +118,7 @@ of being accepted by the Apple Store.
 Now also loads cover.jpg files as album art.
 Right-click to show file location is working again.
 No longer shows "- -" as song name when ID3 tag is empty. Shows filename instead.
+Updated Qt 5.12.2 => 5.12.10
 
 ### Version 4.43 Changes (November 2020):
 
@@ -127,6 +128,7 @@ No periods on button hover text.
 Default music open directory defaults to user default music directory on first load.
 Can click speaker icon to mute or unmute audio
 Drag and drop has been fixed
+New about box (needs icon for vorbital, check for latest version, live links to app page and musicsrch, working ok and cancel buttons).
 
 Updated libmpg123 1.23.8 => 1.26.3 (had to manually create lib file from .def)
 Updated libogg 1.3.2 (wanted to update to 1.3.4 but couldn't get static library to build)

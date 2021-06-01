@@ -38,8 +38,6 @@ bool InfoDlg::Create( QDialog* )
 
 void InfoDlg::CreateControls()
 {
-    InfoDlg* itemDialog1 = this;
-
     QVBoxLayout* itemBoxSizer2 = new QVBoxLayout();
 
     QHBoxLayout* itemBoxSizer3 = new QHBoxLayout();
@@ -47,19 +45,19 @@ void InfoDlg::CreateControls()
 
     itemBoxSizer3->addSpacing(2);
 
-    _btnOk = new QPushButton( "OK", itemDialog1 );
+    _btnOk = new QPushButton( "OK", this );
     _btnOk->setToolTip("Accept settings.");
     itemBoxSizer3->addWidget(_btnOk);
 
     itemBoxSizer3->addSpacing(6);
 
-    _btnCancel = new QPushButton( "Cancel", itemDialog1 );
+    _btnCancel = new QPushButton( "Cancel", this );
     _btnOk->setToolTip("Ignore changes.");
     itemBoxSizer3->addWidget(_btnCancel);
 
     itemBoxSizer3->addSpacing(6);
 
-    itemDialog1->setLayout(itemBoxSizer2);
+    this->setLayout(itemBoxSizer2);
 
     connect(_btnOk, SIGNAL(released()), this, SLOT(onButtonOkClick()));
     connect(_btnCancel, SIGNAL(released()), this, SLOT(onButtonCancelClick()));

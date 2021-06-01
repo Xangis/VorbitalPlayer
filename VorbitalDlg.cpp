@@ -431,7 +431,7 @@ void VorbitalDlg::CreateControls()
 void VorbitalDlg::OnBitrate(int value)
 {
   qDebug() << "Bitrate changed to " << value << ".";
-  _txtBitRate->setText(QString("%1 kbps").arg(value));
+  _txtBitRate->setText(QString("%1 kbps").arg(value/1000));
 }
 
 void VorbitalDlg::OnListPosition()
@@ -907,9 +907,9 @@ void VorbitalDlg::OnAbout()
     _aboutDlg->show();
     /* Old Version
 #ifdef WIN32
-    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2021 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.12, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
 #else
-    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    QMessageBox::about(this, "Vorbital Player 4.44", "Vorbital Player 4.44\nCopyright 2006-2021 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
 */
 }
