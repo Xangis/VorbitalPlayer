@@ -29,6 +29,7 @@ Makefile
 *.pdb
 ipch/
 Debug/
+.vs/
 
 # Other
 .DS_Store
