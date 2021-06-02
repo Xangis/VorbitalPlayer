@@ -113,12 +113,13 @@ of being accepted by the Apple Store.
 
 # Changelog
 
-### Version 4.44 Changes (December 2020?):
+### Version 4.44 Changes (May 2021):
 
 Now also loads cover.jpg files as album art.
 Right-click to show file location is working again.
 No longer shows "- -" as song name when ID3 tag is empty. Shows filename instead.
-Updated Qt 5.12.2 => 5.12.10
+Fixed OK/Cancel buttons on the About box so they actually close it.
+Updated Qt 5.12.2 => 5.15.2
 
 ### Version 4.43 Changes (November 2020):
 

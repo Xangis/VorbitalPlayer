@@ -14,8 +14,6 @@ public:
     AboutDlg( QDialog* parent );
     bool Create( QDialog* parent );
     void CreateControls();
-    void OnButtonOkClick();
-    void OnButtonCancelClick();
 private:
     QPushButton* _btnOk;
     QPushButton* _btnCancel;

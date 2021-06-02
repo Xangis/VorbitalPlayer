@@ -11,16 +11,6 @@ AboutDlg::~AboutDlg()
 {
 }
 
-void AboutDlg::OnButtonOkClick()
-{
-    close();
-}
-
-void AboutDlg::OnButtonCancelClick()
-{
-    close();
-}
-
 AboutDlg::AboutDlg( QDialog* parent )
 {
     Create(parent);
@@ -49,9 +39,9 @@ void AboutDlg::CreateControls()
     QLabel* description = new QLabel(this);
     description->setFont(f);
 #ifdef WIN32
-    description->setText("Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.8, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
+    description->setText("Vorbital Player 4.44\nCopyright 2006-2021 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt 5.15, libogg 1.3.2, libvorbis 1.3.7, wavpack 5.3.0, mpg123 1.26.3, and libsndfile 1.0.28 libraries.");
 #else
-    description->setText("Vorbital Player 4.44\nCopyright 2006-2020 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
+    description->setText("Vorbital Player 4.44\nCopyright 2006-2021 Jason Champion.\nDeveloped by Jason Champion.\nThe Vorbital Player is free software and may be distributed freely under the terms of the MIT license.\n\nhttps://zetacentauri.com/software_vorbital.htm\n\nVorbital uses the Qt, libogg, libvorbis, wavpack, mpg123, and libsndfile libraries.");
 #endif
     itemBoxSizer2->addWidget(description);
     itemBoxSizer1->addLayout(itemBoxSizer2);
@@ -76,6 +66,7 @@ void AboutDlg::CreateControls()
 
     this->setLayout(itemBoxSizer1);
 
-    connect(_btnOk, SIGNAL(released()), this, SLOT(onButtonOkClick()));
-    connect(_btnCancel, SIGNAL(released()), this, SLOT(onButtonCancelClick()));
+    AboutDlg* dlg = this;
+    connect(_btnOk, SIGNAL(released()), dlg, SLOT(close()));
+    connect(_btnCancel, SIGNAL(released()), dlg, SLOT(close()));
 }
