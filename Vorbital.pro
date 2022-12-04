@@ -15,12 +15,12 @@ linux:INCLUDEPATH += /usr/include/AL
 linux:INCLUDEPATH += /usr/include/vorbis
 linux:INCLUDEPATH += /usr/include/wavpack
 
-win32:INCLUDEPATH += D:\lib\mpg123-1.26.3-x86
-win32:INCLUDEPATH += "D:\lib\OpenAL 1.1 SDK\include"
-win32:INCLUDEPATH += D:\lib\libsndfile-1.0.28\include
-win32:INCLUDEPATH += D:\lib\wavpack-5.3.0-dll
-win32:INCLUDEPATH += D:\lib\libvorbis-1.3.7\include\vorbis
-win32:INCLUDEPATH += D:\lib\libogg-1.3.2\include
+win32:INCLUDEPATH += E:\lib\mpg123-1.26.3-x86
+win32:INCLUDEPATH += "E:\lib\OpenAL 1.1 SDK\include"
+win32:INCLUDEPATH += E:\lib\libsndfile-1.0.28\include
+win32:INCLUDEPATH += E:\lib\wavpack-5.3.0-dll
+win32:INCLUDEPATH += E:\lib\libvorbis-1.3.7\include\vorbis
+win32:INCLUDEPATH += E:\lib\libogg-1.3.2\include
 
 macx:INCLUDEPATH += "/Users/xangis/lib/OpenAL 1.1 SDK/include"
 macx:INCLUDEPATH += "/Users/xangis/lib/libsndfile-1.0.28/src"
@@ -30,13 +30,13 @@ macx:INCLUDEPATH += /Users/xangis/lib/libogg-1.3.3/include
 macx:INCLUDEPATH += /Users/xangis/lib/wavpack-5.1.0/include
 
 win32:LIBS += -LF:\lib\mpg123-1.23.8-x86 \
-    -LD:\lib\mpg123-1.26.3-x86 \
-    -L"D:\lib\OpenAL 1.1 SDK\libs\Win32" \
-    -LD:\lib\libsndfile-1.0.28\lib \
-    -LD:\lib\wavpack-5.3.0-dll \
-    -LD:\lib\libvorbis-1.3.7\win32\VS2010\Win32\Release \
-    -LD:\lib\libogg-1.3.2\win32\VS2010\Win32\Release \
-    -LD:\code\AudioFile\ \
+    -LE:\lib\mpg123-1.26.3-x86 \
+    -L"E:\lib\OpenAL 1.1 SDK\libs\Win32" \
+    -LE:\lib\libsndfile-1.0.28\lib \
+    -LE:\lib\wavpack-5.3.0-dll \
+    -LE:\lib\libvorbis-1.3.7\win32\VS2010\Win32\Release \
+    -LE:\lib\libogg-1.3.2\win32\VS2010\Win32\Release \
+    -LE:\code\AudioFile\ \
     -llibmpg123-0 -lOpenAL32 -lalut -lwavpackdll -llibvorbis_static -llibvorbisfile_static -llibogg_static -llibsndfile-1
 
 linux:LIBS += -lsndfile -lmpg123 -lopenal -lwavpack -lvorbisfile -lvorbis -lalut

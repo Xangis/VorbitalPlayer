@@ -33,3 +33,6 @@ Debug/
 
 # Other
 .DS_Store
+Code Backup/
+Vorbital.pro.use*
+*.autosave

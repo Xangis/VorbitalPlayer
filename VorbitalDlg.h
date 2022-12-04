@@ -5,7 +5,6 @@
 #include "PlaylistThread.h"
 #include "AboutDlg.h"
 #include "InfoDlg.h"
-#include "al.h"
 #include "alc.h"
 
 #include <QDialog>

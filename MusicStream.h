@@ -2,7 +2,6 @@
 #define __MUSICSTREAM_H__
 
 #include <iostream>
-using namespace std;
 
 #include "al.h"
 #include "MusicStream.h"

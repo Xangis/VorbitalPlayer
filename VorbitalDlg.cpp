@@ -110,7 +110,7 @@ VorbitalDlg::VorbitalDlg( )
 	_incrementNeeded = true;
     _randomize = false;
 	_menuDoubleClicked = false;
-    _lastSelectedDirectory = QString(QStandardPaths::MusicLocation);
+    _lastSelectedDirectory = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
     // TODO: Do we need to do this on Windows?
 #ifdef linux
 	srand((unsigned)time(0));
